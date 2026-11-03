@@ -1,0 +1,19 @@
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-optical-sizing: auto;
+    font-variation-settings: "GRAD" 0;
+}
+
+#wpadminbar {
+    overflow: hidden;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 64px;
+
+    @include media-breakpoint-down(md) {
+        font-size: 14px;
+    }
+}
