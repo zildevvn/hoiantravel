@@ -144,7 +144,259 @@ import { CountUp } from 'countup.js';
         }
     };
 
+    /**
+     * Hero Section Swiper Slider
+     */
+    const heroSlider = () => {
+        const sliderElements = document.querySelectorAll('.hero-section__sliders');
+        if (!sliderElements.length) return;
+
+        // Shared 5-second autoplay delay matching Ken Burns animation (5s)
+        const AUTOPLAY_DELAY = 5000;
+
+        sliderElements.forEach((sliderEl) => {
+            // Guard: ensure each slider instance is initialized only once
+            if (sliderEl.swiper || sliderEl.classList.contains('swiper-initialized')) {
+                return;
+            }
+
+            const slides = sliderEl.querySelectorAll('.swiper-slide');
+            const slideCount = slides.length;
+            if (slideCount === 0) return;
+
+            // Scope pagination and navigation to current slider instance or immediate parent section
+            const container = sliderEl.closest('.hero-section') || sliderEl;
+            const paginationEl = sliderEl.querySelector('.swiper-pagination') || container.querySelector('.swiper-pagination');
+            const nextEl = sliderEl.querySelector('.hero-slider-nav-btn--next') || sliderEl.querySelector('.swiper-button-next') || container.querySelector('.swiper-button-next');
+            const prevEl = sliderEl.querySelector('.hero-slider-nav-btn--prev') || sliderEl.querySelector('.swiper-button-prev') || container.querySelector('.swiper-button-prev');
+
+            // Custom hero controls bar
+            const controlsEl = sliderEl.querySelector('.hero-slider-controls') || container.querySelector('.hero-slider-controls');
+            const currentEl = controlsEl ? controlsEl.querySelector('.hero-slider-controls__current') : null;
+            const totalEl = controlsEl ? controlsEl.querySelector('.hero-slider-controls__total') : null;
+            const titleEl = controlsEl ? controlsEl.querySelector('.hero-slider-controls__title') : null;
+            const progressEl = controlsEl ? controlsEl.querySelector('.hero-slider-controls__progress') : null;
+            let segmentEls = controlsEl ? controlsEl.querySelectorAll('.hero-slider-progress-segment') : [];
+
+            const hasPagination = Boolean(paginationEl);
+            const hasNavigation = Boolean(nextEl && prevEl);
+            const isMultipleSlides = slideCount > 1;
+
+            // If only one slide, safely hide controls if they exist in markup
+            if (!isMultipleSlides) {
+                if (controlsEl) controlsEl.style.display = 'none';
+                if (paginationEl) paginationEl.style.display = 'none';
+                if (nextEl) nextEl.style.display = 'none';
+                if (prevEl) prevEl.style.display = 'none';
+            }
+
+            // Helper to get or create fill element
+            const getFillElement = (seg) => {
+                let fill = seg.querySelector('.hero-slider-progress-segment__fill');
+                if (!fill) {
+                    fill = document.createElement('span');
+                    fill.className = 'hero-slider-progress-segment__fill';
+                    seg.appendChild(fill);
+                }
+                return fill;
+            };
+
+            // Fallback: generate segments dynamically if progress container exists but no segments rendered
+            if (progressEl && segmentEls.length === 0 && isMultipleSlides) {
+                for (let i = 0; i < slideCount; i++) {
+                    const seg = document.createElement('button');
+                    seg.type = 'button';
+                    seg.className = 'hero-slider-progress-segment' + (i === 0 ? ' is-active' : '');
+                    seg.setAttribute('data-index', String(i));
+                    seg.setAttribute('aria-label', `Go to slide ${i + 1}`);
+                    const fill = document.createElement('span');
+                    fill.className = 'hero-slider-progress-segment__fill';
+                    seg.appendChild(fill);
+                    progressEl.appendChild(seg);
+                }
+                segmentEls = progressEl.querySelectorAll('.hero-slider-progress-segment');
+            }
+
+            // Real-time Autoplay Progress handler
+            const handleAutoplayProgress = (swiperInstance, timeLeft, percentage) => {
+                if (!segmentEls.length || !isMultipleSlides) return;
+
+                const realIdx = typeof swiperInstance.realIndex === 'number'
+                    ? swiperInstance.realIndex
+                    : swiperInstance.activeIndex;
+
+                // percentage: timeLeft / delay (starts at 1 and approaches 0)
+                let p = percentage;
+                if (typeof p !== 'number') {
+                    const delay = (swiperInstance.params && swiperInstance.params.autoplay && swiperInstance.params.autoplay.delay) || AUTOPLAY_DELAY;
+                    p = typeof timeLeft === 'number' ? timeLeft / delay : 0;
+                }
+
+                const progress = Math.max(0, Math.min(1, 1 - p));
+                const percentStr = (progress * 100).toFixed(2) + '%';
+
+                const activeSeg = segmentEls[realIdx];
+                if (activeSeg) {
+                    const fill = getFillElement(activeSeg);
+                    fill.style.width = percentStr;
+                }
+            };
+
+            // Sync controls function
+            const syncHeroControls = (swiperInstance) => {
+                if (!controlsEl || !isMultipleSlides) return;
+
+                const realIdx = typeof swiperInstance.realIndex === 'number'
+                    ? swiperInstance.realIndex
+                    : swiperInstance.activeIndex;
+
+                // 1. Counter "01 / 04"
+                if (currentEl) {
+                    currentEl.textContent = String(realIdx + 1).padStart(2, '0');
+                }
+                if (totalEl) {
+                    totalEl.textContent = String(slideCount).padStart(2, '0');
+                }
+
+                // 2. Slide Title
+                const originalSlideEl = slides[realIdx] || null;
+                const activeSlideEl = swiperInstance.slides && swiperInstance.slides[swiperInstance.activeIndex]
+                    ? swiperInstance.slides[swiperInstance.activeIndex]
+                    : null;
+
+                if (titleEl) {
+                    const slideTitle = (originalSlideEl && originalSlideEl.getAttribute('data-title'))
+                        || (activeSlideEl && activeSlideEl.getAttribute('data-title'))
+                        || '';
+
+                    titleEl.textContent = slideTitle;
+                }
+
+                // 3. Restart Ken Burns animation on active slide image to synchronize with slide start
+                if (activeSlideEl) {
+                    const activeImg = activeSlideEl.querySelector('.hero-slider-item__bg img');
+                    if (activeImg) {
+                        activeImg.style.animation = 'none';
+                        void activeImg.offsetWidth; // Trigger reflow to restart animation from 0s
+                        activeImg.style.animation = '';
+                    }
+                }
+
+                // 4. Segmented Progress
+                const isAutoplayEnabled = Boolean(
+                    swiperInstance.params &&
+                    swiperInstance.params.autoplay &&
+                    swiperInstance.params.autoplay !== false &&
+                    swiperInstance.params.autoplay.enabled !== false
+                );
+
+                if (segmentEls.length) {
+                    segmentEls.forEach((seg, idx) => {
+                        const fill = getFillElement(seg);
+                        seg.classList.remove('is-completed', 'is-active', 'is-upcoming');
+
+                        if (idx < realIdx) {
+                            seg.classList.add('is-completed');
+                            fill.style.width = '100%';
+                        } else if (idx === realIdx) {
+                            seg.classList.add('is-active');
+                            fill.style.width = isAutoplayEnabled ? '0%' : '100%';
+                        } else {
+                            seg.classList.add('is-upcoming');
+                            fill.style.width = '0%';
+                        }
+                    });
+                }
+            };
+
+            // Build Swiper options
+            const swiperOptions = {
+                modules: [Pagination, Navigation, Autoplay, EffectFade, Keyboard],
+                slidesPerView: 1,
+                spaceBetween: 0,
+                speed: 1000,
+                watchSlidesProgress: true,
+                grabCursor: isMultipleSlides,
+                allowTouchMove: isMultipleSlides,
+                loop: isMultipleSlides,
+                effect: 'fade',
+                fadeEffect: {
+                    crossFade: true,
+                },
+                autoplay: isMultipleSlides ? {
+                    delay: AUTOPLAY_DELAY,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                } : false,
+                keyboard: isMultipleSlides ? {
+                    enabled: true,
+                    onlyInViewport: true,
+                } : false,
+                pagination: hasPagination && isMultipleSlides ? {
+                    el: paginationEl,
+                    clickable: true,
+                } : false,
+                navigation: hasNavigation && isMultipleSlides ? {
+                    nextEl: nextEl,
+                    prevEl: prevEl,
+                } : false,
+                breakpoints: {
+                    320: {
+                        slidesPerView: 1,
+                        spaceBetween: 0,
+                    },
+                    768: {
+                        slidesPerView: 1,
+                        spaceBetween: 0,
+                    },
+                    1200: {
+                        slidesPerView: 1,
+                        spaceBetween: 0,
+                    },
+                },
+                on: {
+                    init: function (swiperInstance) {
+                        syncHeroControls(swiperInstance);
+                    },
+                    slideChange: function (swiperInstance) {
+                        syncHeroControls(swiperInstance);
+                    },
+                    autoplayTimeLeft: function (swiperInstance, timeLeft, percentage) {
+                        handleAutoplayProgress(swiperInstance, timeLeft, percentage);
+                    },
+                },
+            };
+
+            try {
+                const swiper = new Swiper(sliderEl, swiperOptions);
+
+                // Initial sync check
+                syncHeroControls(swiper);
+
+                // Progress segment click navigation
+                if (segmentEls.length && isMultipleSlides) {
+                    segmentEls.forEach((seg) => {
+                        seg.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const targetIdx = parseInt(seg.getAttribute('data-index'), 10);
+                            if (!isNaN(targetIdx) && swiper) {
+                                if (swiper.params.loop) {
+                                    swiper.slideToLoop(targetIdx);
+                                } else {
+                                    swiper.slideTo(targetIdx);
+                                }
+                            }
+                        });
+                    });
+                }
+            } catch (err) {
+                console.error('[Hoi An Travel] Error initializing hero slider:', err);
+            }
+        });
+    };
+
     $(document).ready(function () {
         modalSearch();
+        heroSlider();
     });
 })(jQuery);

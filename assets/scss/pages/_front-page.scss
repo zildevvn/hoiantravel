@@ -1,0 +1,356 @@
+body.page-template-front-page,
+body.home {
+    .hero-section {
+        padding: 0;
+
+        &__sliders {
+            position: relative;
+
+            .swiper-slide {
+                &.swiper-slide-active {
+                    .hero-slider-item__bg img {
+                        animation: kenBurns 5s ease-in-out infinite alternate;
+                    }
+                }
+            }
+
+            .hero-slider-item {
+                min-height: 95vh;
+                position: relative;
+                padding: 100px 0px 60px 0px;
+                display: flex;
+                align-items: center;
+
+                @include media-breakpoint-down(md) {
+                    align-items: end;
+                    // min-height: 650px;
+                    padding: 60px 0 120px;
+                }
+
+                @include media-breakpoint-down(sm) {
+                    // min-height: 560px;
+                    padding: 40px 0 120px;
+                }
+
+                &__bg {
+                    position: absolute;
+                    inset: 0;
+
+                    &::before {
+                        content: " ";
+                        display: inline-block;
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        inset: 0;
+                        background: linear-gradient(to right,
+                                rgba(0, 0, 0, 0.8),
+                                rgba(0, 0, 0, 0.4),
+                                rgba(0, 0, 0, 0.2));
+                        pointer-events: none;
+                    }
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        transition-property: opacity;
+                        transition-duration: 1000ms;
+                        transition-timing-function: ease-in-out;
+                    }
+                }
+
+                .container {
+                    position: relative;
+                    z-index: 2;
+                }
+
+                &__content {
+                    max-width: 700px;
+                    color: #fff;
+
+                    h1 {
+                        color: #fff;
+                        margin: 0;
+
+                        @media (min-width: 1200px) {
+                            font-size: 3.1rem;
+                        }
+                    }
+
+                    p,
+                    .hero-slider-item__action {
+                        margin: 24px 0 0 0;
+                    }
+
+                    .ha-button {
+                        box-shadow: 0 10px 15px -3px rgba(194, 74, 45, 0.35);
+                    }
+                }
+            }
+
+            // Hero Swiper Controls Bar
+            .hero-slider-controls {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                z-index: 10;
+                background: linear-gradient(180deg, rgba(12, 18, 16, 0.65) 0%, rgba(8, 13, 11, 0.88) 100%);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                border-top: 1px solid rgba(255, 255, 255, 0.15);
+                padding: 0;
+                color: #fff;
+
+                &__inner {
+                    width: 100%;
+                    height: 80px;
+                    padding: 0 64px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    position: relative;
+
+                    @include media-breakpoint-down(xl) {
+                        padding: 0 40px;
+                    }
+
+                    @include media-breakpoint-down(md) {
+                        height: auto;
+                        padding: 18px 32px;
+                        display: grid;
+                        grid-template-columns: 1fr auto;
+                        row-gap: 14px;
+                    }
+
+                    @include media-breakpoint-down(sm) {
+                        padding: 14px 20px;
+                        row-gap: 12px;
+                    }
+                }
+
+                // 1. LEFT GROUP: Slide Count & Live Title
+                &__info {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                    min-width: 0;
+                    z-index: 1;
+
+                    // @include media-breakpoint-down(md) {
+                    //     grid-column: 1 / 2;
+                    // }
+                }
+
+                &__counter {
+                    font-family: $font-primary; // 'Playfair Display', serif
+                    font-size: 20px;
+                    font-weight: 700;
+                    line-height: 1.1;
+                    color: #fff;
+                    display: flex;
+                    align-items: baseline;
+                    gap: 0;
+                    letter-spacing: 0.04em;
+
+                    .hero-slider-controls__current {
+                        font-family: $font-primary;
+                        font-weight: 700;
+                        color: #fff;
+                    }
+
+                    .hero-slider-controls__sep {
+                        font-family: $font-primary;
+                        font-size: 18px;
+                        font-weight: 400;
+                        color: rgba(255, 255, 255, 0.7);
+                        margin: 0 5px;
+                    }
+
+                    .hero-slider-controls__total {
+                        font-family: $font-primary;
+                        font-size: 20px;
+                        font-weight: 700;
+                        color: #fff;
+                    }
+
+                    @include media-breakpoint-down(sm) {
+                        font-size: 18px;
+
+                        .hero-slider-controls__sep,
+                        .hero-slider-controls__total {
+                            font-size: 16px;
+                        }
+                    }
+                }
+
+                &__title {
+                    font-family: $font-second; // 'Plus Jakarta Sans', sans-serif
+                    font-size: 15px;
+                    font-weight: 700;
+                    letter-spacing: 1.5px;
+                    text-transform: uppercase;
+                    color: #DFA128; // Heritage mustard yellow
+                    line-height: 1.2;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+
+                    @include media-breakpoint-down(sm) {
+                        display: none;
+                    }
+                }
+
+                // 2. CENTER GROUP: Progress Indicators
+                &__progress {
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    z-index: 1;
+
+                    // @include media-breakpoint-down(md) {
+                    //     position: static;
+                    //     transform: none;
+                    //     grid-column: 1 / -1;
+                    //     justify-content: flex-start;
+                    //     width: 100%;
+                    //     gap: 8px;
+                    // }
+                }
+
+                .hero-slider-progress-segment {
+                    position: relative;
+                    width: 40px;
+                    height: 2.5px;
+                    border-radius: 9999px;
+                    background-color: rgba(255, 255, 255, 0.3); // Track: translucent white/gray
+                    overflow: hidden;
+                    border: none;
+                    padding: 0;
+                    cursor: pointer;
+                    outline: none;
+                    display: block;
+                    transition: background-color 0.3s ease;
+
+                    @include media-breakpoint-down(lg) {
+                        width: 36px;
+                    }
+
+                    @include media-breakpoint-down(sm) {
+                        flex: 1 1 0;
+                        max-width: 44px;
+                    }
+
+                    &__fill {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        height: 100%;
+                        width: 0%;
+                        background-color: #DFA128; // Fill: Heritage mustard yellow accent
+                        border-radius: inherit;
+                        display: block;
+                        pointer-events: none;
+                        will-change: width;
+                    }
+
+                    &.is-completed &__fill {
+                        width: 100%;
+                    }
+
+                    &.is-upcoming &__fill {
+                        width: 0%;
+                    }
+
+                    &:hover {
+                        background-color: rgba(255, 255, 255, 0.5);
+                    }
+
+                    &:focus-visible {
+                        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8);
+                    }
+                }
+
+                // 3. RIGHT GROUP: Slider Control Buttons
+                &__nav {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    z-index: 1;
+
+                    // @include media-breakpoint-down(md) {
+                    //     grid-column: 2 / 3;
+                    //     justify-self: end;
+                    // }
+                }
+
+                .hero-slider-nav-btn {
+                    width: 44px;
+                    height: 44px;
+                    border-radius: 50%;
+                    border: 1px solid rgba(255, 255, 255, 0.35);
+                    background-color: rgba(255, 255, 255, 0.05);
+                    backdrop-filter: blur(4px);
+                    -webkit-backdrop-filter: blur(4px);
+                    color: #fff;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    padding: 0;
+                    outline: none;
+                    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+
+                    svg {
+                        width: 16px;
+                        height: 16px;
+                        stroke-width: 2.2;
+                        color: #fff;
+                    }
+
+                    &::after {
+                        display: none !important;
+                    }
+
+                    &:hover:not(:disabled) {
+                        background-color: #C24A2D; // Lantern terracotta highlight
+                        border-color: #C24A2D;
+                        color: #fff;
+                        transform: scale(1.04);
+                    }
+
+                    &:active:not(:disabled) {
+                        transform: scale(0.96);
+                    }
+
+                    &:focus-visible {
+                        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8);
+                    }
+
+                    &.swiper-button-disabled,
+                    &:disabled {
+                        opacity: 0.35;
+                        cursor: not-allowed;
+                        pointer-events: none;
+                    }
+
+                    @include media-breakpoint-down(sm) {
+                        width: 40px;
+                        height: 40px;
+
+                        svg {
+                            width: 15px;
+                            height: 15px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
