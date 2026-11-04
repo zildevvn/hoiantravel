@@ -2,40 +2,50 @@
 /**
  * Template part for displaying a search modal
  *
- * @package vm
+ * @package ha
  */
 ?>
 <!-- Search Modal -->
-<div id="search-modal" class="search-modal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="search-modal__overlay"></div>
-    <button class="search-modal__close" aria-label="<?php esc_attr_e('Close search', 'vm'); ?>" type="button">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-    </button>
-    <div class="search-modal__content">
-        <div class="search-modal__inner">
+<div id="search-modal" class="search-modal" aria-hidden="true" role="dialog" aria-modal="true"
+    aria-labelledby="search-modal-title">
+    <div class="search-modal__overlay" tabindex="-1"></div>
+
+    <div class="search-modal__dialog">
+        <button id="btn_close_search" class="search-modal__close d-flex align-items-center justify-content-center"
+            aria-label="<?php esc_attr_e('Close search', 'ha'); ?>" type="button">
+            <?php echo ha_svg_icon('menu-close-icon'); ?>
+        </button>
+
+        <div class="search-modal__content">
+            <div class="search-modal__header text-center">
+                <span class="search-modal__badge"><?php esc_html_e('Hoi An Travel Search', 'ha'); ?></span>
+                <h2 id="search-modal-title" class="search-modal__title">
+                    
+                    <?php esc_html_e('What are you looking for?', 'ha'); ?></h2>
+                <p class="search-modal__subtitle"><?php esc_html_e('Discover your next experience in Hoi An.', 'ha'); ?>
+                </p>
+            </div>
+
             <form role="search" method="get" class="search-modal__form" action="<?php echo esc_url(home_url('/')); ?>">
                 <div class="search-modal__field-wrapper">
-                    <label for="search-modal-input" class="visually-hidden"><?php _e('Search for:', 'vm'); ?></label>
+                    <span class="search-modal__input-icon" aria-hidden="true">
+                        <?php echo ha_svg_icon('search-icon'); ?>
+                    </span>
+                    <label for="search-modal-input"
+                        class="visually-hidden"><?php esc_html_e('Search for:', 'ha'); ?></label>
                     <input type="search" id="search-modal-input" class="search-modal__input"
-                        placeholder="<?php esc_attr_e('Search tours, destinations...', 'vm'); ?>"
-                        value="<?php echo get_search_query(); ?>" name="s" autocomplete="off" />
-                    <button type="submit" class="search-modal__submit" aria-label="<?php esc_attr_e('Submit search', 'vm'); ?>">
-                        <svg width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M17 17L21 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                stroke-linejoin="round"></path>
-                            <path
-                                d="M3 11C3 15.4183 6.58172 19 11 19C13.213 19 15.2161 18.1015 16.6644 16.6493C18.1077 15.2022 19 13.2053 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11Z"
-                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            </path>
-                        </svg>
+                        placeholder="<?php esc_attr_e('Search tours, destinations, activities...', 'ha'); ?>"
+                        value="<?php echo esc_attr(get_search_query()); ?>" name="s" autocomplete="off" required />
+                    <button type="submit" class="ha-button search-modal__submit"
+                        aria-label="<?php esc_attr_e('Submit search', 'ha'); ?>">
+                        <span><?php esc_html_e('Search', 'ha'); ?></span>
+                        <?php echo ha_svg_icon('arrow_next'); ?>
                     </button>
                 </div>
-                <span class="search-modal__info"><?php _e('Press Enter to search or ESC to close.', 'vm'); ?></span>
+                <div class="search-modal__footer text-center">
+                    <span
+                        class="search-modal__info"><?php esc_html_e('Press Enter to search or ESC to close.', 'ha'); ?></span>
+                </div>
             </form>
         </div>
     </div>

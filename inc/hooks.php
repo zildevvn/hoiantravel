@@ -50,11 +50,12 @@ function ha_footer_template()
 }
 
 /**
- * Search template
+ * Modal search template
  * @return void
  */
-add_action('ha_hook_search', 'ha_search_template');
-function ha_search_template()
+add_action('ha_hook_modal_search', 'ha_modal_search_template');
+add_action('ha_hook_search', 'ha_modal_search_template');
+function ha_modal_search_template()
 {
 	load_template(get_template_directory() . '/template-parts/modal-search.php', false);
 }

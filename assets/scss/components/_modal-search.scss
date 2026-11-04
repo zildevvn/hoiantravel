@@ -1,0 +1,303 @@
+/**
+ * Search Modal Component
+ * Hoi An Travel
+ */
+
+// Prevent body scroll when search modal is active
+body.search-modal-open {
+    overflow: hidden;
+    touch-action: none;
+}
+
+.search-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10050; // Above mobile menu (9999) and floating header (100)
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s ease;
+
+    &.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    // Backdrop Overlay
+    &__overlay {
+        position: absolute;
+        inset: 0;
+        background-color: rgba(25, 35, 43, 0.65);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 1;
+    }
+
+    // Modal Dialog Window
+    &__dialog {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 680px;
+        background-color: $color-bg;
+        border: 1px solid rgba(223, 161, 40, 0.3);
+        border-radius: 28px;
+        padding: 48px 40px 36px;
+        box-shadow: 0 24px 60px rgba(25, 35, 43, 0.25), 0 8px 24px rgba(223, 161, 40, 0.08);
+        transform: scale(0.92) translateY(16px);
+        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+        .search-modal.is-open & {
+            transform: scale(1) translateY(0);
+        }
+
+        @include media-breakpoint-down(md) {
+            padding: 40px 28px 30px;
+            border-radius: 24px;
+        }
+
+        @include media-breakpoint-down(sm) {
+            padding: 34px 18px 24px;
+            border-radius: 20px;
+        }
+    }
+
+    // Close Button (Top-Right)
+    &__close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: rgba($white, 0.85);
+        border: 1px solid rgba(223, 161, 40, 0.3);
+        color: $color-heading;
+        cursor: pointer;
+        padding: 0;
+        margin: 0;
+        z-index: 3;
+        transition: all 0.25s ease;
+
+        svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            display: block;
+        }
+
+        &:hover {
+            color: $color-primary;
+            border-color: $color-primary;
+            background-color: $white;
+            transform: rotate(90deg) scale(1.05);
+        }
+
+        &:focus-visible {
+            color: $color-primary;
+            outline: 2px solid $color-primary;
+            outline-offset: 2px;
+        }
+
+        @include media-breakpoint-down(sm) {
+            top: 14px;
+            right: 14px;
+            width: 36px;
+            height: 36px;
+
+            svg {
+                width: 18px;
+                height: 18px;
+            }
+        }
+    }
+
+    // Header Content
+    &__header {
+        margin-bottom: 28px;
+
+        @include media-breakpoint-down(sm) {
+            margin-bottom: 20px;
+        }
+    }
+
+    &__badge {
+        display: inline-block;
+        font-family: $font-second;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: $color-primary;
+        background-color: rgba(223, 161, 40, 0.1);
+        padding: 6px 14px;
+        border-radius: 9999px;
+        margin-bottom: 12px;
+
+        @include media-breakpoint-down(sm) {
+            font-size: 11px;
+            padding: 4px 12px;
+            margin-bottom: 8px;
+        }
+    }
+
+    &__title {
+        font-family: $font-primary;
+        font-size: 32px;
+        font-weight: 700;
+        color: $color-heading;
+        line-height: 1.25;
+        margin: 0 0 8px;
+
+        @include media-breakpoint-down(md) {
+            font-size: 26px;
+        }
+
+        @include media-breakpoint-down(sm) {
+            font-size: 21px;
+        }
+    }
+
+    &__subtitle {
+        font-family: $font-second;
+        font-size: 15px;
+        color: rgba($color-body, 0.75);
+        margin: 0;
+        line-height: 1.5;
+
+        @include media-breakpoint-down(sm) {
+            font-size: 14px;
+        }
+    }
+
+    // Search Form & Input Wrapper
+    &__form {
+        margin: 0;
+        padding: 0;
+    }
+
+    &__field-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background-color: $white;
+        border: 1.5px solid rgba(223, 161, 40, 0.35);
+        border-radius: 9999px;
+        padding: 6px 8px 6px 20px;
+        box-shadow: 0 4px 20px rgba(25, 35, 43, 0.06);
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+        &:focus-within {
+            border-color: $color-primary;
+            box-shadow: 0 6px 24px rgba(223, 161, 40, 0.2);
+        }
+
+        @include media-breakpoint-down(sm) {
+            padding: 5px 6px 5px 16px;
+        }
+    }
+
+    &__input-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $color-primary;
+        margin-right: 12px;
+        flex-shrink: 0;
+
+        svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            display: block;
+        }
+
+        @include media-breakpoint-down(sm) {
+            margin-right: 8px;
+
+            svg {
+                width: 18px;
+                height: 18px;
+            }
+        }
+    }
+
+    &__input {
+        flex: 1 1 auto;
+        min-width: 0;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-family: $font-second;
+        font-size: 16px;
+        font-weight: 500;
+        color: $color-heading;
+        padding: 10px 0;
+        line-height: 1.4;
+
+        &::placeholder {
+            color: rgba(25, 35, 43, 0.45);
+            font-weight: 400;
+        }
+
+        // Hide browser default search cancel buttons
+        &::-webkit-search-decoration,
+        &::-webkit-search-cancel-button,
+        &::-webkit-search-results-button,
+        &::-webkit-search-results-decoration {
+            display: none;
+        }
+
+        @include media-breakpoint-down(sm) {
+            font-size: 15px;
+            padding: 8px 0;
+        }
+    }
+
+    // Submit Button
+    &__submit {
+        flex-shrink: 0;
+        padding: 12px 28px;
+        font-size: 15px;
+        white-space: nowrap;
+        gap: 6px;
+
+        svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        &:hover svg {
+            transform: translateX(3px);
+        }
+
+        @include media-breakpoint-down(sm) {
+            padding: 10px 18px;
+            font-size: 14px;
+        }
+    }
+
+    // Footer Info / Keyboard Hint
+    &__footer {
+        margin-top: 18px;
+    }
+
+    &__info {
+        display: inline-block;
+        font-family: $font-second;
+        font-size: 13px;
+        color: rgba($color-body, 0.55);
+        letter-spacing: 0.01em;
+
+        @include media-breakpoint-down(sm) {
+            font-size: 12px;
+        }
+    }
+}
+
