@@ -10,6 +10,7 @@ get_header();
     <?php get_template_part('template-parts/home/hero-section'); ?>
     <?php get_template_part('template-parts/home/trust-proof-section'); ?>
     <?php get_template_part('template-parts/home/destination-section'); ?>
+    <?php get_template_part('template-parts/home/about-section'); ?>
 </main>
 <?php
 get_footer();

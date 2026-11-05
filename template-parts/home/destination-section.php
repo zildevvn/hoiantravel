@@ -27,7 +27,7 @@ $action = get_field('action_destination_home');
         <!-- SECTION INTRO -->
 
         <div class="destination-section__intro">
-            <?php if (!empty($heading)): ?>
+            <?php if (!empty($badge)): ?>
                 <div class="ha-badge">
                     <?php echo ha_svg_icon('badge'); ?>
                     <?= $badge ?>
