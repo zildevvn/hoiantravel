@@ -371,6 +371,18 @@ body.home {
             padding-top: 48px;
             border-top: 1px solid rgba($color: $color-primary, $alpha: 0.25);
 
+            @include media-breakpoint-down(lg) {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                margin-top: 32px;
+                padding-top: 32px;
+            }
+
+            @include media-breakpoint-down(md) {
+                margin-top: 24px;
+                padding-top: 24px;
+                gap: 16px;
+            }
+
             .card-item {
                 text-align: left;
 
@@ -382,10 +394,26 @@ body.home {
                     height: 48px;
                     background: rgba($color: $color-secondary, $alpha: 0.1);
                     border-radius: 0.75rem;
+
+                    @include media-breakpoint-down(md) {
+                        width: 32px;
+                        height: 32px;
+
+                        svg,
+                        img {
+                            width: 100%;
+                            height: auto;
+                            max-width: 16px;
+                        }
+                    }
                 }
 
                 h3 {
                     margin: 24px 0 12px 0;
+
+                    @include media-breakpoint-down(md) {
+                        margin: 20px 0 10px 0;
+                    }
                 }
             }
         }

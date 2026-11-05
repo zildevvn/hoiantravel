@@ -8247,6 +8247,22 @@ body.home .trust-proof-section__cards {
   padding-top: 48px;
   border-top: 1px solid rgba(223, 161, 40, 0.25);
 }
+@media (max-width: 1023.98px) {
+  body.page-template-front-page .trust-proof-section__cards,
+  body.home .trust-proof-section__cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 32px;
+    padding-top: 32px;
+  }
+}
+@media (max-width: 767.98px) {
+  body.page-template-front-page .trust-proof-section__cards,
+  body.home .trust-proof-section__cards {
+    margin-top: 24px;
+    padding-top: 24px;
+    gap: 16px;
+  }
+}
 body.page-template-front-page .trust-proof-section__cards .card-item,
 body.home .trust-proof-section__cards .card-item {
   text-align: left;
@@ -8261,10 +8277,32 @@ body.home .trust-proof-section__cards .card-item__icon {
   background: rgba(30, 77, 72, 0.1);
   border-radius: 0.75rem;
 }
+@media (max-width: 767.98px) {
+  body.page-template-front-page .trust-proof-section__cards .card-item__icon,
+  body.home .trust-proof-section__cards .card-item__icon {
+    width: 32px;
+    height: 32px;
+  }
+  body.page-template-front-page .trust-proof-section__cards .card-item__icon svg,
+  body.page-template-front-page .trust-proof-section__cards .card-item__icon img,
+  body.home .trust-proof-section__cards .card-item__icon svg,
+  body.home .trust-proof-section__cards .card-item__icon img {
+    width: 100%;
+    height: auto;
+    max-width: 16px;
+  }
+}
 body.page-template-front-page .trust-proof-section__cards .card-item h3, body.page-template-front-page .trust-proof-section__cards .card-item .h3,
 body.home .trust-proof-section__cards .card-item h3,
 body.home .trust-proof-section__cards .card-item .h3 {
   margin: 24px 0 12px 0;
+}
+@media (max-width: 767.98px) {
+  body.page-template-front-page .trust-proof-section__cards .card-item h3, body.page-template-front-page .trust-proof-section__cards .card-item .h3,
+  body.home .trust-proof-section__cards .card-item h3,
+  body.home .trust-proof-section__cards .card-item .h3 {
+    margin: 20px 0 10px 0;
+  }
 }
 
 .error-404-section {
