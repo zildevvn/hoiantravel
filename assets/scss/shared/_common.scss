@@ -32,4 +32,30 @@ html {
     @include media-breakpoint-down(md) {
         padding: 40px 0;
     }
+
+    &--bg {
+        background: $color-bg;
+    }
+}
+
+.ha-badge {
+    display: inline-flex;
+    border: 1px solid rgba($color: $color-primary, $alpha: 0.4);
+    color: $color-primary;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 4px 16px;
+    border-radius: 9999px;
+    background-color: #fff;
+    display: inline-block;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+
+    svg {
+        width: 100%;
+        height: auto;
+        max-width: 14px;
+    }
 }
