@@ -395,8 +395,144 @@ import { CountUp } from 'countup.js';
         });
     };
 
+    /**
+     * Destination Section Interactive List & Image Preview
+     */
+    const destinationPreview = () => {
+        const section = document.querySelector('.destination-section');
+        if (!section) return;
+
+        const list = section.querySelector('.destination-section__list') || section.querySelector('#destinations-editorial-list');
+        const previewCard = section.querySelector('.destination-preview-card') || section.querySelector('#destination-preview-card');
+
+        if (!list || !previewCard) return;
+
+        // Prevent duplicate listener registration
+        if (list.dataset.previewInitialized === 'true') return;
+        list.dataset.previewInitialized = 'true';
+
+        const rows = Array.from(list.querySelectorAll('.destination-row'));
+        if (!rows.length) return;
+
+        const previewImg = previewCard.querySelector('.destination-preview-card__image') || previewCard.querySelector('#preview-image');
+        const previewTitle = previewCard.querySelector('.destination-preview-card__title') || previewCard.querySelector('#preview-title');
+        const previewBadge = previewCard.querySelector('.destination-preview-card__badge-count') || previewCard.querySelector('#preview-badge');
+        const previewDesc = previewCard.querySelector('.destination-preview-card__desc') || previewCard.querySelector('#preview-desc');
+        const previewCta = previewCard.querySelector('.destination-preview-card__cta') || previewCard.querySelector('#preview-cta');
+
+        // Preload valid images in background for instant, zero-flicker transitions
+        rows.forEach((row) => {
+            const imgUrl = row.getAttribute('data-image');
+            if (imgUrl && imgUrl.trim() !== '') {
+                const preload = new Image();
+                preload.src = imgUrl;
+            }
+        });
+
+        // Helper to update active location and preview card
+        const setActiveDestination = (targetRow) => {
+            if (!targetRow) return;
+
+            // Update row active state
+            rows.forEach((row) => {
+                const isSelected = (row === targetRow);
+                row.classList.toggle('active', isSelected);
+                row.classList.toggle('is-active', isSelected);
+                row.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+            });
+
+            const imageUrl = targetRow.getAttribute('data-image');
+            const title = targetRow.getAttribute('data-title');
+            const badge = targetRow.getAttribute('data-badge');
+            const desc = targetRow.getAttribute('data-desc');
+            const ctaText = targetRow.getAttribute('data-cta');
+            const link = targetRow.getAttribute('data-link');
+
+            // Only update preview image if location has a valid image URL
+            if (previewImg && imageUrl && imageUrl.trim() !== '') {
+                const currentSrc = previewImg.getAttribute('src');
+                if (currentSrc !== imageUrl) {
+                    previewImg.classList.add('is-transitioning');
+                    const temp = new Image();
+                    temp.onload = () => {
+                        previewImg.src = imageUrl;
+                        if (title) previewImg.alt = title;
+                        requestAnimationFrame(() => {
+                            previewImg.classList.remove('is-transitioning');
+                        });
+                    };
+                    temp.onerror = () => {
+                        previewImg.classList.remove('is-transitioning');
+                    };
+                    temp.src = imageUrl;
+                }
+            }
+
+            // Update title
+            if (previewTitle && title) {
+                previewTitle.textContent = title;
+            }
+
+            // Update badge (e.g. "15 TOURS")
+            if (previewBadge && badge) {
+                previewBadge.textContent = badge;
+            }
+
+            // Update description
+            if (previewDesc) {
+                if (desc && desc.trim() !== '') {
+                    previewDesc.textContent = desc;
+                    previewDesc.style.display = '';
+                } else {
+                    previewDesc.textContent = '';
+                    previewDesc.style.display = 'none';
+                }
+            }
+
+            // Update CTA link & text
+            if (previewCta) {
+                if (ctaText && ctaText.trim() !== '') {
+                    previewCta.textContent = ctaText;
+                }
+                if (link && link.trim() !== '') {
+                    previewCta.href = link;
+                }
+            }
+        };
+
+        // Attach event listeners
+        rows.forEach((row) => {
+            // Desktop hover
+            row.addEventListener('mouseenter', () => {
+                setActiveDestination(row);
+            });
+
+            // Click / Tap (desktop & touch devices)
+            row.addEventListener('click', (e) => {
+                // If user clicks a direct anchor inside row (if any), allow natural link navigation
+                if (e.target.closest('a')) return;
+                setActiveDestination(row);
+            });
+
+            // Keyboard accessibility (Enter / Space)
+            row.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setActiveDestination(row);
+                }
+            });
+        });
+
+        // Initialize from first row (or row marked active)
+        const initialRow = rows.find((r) => r.classList.contains('active') || r.classList.contains('is-active')) || rows[0];
+        if (initialRow) {
+            setActiveDestination(initialRow);
+        }
+    };
+
     $(document).ready(function () {
         modalSearch();
         heroSlider();
+        destinationPreview();
     });
 })(jQuery);

@@ -7,3 +7,28 @@
         transform: scale(1.15);
     }
 }
+
+
+@keyframes lanternSway {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-12px) rotate(1.5deg);
+    }
+}
+
+@keyframes lanternDrift {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-16px) rotate(-1.5deg);
+    }
+}
