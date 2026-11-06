@@ -850,6 +850,10 @@ get_header();
             </div>
         </div>
     </section>
+
+
+
+
     <!-- 9. CAR RENTAL BANNER -->
     <section class="section-car-rental-banner bg-[#FBF9F5] py-12 lg:py-16 px-6 lg:px-8 border-t border-stone-200/40"
         id="section-car-rental-banner">

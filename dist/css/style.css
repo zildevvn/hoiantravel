@@ -73,8 +73,8 @@
   --bs-dark-border-subtle: #adb5bd;
   --bs-white-rgb: 255, 255, 255;
   --bs-black-rgb: 0, 0, 0;
-  --bs-font-sans-serif: "Plus Jakarta Sans", sans-serif;
-  --bs-font-monospace: "Playfair Display", sans-serif;
+  --bs-font-sans-serif: "IBM Plex Sans", sans-serif;
+  --bs-font-monospace: "Lexend", sans-serif;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-root-font-size: 1rem;
   --bs-body-font-family: var(--bs-font-sans-serif);
@@ -219,7 +219,7 @@ hr {
 h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
   margin-top: 0;
   margin-bottom: 0.5rem;
-  font-family: "Playfair Display", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-style: normal;
   font-weight: 700;
   line-height: 145%;
@@ -6973,7 +6973,7 @@ button.ha-button {
 .nf-form-cont .nf-response-msg > p {
   margin: 0;
   font-size: calc(1rem + 0.6vw);
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   text-align: center;
   font-weight: 700;
   color: #DFA128;
@@ -7312,7 +7312,7 @@ body.search-modal-open {
 }
 .search-modal__badge {
   display: inline-block;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
@@ -7331,7 +7331,7 @@ body.search-modal-open {
   }
 }
 .search-modal__title {
-  font-family: "Playfair Display", serif;
+  font-family: "Lexend", sans-serif;
   font-size: 32px;
   font-weight: 700;
   color: #19232B;
@@ -7349,7 +7349,7 @@ body.search-modal-open {
   }
 }
 .search-modal__subtitle {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   font-size: 15px;
   color: rgba(36, 28, 26, 0.75);
   margin: 0;
@@ -7413,7 +7413,7 @@ body.search-modal-open {
   background: transparent;
   border: none;
   outline: none;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   font-size: 16px;
   font-weight: 500;
   color: #19232B;
@@ -7459,7 +7459,7 @@ body.search-modal-open {
 }
 .search-modal__info {
   display: inline-block;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   font-size: 13px;
   color: rgba(36, 28, 26, 0.55);
   letter-spacing: 0.01em;
@@ -7549,7 +7549,7 @@ body.logged-in .header-main-inner {
   align-items: center;
   padding: 10px 10px;
   color: #19232B;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   font-size: 16px;
   font-weight: 500;
   line-height: 1.4;
@@ -7664,7 +7664,7 @@ body.logged-in .header-main-inner {
   justify-content: space-between;
   padding: 10px 16px;
   color: #19232B;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   font-size: 14px;
   font-weight: 500;
   line-height: 1.4;
@@ -7938,7 +7938,7 @@ body.mobile-menu-open {
   min-width: 0;
   padding: 12px 14px;
   color: #19232B;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   font-size: 16px;
   font-weight: 500;
   line-height: 1.4;
@@ -8195,7 +8195,7 @@ body.home .hero-section__sliders .hero-slider-controls__info {
 }
 body.page-template-front-page .hero-section__sliders .hero-slider-controls__counter,
 body.home .hero-section__sliders .hero-slider-controls__counter {
-  font-family: "Playfair Display", serif;
+  font-family: "Lexend", sans-serif;
   font-size: 20px;
   font-weight: 700;
   line-height: 1.1;
@@ -8207,13 +8207,13 @@ body.home .hero-section__sliders .hero-slider-controls__counter {
 }
 body.page-template-front-page .hero-section__sliders .hero-slider-controls__counter .hero-slider-controls__current,
 body.home .hero-section__sliders .hero-slider-controls__counter .hero-slider-controls__current {
-  font-family: "Playfair Display", serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 700;
   color: #fff;
 }
 body.page-template-front-page .hero-section__sliders .hero-slider-controls__counter .hero-slider-controls__sep,
 body.home .hero-section__sliders .hero-slider-controls__counter .hero-slider-controls__sep {
-  font-family: "Playfair Display", serif;
+  font-family: "Lexend", sans-serif;
   font-size: 18px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.7);
@@ -8221,7 +8221,7 @@ body.home .hero-section__sliders .hero-slider-controls__counter .hero-slider-con
 }
 body.page-template-front-page .hero-section__sliders .hero-slider-controls__counter .hero-slider-controls__total,
 body.home .hero-section__sliders .hero-slider-controls__counter .hero-slider-controls__total {
-  font-family: "Playfair Display", serif;
+  font-family: "Lexend", sans-serif;
   font-size: 20px;
   font-weight: 700;
   color: #fff;
@@ -8240,7 +8240,7 @@ body.home .hero-section__sliders .hero-slider-controls__counter .hero-slider-con
 }
 body.page-template-front-page .hero-section__sliders .hero-slider-controls__title,
 body.home .hero-section__sliders .hero-slider-controls__title {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -8614,7 +8614,7 @@ body.home .destination-section .destination-row .dest-info {
 }
 body.page-template-front-page .destination-section .destination-row .dest-number,
 body.home .destination-section .destination-row .dest-number {
-  font-family: "Playfair Display", serif;
+  font-family: "Lexend", sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
   color: #dfa128;
@@ -9054,7 +9054,7 @@ body.home .about-section__badge-desc {
   color: #78716c;
   margin-top: 0.225rem;
   margin-bottom: 0;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
 }
 body.page-template-front-page .about-section__content,
 body.home .about-section__content {
@@ -9087,7 +9087,7 @@ body.home .about-section__excerpt {
   font-weight: 400;
   line-height: 1.625;
   font-size: 0.875rem;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
 }
 body.page-template-front-page .about-section__features,
 body.home .about-section__features {
@@ -9450,7 +9450,7 @@ body.home .tours-section .tour-card__price-label {
 }
 body.page-template-front-page .tours-section .tour-card__price-val,
 body.home .tours-section .tour-card__price-val {
-  font-family: "Playfair Display", serif;
+  font-family: "Lexend", sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
   color: #241C1A;
@@ -9472,6 +9472,344 @@ body.home .tours-section__action {
 @media (max-width: 767.98px) {
   body.page-template-front-page .tours-section__action,
   body.home .tours-section__action {
+    margin-top: 24px;
+  }
+}
+body.page-template-front-page .cars-section,
+body.home .cars-section {
+  background-color: #FBF9F5;
+  border-top: 1px solid rgba(223, 161, 40, 0.25);
+}
+body.page-template-front-page .cars-section__header,
+body.home .cars-section__header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 3.5rem;
+  gap: 2rem;
+}
+@media (min-width: 1024px) {
+  body.page-template-front-page .cars-section__header,
+  body.home .cars-section__header {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}
+body.page-template-front-page .cars-section__header-content,
+body.home .cars-section__header-content {
+  max-width: 42rem;
+  min-width: 50%;
+}
+body.page-template-front-page .cars-section__desc,
+body.home .cars-section__desc {
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+}
+body.page-template-front-page .cars-section__trust-list,
+body.home .cars-section__trust-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+body.page-template-front-page .cars-section__trust-item,
+body.home .cars-section__trust-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  background-color: #fff;
+  color: #1E4D48;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(30, 77, 72, 0.2);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+body.page-template-front-page .cars-section__trust-item svg,
+body.home .cars-section__trust-item svg {
+  width: 100%;
+  height: auto;
+  max-width: 14px;
+}
+body.page-template-front-page .cars-section__grid,
+body.home .cars-section__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 576px) {
+  body.page-template-front-page .cars-section__grid,
+  body.home .cars-section__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  body.page-template-front-page .cars-section__grid,
+  body.home .cars-section__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+body.page-template-front-page .cars-section .car-card,
+body.home .cars-section .car-card {
+  min-width: 0;
+  background-color: #fff;
+  border-radius: 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(231, 229, 228, 0.7);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+body.page-template-front-page .cars-section .car-card:hover,
+body.home .cars-section .car-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-0.375rem);
+}
+body.page-template-front-page .cars-section .car-card:hover img,
+body.page-template-front-page .cars-section .car-card:hover .car-card__image,
+body.home .cars-section .car-card:hover img,
+body.home .cars-section .car-card:hover .car-card__image {
+  transform: scale(1.05);
+}
+body.page-template-front-page .cars-section .car-card:hover .car-card__title,
+body.home .cars-section .car-card:hover .car-card__title {
+  color: #C24A2D;
+}
+body.page-template-front-page .cars-section .car-card__media,
+body.home .cars-section .car-card__media {
+  height: 200px;
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  position: relative;
+  background-color: #f5f5f4;
+  margin-bottom: 1rem;
+}
+body.page-template-front-page .cars-section .car-card__media img,
+body.page-template-front-page .cars-section .car-card__media .car-card__image,
+body.home .cars-section .car-card__media img,
+body.home .cars-section .car-card__media .car-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+body.page-template-front-page .cars-section .car-card__tag,
+body.home .cars-section .car-card__tag {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  line-height: 1.2;
+}
+body.page-template-front-page .cars-section .car-card__tag--accent,
+body.home .cars-section .car-card__tag--accent {
+  background-color: #C24A2D;
+  color: #fff;
+}
+body.page-template-front-page .cars-section .car-card__tag--primary,
+body.home .cars-section .car-card__tag--primary {
+  background-color: #DFA128;
+  color: #241C1A;
+}
+body.page-template-front-page .cars-section .car-card__tag--secondary,
+body.home .cars-section .car-card__tag--secondary {
+  background-color: #1E4D48;
+  color: #fff;
+}
+body.page-template-front-page .cars-section .car-card__tag--dark,
+body.home .cars-section .car-card__tag--dark {
+  background-color: #241C1A;
+  color: #fff;
+}
+body.page-template-front-page .cars-section .car-card__duration,
+body.home .cars-section .car-card__duration {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: #DFA128;
+  color: #19232B;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  line-height: 1.4;
+}
+body.page-template-front-page .cars-section .car-card__route-box, body.page-template-front-page .cars-section .car-card__route-wrap,
+body.home .cars-section .car-card__route-box,
+body.home .cars-section .car-card__route-wrap {
+  margin-bottom: 0.5rem;
+}
+body.page-template-front-page .cars-section .car-card__route,
+body.home .cars-section .car-card__route {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.375rem;
+  background-color: rgba(30, 77, 72, 0.08);
+  border: 1px solid rgba(30, 77, 72, 0.15);
+  color: #1E4D48;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+body.page-template-front-page .cars-section .car-card__title,
+body.home .cars-section .car-card__title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #241C1A;
+  line-height: 1.35;
+  margin-bottom: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 50px;
+  transition: color 0.2s ease;
+}
+@media (min-width: 1200px) {
+  body.page-template-front-page .cars-section .car-card__title,
+  body.home .cars-section .car-card__title {
+    font-size: 1.25rem;
+    min-height: 54px;
+  }
+}
+body.page-template-front-page .cars-section .car-card__price-box,
+body.home .cars-section .car-card__price-box {
+  display: flex;
+  align-items: baseline;
+  gap: 0.375rem;
+}
+body.page-template-front-page .cars-section .car-card__specs, body.page-template-front-page .cars-section .car-card__features,
+body.home .cars-section .car-card__specs,
+body.home .cars-section .car-card__features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid #f5f5f4;
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style: none;
+}
+body.page-template-front-page .cars-section .car-card__specs .car-card__spec-item,
+body.page-template-front-page .cars-section .car-card__specs .car-card__feature-item,
+body.page-template-front-page .cars-section .car-card__specs li, body.page-template-front-page .cars-section .car-card__features .car-card__spec-item,
+body.page-template-front-page .cars-section .car-card__features .car-card__feature-item,
+body.page-template-front-page .cars-section .car-card__features li,
+body.home .cars-section .car-card__specs .car-card__spec-item,
+body.home .cars-section .car-card__specs .car-card__feature-item,
+body.home .cars-section .car-card__specs li,
+body.home .cars-section .car-card__features .car-card__spec-item,
+body.home .cars-section .car-card__features .car-card__feature-item,
+body.home .cars-section .car-card__features li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.5rem;
+  border-radius: 0.5rem;
+  background-color: #FBF9F5;
+  border: 1px solid rgba(231, 229, 228, 0.6);
+  min-width: 0;
+}
+body.page-template-front-page .cars-section .car-card__specs .car-card__spec-item svg,
+body.page-template-front-page .cars-section .car-card__specs .car-card__feature-item svg,
+body.page-template-front-page .cars-section .car-card__specs li svg, body.page-template-front-page .cars-section .car-card__features .car-card__spec-item svg,
+body.page-template-front-page .cars-section .car-card__features .car-card__feature-item svg,
+body.page-template-front-page .cars-section .car-card__features li svg,
+body.home .cars-section .car-card__specs .car-card__spec-item svg,
+body.home .cars-section .car-card__specs .car-card__feature-item svg,
+body.home .cars-section .car-card__specs li svg,
+body.home .cars-section .car-card__features .car-card__spec-item svg,
+body.home .cars-section .car-card__features .car-card__feature-item svg,
+body.home .cars-section .car-card__features li svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: #1E4D48;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+body.page-template-front-page .cars-section .car-card__specs .car-card__spec-item span,
+body.page-template-front-page .cars-section .car-card__specs .car-card__feature-item span,
+body.page-template-front-page .cars-section .car-card__specs li span, body.page-template-front-page .cars-section .car-card__features .car-card__spec-item span,
+body.page-template-front-page .cars-section .car-card__features .car-card__feature-item span,
+body.page-template-front-page .cars-section .car-card__features li span,
+body.home .cars-section .car-card__specs .car-card__spec-item span,
+body.home .cars-section .car-card__specs .car-card__feature-item span,
+body.home .cars-section .car-card__specs li span,
+body.home .cars-section .car-card__features .car-card__spec-item span,
+body.home .cars-section .car-card__features .car-card__feature-item span,
+body.home .cars-section .car-card__features li span {
+  font-size: 11px;
+  font-weight: 500;
+  color: #57534e;
+  font-family: "IBM Plex Sans", sans-serif;
+  line-height: 1.3;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body.page-template-front-page .cars-section .car-card__footer,
+body.home .cars-section .car-card__footer {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(231, 229, 228, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+body.page-template-front-page .cars-section .car-card__price-label,
+body.home .cars-section .car-card__price-label {
+  font-size: 10px;
+  color: #78716c;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  line-height: 1.2;
+}
+body.page-template-front-page .cars-section .car-card__price-val,
+body.home .cars-section .car-card__price-val {
+  font-family: "Lexend", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #241C1A;
+  line-height: 1.25;
+}
+body.page-template-front-page .cars-section .car-card .ha-button,
+body.home .cars-section .car-card .ha-button {
+  font-size: 0.75rem;
+  padding: 0.625rem 1.25rem;
+}
+body.page-template-front-page .cars-section__action,
+body.home .cars-section__action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 32px;
+}
+@media (max-width: 767.98px) {
+  body.page-template-front-page .cars-section__action,
+  body.home .cars-section__action {
     margin-top: 24px;
   }
 }
@@ -9521,7 +9859,7 @@ body.home .tours-section__action {
   line-height: 1;
   color: #DFA128;
   margin-bottom: 20px;
-  font-family: "Playfair Display", serif;
+  font-family: "Lexend", sans-serif;
   letter-spacing: -3px;
   text-shadow: 4px 4px 0 rgba(223, 161, 40, 0.1);
 }
