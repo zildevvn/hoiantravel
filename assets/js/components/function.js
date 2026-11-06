@@ -530,9 +530,72 @@ import { CountUp } from 'countup.js';
         }
     };
 
+    /**
+     * Tours Section Swiper Carousel
+     */
+    const tourSwiper = () => {
+        const swiperElements = document.querySelectorAll('.tour-swiper');
+        if (!swiperElements.length) return;
+
+        const updateCounter = (swiper) => {
+            const current = String(swiper.realIndex + 1).padStart(2, '0');
+            const total = String(swiper.slides.length).padStart(2, '0');
+            const container = swiper.el.closest('.tours-section') || document;
+            const counterEl = container.querySelector('.tour-swiper-counter') || document.querySelector('.tour-swiper-counter');
+            if (counterEl) {
+                counterEl.textContent = `${current} / ${total}`;
+            }
+        };
+
+        swiperElements.forEach((el) => {
+            if (el.swiper || el.classList.contains('swiper-initialized')) return;
+
+            const container = el.closest('.tours-section') || el;
+            const nextEl = container.querySelector('.tour-swiper-next') || '.tour-swiper-next';
+            const prevEl = container.querySelector('.tour-swiper-prev') || '.tour-swiper-prev';
+
+            try {
+                new Swiper(el, {
+                    modules: [Navigation],
+                    slidesPerView: 1.15,
+                    spaceBetween: 16,
+                    speed: 600,
+                    grabCursor: true,
+                    watchOverflow: true,
+                    loop: true,
+                    navigation: {
+                        nextEl: nextEl,
+                        prevEl: prevEl,
+                    },
+                    breakpoints: {
+                        640: {
+                            slidesPerView: 2.1,
+                            spaceBetween: 20,
+                        },
+                        1024: {
+                            slidesPerView: 3.25, // Preserves the exact 3-full-card + 1-peek-in desktop layout
+                            spaceBetween: 24,
+                        },
+                    },
+                    on: {
+                        init: function () {
+                            updateCounter(this);
+                        },
+                        slideChange: function () {
+                            updateCounter(this);
+                        },
+                    },
+                });
+            } catch (err) {
+                console.error('[Hoi An Travel] Error initializing tour swiper:', err);
+            }
+        });
+    };
+
     $(document).ready(function () {
         modalSearch();
         heroSlider();
         destinationPreview();
+        tourSwiper();
     });
 })(jQuery);

@@ -105,6 +105,36 @@
             "append": ""
         },
         {
+            "key": "field_6aed4cf83bf0a",
+            "label": "Currency",
+            "name": "currency",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "₫": "VND",
+                "$": "USD",
+                "€": "EUR"
+            },
+            "default_value": false,
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "allow_in_bindings": 0,
+            "ui": 1,
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
             "key": "field_6a438f24a3a20",
             "label": "Socials",
             "name": "socials",
@@ -565,5 +595,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1790741707
+    "modified": 1793937941
 }

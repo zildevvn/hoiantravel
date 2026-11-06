@@ -7,25 +7,20 @@ $action = get_field('action_destination_home');
 ?>
 <section class="ha-section destination-section" id="destination-hub-section">
     <div aria-hidden="true" class="destination-section__ambient">
-        <!-- Top Indochine Ceramic / Geometric Ribbon -->
         <div class="destination-section__ribbon"
             style="background: linear-gradient(90deg, rgb(30, 77, 72), rgb(223, 161, 40), rgb(30, 77, 72));">
             <?php echo ha_svg_icon('indochine-ribbon'); ?>
         </div>
-        <!-- Ambient Dó Paper Texture Grain / Subtle Vignette Overlay -->
+
         <div class="destination-section__vignette" style="box-shadow: rgba(36, 28, 26, 0.06) 0px 0px 100px inset;">
         </div>
-        <!-- Ambient Lantern Accents (Left Background) in #DFA128 with gentle floating motion -->
         <?php echo ha_svg_icon('destination-lanterns'); ?>
-        <!-- Architectural Graphic Watermark: Japanese Covered Bridge (Chùa Cầu) in #1E4D48 (~8% opacity) -->
         <div class="destination-section__watermark">
             <?php echo ha_svg_icon('chua-cau-bridge'); ?>
         </div>
     </div>
 
     <div class="container">
-        <!-- SECTION INTRO -->
-
         <div class="destination-section__intro">
             <?php if (!empty($badge)): ?>
                 <div class="ha-badge">
@@ -37,7 +32,6 @@ $action = get_field('action_destination_home');
             <?php if (!empty($heading)): ?>
                 <h2> <?= $heading ?> </h2>
             <?php endif; ?>
-
 
             <?php if (!empty($desc)): ?>
                 <p class="mt-3">

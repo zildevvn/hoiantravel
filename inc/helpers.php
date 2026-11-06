@@ -32,6 +32,67 @@ if (!function_exists('ha_svg_icon')) {
 	}
 }
 
+if (!function_exists('ha_format_price')) {
+
+	/**
+	 * Format a price value with an optional currency symbol.
+	 *
+	 * - Accepts raw numbers ("52", 52, "1200000") or pre-formatted strings ("$52.00", "₫ 1,200,000").
+	 * - Strips any currency symbol already present in $price to avoid duplicates.
+	 * - If $currency is empty, a symbol found in $price is reused.
+	 * - "₫" is formatted with 0 decimals, other currencies with 2 decimals.
+	 * - 0 is treated as a valid price.
+	 *
+	 * Returns a plain (unescaped) string; escape on output, e.g. esc_html( ha_format_price( $price, $currency ) ).
+	 *
+	 * @param mixed       $price    Raw price value.
+	 * @param mixed       $currency Currency symbol (e.g. "₫", "$", "€").
+	 * @param string|null $fallback Text returned when price is empty/invalid. Default "Contact".
+	 *
+	 * @return string
+	 */
+	function ha_format_price($price, $currency = '', $fallback = null)
+	{
+		$fallback = $fallback === null ? (function_exists('__') ? __('Contact', 'ha') : 'Contact') : (string) $fallback;
+
+		if (!is_scalar($price) || is_bool($price)) {
+			return $fallback;
+		}
+
+		$raw = trim((string) $price);
+		$currency = is_scalar($currency) ? trim((string) $currency) : '';
+
+		if ($raw === '') {
+			return $fallback;
+		}
+
+		// Detect a symbol already present in the price when no currency is passed.
+		if ($currency === '' && preg_match('/^\s*([\$₫€])|([\$₫€])\s*$/u', $raw, $m)) {
+			$currency = !empty($m[1]) ? $m[1] : $m[2];
+		}
+
+		// Remove known symbols and the given currency from both ends.
+		$symbols = '\$₫€';
+		if ($currency !== '') {
+			$symbols .= preg_quote($currency, '/');
+		}
+		$clean = trim(preg_replace('/^[' . $symbols . '\s]+|[' . $symbols . '\s]+$/u', '', $raw));
+
+		if ($clean === '') {
+			return $fallback;
+		}
+
+		$number = str_replace(',', '', $clean);
+		if (is_numeric($number)) {
+			$decimals = ($currency === '₫') ? 0 : 2;
+			return $currency . number_format((float) $number, $decimals, '.', ',');
+		}
+
+		// Non-numeric value (e.g. "50-80", "On request"): keep text, prefix currency only if it starts with a digit.
+		return preg_match('/^\d/', $clean) ? $currency . $clean : $clean;
+	}
+}
+
 if (!function_exists('ha_pagination')) {
 	function ha_pagination($current_page = null, $total_pages = null, $query_args = [])
 	{
