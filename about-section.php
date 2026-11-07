@@ -914,6 +914,10 @@ get_header();
             </div>
         </div>
     </section>
+
+
+
+
     <!-- 10. TRAVEL GUIDE & HERITAGE JOURNAL SECTION -->
     <section class="relative overflow-hidden w-full bg-[#FBF9F5] py-24 px-6 sm:px-8 border-t border-stone-200/60"
         id="section-travel-guide">

@@ -21,13 +21,6 @@ $hd_img = get_field('hd_image_ab_home');
             <!-- LEFT COLUMN (6 Columns - Human Touch & Official Credentials) -->
             <div class="about-section__media">
                 <div class="about-section__media-wrap">
-
-                    <?php
-                    // echo "<pre>";
-                    // echo print_r($image);
-                    // echo "</pre>";
-                    ?>
-
                     <?php if (!empty($image)): ?>
                         <!-- Main Image -->
                         <div class="about-section__image-box">
