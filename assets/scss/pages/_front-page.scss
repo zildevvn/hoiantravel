@@ -748,7 +748,7 @@ body.home {
 
             &__badge-count {
                 background-color: $color-primary;
-                color: #fff;
+                color: $color-secondary;
                 font-size: 11px;
                 font-weight: 700;
                 padding: 4px 12px;
@@ -1985,7 +1985,7 @@ body.home {
                 top: 1rem; // top-4
                 left: 1rem; // left-4
                 background-color: $color-primary; // bg-[#C24A2D]
-                color: #fff;
+                color: $color-secondary;
                 font-size: 10px; // text-[10px]
                 font-weight: 700; // font-bold
                 text-transform: uppercase;
