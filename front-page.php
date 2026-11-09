@@ -14,6 +14,7 @@ get_header();
     <?php get_template_part('template-parts/home/tours-section'); ?>
     <?php get_template_part('template-parts/home/cars-section'); ?>
     <?php get_template_part('template-parts/home/banner-section'); ?>
+    <?php get_template_part('template-parts/home/posts-section'); ?>
 </main>
 <?php
 get_footer();
