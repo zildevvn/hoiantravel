@@ -2,35 +2,161 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    background: $color-accent;
+    background-color: $color-accent;
     color: #fff;
     font-weight: 600;
     border-radius: 9999px;
     padding: 12px 24px;
+    border: 1px solid transparent;
     box-shadow: 0 10px 15px -3px rgba(194, 74, 45, 0.35);
-    gap: 4px;
+    gap: 8px;
     text-decoration: none;
     cursor: pointer;
-
-    // &:hover {
-    //     background-color: #ad3f24;
-    //     transform: scale(1.05);
-    // }
+    line-height: 1.25;
+    transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
     svg {
-        width: 100%;
-        height: auto;
+        width: 1.125rem; // 18px
+        height: 1.125rem;
         max-width: 20px;
+        flex-shrink: 0;
+        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                    stroke 0.25s ease,
+                    fill 0.25s ease;
+
+        // Synchronize stroke with text color if stroke is active
+        &[stroke],
+        path[stroke] {
+            stroke: currentColor;
+        }
+
+        // Synchronize fill with text color if fill is active and not none
+        &[fill]:not([fill="none"]),
+        path[fill]:not([fill="none"]) {
+            fill: currentColor;
+        }
     }
 
+    // Default Hover State
+    &:hover {
+        background-color: #a83d22;
+        color: #fff;
+        box-shadow: 0 14px 24px -4px rgba(194, 74, 45, 0.45), 0 4px 8px -2px rgba(194, 74, 45, 0.2);
+        transform: translateY(-2px);
+
+        // Micro-motion: subtle forward slide for trailing action arrows
+        svg:last-child {
+            transform: translateX(3px);
+        }
+
+        // Micro-motion: subtle backward slide for back/prev arrows
+        svg.lucide-arrow-left,
+        svg[class*="arrow-prev"] {
+            transform: translateX(-3px);
+        }
+    }
+
+    // Focus State (Accessibility)
+    &:focus-visible {
+        outline: 2px solid $color-accent;
+        outline-offset: 3px;
+    }
+
+    // Active State (Tactile press)
+    &:active {
+        transform: translateY(0);
+        box-shadow: 0 6px 10px -2px rgba(194, 74, 45, 0.3);
+
+        svg:last-child,
+        svg.lucide-arrow-left,
+        svg[class*="arrow-prev"] {
+            transform: translateX(0);
+        }
+    }
+
+    // Disabled State
+    &:disabled,
+    &[disabled],
+    &.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+        transform: none !important;
+        box-shadow: none !important;
+
+        svg {
+            transform: none !important;
+        }
+    }
+
+    // Outline Variant
     &--outline {
         background-color: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: none;
+        color: #fff;
+
+        &:hover {
+            background-color: #ffffff;
+            border-color: #ffffff;
+            color: $color-body; // #241C1A - Crisp high-contrast luxury theme
+            box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        &:focus-visible {
+            outline: 2px solid #ffffff;
+            outline-offset: 3px;
+        }
+
+        &:active {
+            background-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(0);
+            box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+        }
+
+        &:disabled,
+        &[disabled],
+        &.disabled {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.5);
+        }
+    }
+}
+
+// Reduced motion preferences for accessibility
+@media (prefers-reduced-motion: reduce) {
+    .ha-button {
+        transition: none !important;
+        transform: none !important;
+
+        svg {
+            transition: none !important;
+            transform: none !important;
+        }
+
+        &:hover,
+        &:active {
+            transform: none !important;
+
+            svg {
+                transform: none !important;
+            }
+        }
     }
 }
 
 button.ha-button {
-    border: none;
+    border: 1px solid transparent;
+
+    &.ha-button--outline {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
 }
