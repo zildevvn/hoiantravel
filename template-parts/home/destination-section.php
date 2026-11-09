@@ -176,20 +176,56 @@ $action = get_field('action_destination_home');
             </div>
         <?php endif; ?>
 
-        <!-- BOTTOM INVITATION BAR -->
+        <!-- BOTTOM INVITATION BAR: LUXURY CONCIERGE & CUSTOM ITINERARY -->
         <div class="destination-section__invitation">
             <div class="destination-section__invitation-box">
-                <?php if (!empty($action)): ?>
-                    <span class="destination-section__invitation-text">
-                        <?= $action ?>
-                    </span>
-                <?php endif; ?>
+                <!-- Left Content: Icon Accent + Question & Description -->
+                <div class="destination-section__invitation-content">
+                    <div class="destination-section__invitation-icon" aria-hidden="true">
+                        <?php echo ha_svg_icon('feature-compass'); ?>
+                    </div>
+                    <div class="destination-section__invitation-text">
+                        <?php
+                        $action_title = "Can't find your exact spot?";
+                        $action_desc = "Our local travel concierges craft bespoke private itineraries tailored to your schedule and personal style.";
 
+                        if (!empty($action)) {
+                            $clean_action = trim(wp_strip_all_tags($action));
+                            if (strpos($clean_action, '?') !== false) {
+                                $parts = explode('?', $clean_action, 2);
+                                $action_title = trim($parts[0]) . '?';
+                                $action_desc = trim($parts[1]);
+                            } elseif (strpos($clean_action, "\n") !== false) {
+                                $parts = explode("\n", $clean_action, 2);
+                                $action_title = trim($parts[0]);
+                                $action_desc = trim($parts[1]);
+                            } else {
+                                $action_title = $clean_action;
+                                $action_desc = '';
+                            }
+                        }
+                        ?>
+                        <h3 class="destination-section__invitation-title">
+                            <?= esc_html($action_title); ?>
+                        </h3>
+                        <?php if (!empty($action_desc)): ?>
+                            <p class="destination-section__invitation-desc">
+                                <?= esc_html($action_desc); ?>
+                            </p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <!-- Right Content: CTA Button -->
                 <?php if (!empty($button)): ?>
-                    <a href="<?= $button['url'] ?>" target="<?= $button['target'] ?>" class="ha-button">
-                        <?= $button['title'] ?>
-                        <?php echo ha_svg_icon('arrow_next'); ?>
-                    </a>
+                    <div class="destination-section__invitation-action">
+                        <a href="<?= esc_url($button['url'] ?? '#'); ?>"
+                            target="<?= esc_attr(!empty($button['target']) ? $button['target'] : '_self'); ?>"
+                            class="ha-button">
+                            <span><?= esc_html($button['title'] ?? 'Request a Custom Itinerary'); ?></span>
+                            <?php echo ha_svg_icon('arrow_next'); ?>
+                        </a>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>

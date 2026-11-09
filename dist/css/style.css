@@ -9410,40 +9410,111 @@ body.home .destination-section .destination-preview-card__cta:hover {
 body.page-template-front-page .destination-section__invitation,
 body.home .destination-section__invitation {
   margin-top: 48px;
-  text-align: center;
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 64rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 body.page-template-front-page .destination-section__invitation-box,
 body.home .destination-section__invitation-box {
-  background-color: #fff;
-  border-radius: 1rem;
-  border: 1px solid rgba(231, 229, 228, 0.8);
-  padding: 20px;
-  max-width: 42rem;
-  margin: 0 auto;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(135deg, #1E4D48 0%, rgb(6.1572292468%, 15.8035550669%, 14.7773501924%) 100%);
+  border: 1px solid rgba(223, 161, 40, 0.28);
+  border-radius: 1.25rem;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.25), 0 0 24px -6px rgba(223, 161, 40, 0.12);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 1.5rem;
   position: relative;
-  z-index: 9;
+  overflow: hidden;
+  width: 100%;
 }
-@media (min-width: 576px) {
+@media (min-width: 1024px) {
   body.page-template-front-page .destination-section__invitation-box,
   body.home .destination-section__invitation-box {
     flex-direction: row;
+    padding: 2rem 2.5rem;
+    gap: 2rem;
   }
+}
+body.page-template-front-page .destination-section__invitation-content,
+body.home .destination-section__invitation-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+  flex: 1;
+}
+@media (min-width: 768px) {
+  body.page-template-front-page .destination-section__invitation-content,
+  body.home .destination-section__invitation-content {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+  }
+}
+body.page-template-front-page .destination-section__invitation-icon,
+body.home .destination-section__invitation-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  flex-shrink: 0;
+  color: #DFA128;
+}
+body.page-template-front-page .destination-section__invitation-icon svg,
+body.home .destination-section__invitation-icon svg {
+  width: 1.75rem;
+  height: 1.75rem;
+  stroke: currentColor;
 }
 body.page-template-front-page .destination-section__invitation-text,
 body.home .destination-section__invitation-text {
-  font-size: 0.875rem;
-  text-align: left;
-  font-weight: 500;
+  flex: 1;
 }
-body.page-template-front-page .destination-section__invitation .ha-button,
-body.home .destination-section__invitation .ha-button {
-  min-width: fit-content;
+body.page-template-front-page .destination-section__invitation-title,
+body.home .destination-section__invitation-title {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #FFFFFF;
+  margin-bottom: 0.35rem;
+  line-height: 1.35;
+}
+@media (min-width: 768px) {
+  body.page-template-front-page .destination-section__invitation-title,
+  body.home .destination-section__invitation-title {
+    font-size: 1.375rem;
+  }
+}
+body.page-template-front-page .destination-section__invitation-desc,
+body.home .destination-section__invitation-desc {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 580px;
+  margin-bottom: 0;
+}
+body.page-template-front-page .destination-section__invitation-action,
+body.home .destination-section__invitation-action {
+  flex-shrink: 0;
+  width: 100%;
+}
+@media (min-width: 768px) {
+  body.page-template-front-page .destination-section__invitation-action,
+  body.home .destination-section__invitation-action {
+    width: auto;
+  }
 }
 body.page-template-front-page .about-section,
 body.home .about-section {
