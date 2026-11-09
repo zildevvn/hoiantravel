@@ -1,0 +1,369 @@
+// ==========================================
+// HERO SECTION SHARED (Global Reusable Hero)
+// ==========================================
+
+.hero-section-shared {
+    position: relative;
+    width: 100%;
+    min-height: 380px;
+    padding: 130px 0 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #141C24;
+    color: $color-white;
+    z-index: 1;
+
+    @include media-breakpoint-up(md) {
+        min-height: 440px;
+        padding: 150px 0 120px;
+    }
+
+    @include media-breakpoint-up(lg) {
+        min-height: 480px;
+        padding: 200px 0 160px;
+    }
+
+    // ------------------------------------------
+    // Background Image & Media Layer
+    // ------------------------------------------
+    &__bg,
+    .ha-section__bg,
+    .vm-section__bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        overflow: hidden;
+        background: linear-gradient(145deg, darken($color-secondary, 6%) 0%, #10171e 100%);
+
+        img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transform: scale(1.02);
+            transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+    }
+
+    // Fallback Pattern when no image is provided
+    &__fallback-pattern {
+        position: absolute;
+        right: -8%;
+        bottom: -20%;
+        width: 520px;
+        height: 520px;
+        opacity: 0.07;
+        pointer-events: none;
+        color: $color-primary;
+
+        @include media-breakpoint-up(md) {
+            width: 680px;
+            height: 680px;
+            right: -4%;
+            bottom: -15%;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    // ------------------------------------------
+    // Atmospheric Overlays & Lighting
+    // ------------------------------------------
+    &__overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(180deg,
+                rgba(16, 24, 32, 0.62) 0%,
+                rgba(16, 24, 32, 0.76) 50%,
+                rgba(16, 24, 32, 0.94) 100%);
+        pointer-events: none;
+    }
+
+    &__glow {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: radial-gradient(ellipse 80% 60% at 50% 15%,
+                rgba($color-primary, 0.16) 0%,
+                transparent 70%);
+        pointer-events: none;
+    }
+
+    // ------------------------------------------
+    // Container & Inner Content Box
+    // ------------------------------------------
+    &__container,
+    .container {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+    }
+
+    &__box {
+        position: relative;
+        max-width: 860px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        animation: heroContentFadeIn 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    // ------------------------------------------
+    // Breadcrumbs Navigation (Refined Pill)
+    // ------------------------------------------
+    &__breadcrumbs-wrap {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 1.25rem;
+    }
+
+    .ha-breadcrumbs {
+        display: inline-flex;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.35rem 0.5rem;
+        background: rgba($color-white, 0.08);
+        border: 1px solid rgba($color-white, 0.16);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        padding: 0.45rem 1.15rem;
+        border-radius: 9999px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+        font-family: $font-body;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: rgba($color-white, 0.75);
+        max-width: 100%;
+
+        a,
+        &__link {
+            color: rgba($color-white, 0.85);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: color 0.25s ease;
+
+            &:hover {
+                color: $color-primary;
+            }
+        }
+
+        &__icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+
+            svg {
+                width: 14px;
+                height: 14px;
+                stroke: currentColor;
+            }
+        }
+
+        &__sep,
+        span:not(.ha-breadcrumbs__current):not(.ha-breadcrumbs__icon) {
+            display: inline-flex;
+            align-items: center;
+            color: rgba($color-primary, 0.8);
+            flex-shrink: 0;
+
+            svg {
+                width: 12px;
+                height: 12px;
+                stroke: currentColor;
+                stroke-width: 2.2;
+            }
+        }
+
+        &__current,
+        >span:last-child {
+            color: $color-primary;
+            font-weight: 600;
+            max-width: 260px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            @include media-breakpoint-up(md) {
+                max-width: 440px;
+            }
+        }
+    }
+
+    // ------------------------------------------
+    // Heading / Titles
+    // ------------------------------------------
+    &__title,
+    .ha-heading,
+    .vm-heading,
+    .search-title {
+        font-family: $font-heading;
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1.22;
+        color: $color-white;
+        margin-bottom: 0.875rem;
+        letter-spacing: -0.015em;
+        text-shadow: 0 2px 14px rgba(0, 0, 0, 0.4);
+
+        @include media-breakpoint-up(sm) {
+            font-size: 2.35rem;
+        }
+
+        @include media-breakpoint-up(md) {
+            font-size: 2.85rem;
+            margin-bottom: 1.15rem;
+        }
+
+        @include media-breakpoint-up(lg) {
+            font-size: 3.25rem;
+        }
+
+        span {
+            color: $color-primary;
+        }
+    }
+
+    // ------------------------------------------
+    // Description / Excerpt
+    // ------------------------------------------
+    &__desc,
+    .search-subtitle {
+        font-family: $font-body;
+        font-size: 0.95rem;
+        line-height: 1.65;
+        color: rgba($color-white, 0.88);
+        max-width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1.25rem;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+
+        @include media-breakpoint-up(md) {
+            font-size: 1.0625rem;
+        }
+
+        p {
+            margin-bottom: 0.65rem;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        strong {
+            color: $color-primary;
+            font-weight: 600;
+        }
+    }
+
+    // ------------------------------------------
+    // Ratings & Interactive Metadata
+    // ------------------------------------------
+    &__ratings {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0.25rem;
+        margin-bottom: 0.75rem;
+
+        .kk-star-ratings {
+            margin: 0 !important;
+
+            .kksr-stars {
+                color: $color-primary;
+            }
+        }
+    }
+
+    // ------------------------------------------
+    // CTA Button Container
+    // ------------------------------------------
+    &__btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1.25rem;
+        gap: 0.75rem;
+
+        .ha-button,
+        .vm-button {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        }
+    }
+
+    // ------------------------------------------
+    // Decorative Indochine Bottom Ribbon
+    // ------------------------------------------
+    &__ribbon {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 8px;
+        z-index: 3;
+        line-height: 0;
+        overflow: hidden;
+        pointer-events: none;
+
+        svg {
+            width: 100%;
+            height: 8px;
+            display: block;
+        }
+    }
+
+    // ------------------------------------------
+    // Variant: No Image (Rich Brand Gradient)
+    // ------------------------------------------
+    &--no-image {
+
+        .hero-section-shared__bg,
+        .ha-section__bg,
+        .vm-section__bg {
+            background: radial-gradient(circle at 50% 20%,
+                    lighten($color-secondary, 8%) 0%,
+                    $color-secondary 50%,
+                    darken($color-secondary, 10%) 100%);
+        }
+    }
+}
+
+// ------------------------------------------
+// Keyframe Animations
+// ------------------------------------------
+@keyframes heroContentFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-section-shared__box {
+        animation: none !important;
+    }
+}

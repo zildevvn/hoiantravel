@@ -1,5 +1,8 @@
 $font-primary: "Lexend", sans-serif;
 $font-second: "IBM Plex Sans", sans-serif;
+$font-heading: $font-primary !default;
+$font-body: $font-second !default;
+
 
 $transition-base: 0.4s all ease !default;
 $color-primary: #DFA128;

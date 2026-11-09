@@ -350,7 +350,7 @@
     "location": [
         [
             {
-                "param": "post_template",
+                "param": "page_template",
                 "operator": "==",
                 "value": "tours-template.php"
             }
@@ -368,5 +368,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1790392738
+    "modified": 1794218907
 }
