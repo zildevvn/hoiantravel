@@ -134,7 +134,7 @@ $query = new WP_Query($args);
                                     <span class="compact-post-card__tag compact-post-card__tag--<?= esc_attr($tag_modifier); ?>">
                                         <?= esc_html($tag_text); ?>
                                     </span>
-                                    <h4 class="compact-post-card__title">
+                                    <h4 class="compact-post-card__title h6">
                                         <?php the_title(); ?>
                                     </h4>
                                 </div>

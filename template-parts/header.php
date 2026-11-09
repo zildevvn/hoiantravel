@@ -5,9 +5,6 @@ $socials = get_field('socials', 'option');
 $sologan = get_field('sologan_hd_top', 'option');
 $email = get_field('email', 'option');
 ?>
-
-
-
 <header id="site-header" class="header-main">
     <div class="container">
         <div class="header-main-inner d-flex align-items-center justify-content-between">
@@ -37,8 +34,10 @@ $email = get_field('email', 'option');
                     <?php echo ha_svg_icon('arrow_next'); ?>
                 </a>
 
-                <button id="btn_hamburger" class="header-main__hamburger d-flex d-xl-none align-items-center justify-content-center"
-                    aria-label="<?php esc_attr_e('Open navigation menu', 'ha'); ?>" aria-controls="mobile-menu-drawer" aria-expanded="false" type="button">
+                <button id="btn_hamburger"
+                    class="header-main__hamburger d-flex d-xl-none align-items-center justify-content-center"
+                    aria-label="<?php esc_attr_e('Open navigation menu', 'ha'); ?>" aria-controls="mobile-menu-drawer"
+                    aria-expanded="false" type="button">
                     <?php echo ha_svg_icon('hamberger-icon'); ?>
                 </button>
             </div>
@@ -68,8 +67,8 @@ $email = get_field('email', 'option');
             <nav class="mobile-menu-drawer__nav" aria-label="<?php esc_attr_e('Mobile Primary Menu', 'ha'); ?>">
                 <?php wp_nav_menu(array(
                     'theme_location' => 'primary-menu',
-                    'menu_class'     => 'mobile-menu__nav',
-                    'container'      => false,
+                    'menu_class' => 'mobile-menu__nav',
+                    'container' => false,
                 )); ?>
             </nav>
         <?php endif; ?>

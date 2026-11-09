@@ -1,21 +1,82 @@
 <?php
 $custom_logo_id = get_theme_mod('custom_logo');
 $logo_url = wp_get_attachment_url($custom_logo_id);
-$about_text = get_field('about_text_ft', 'option');
-$address = get_field('address', 'option');
 $email = get_field('email', 'option');
 $phone = get_field('phone', 'option');
-$copyright = get_field('copyright_ft', 'option');
 $socials = get_field('socials', 'option');
-$bg_footer = get_field('background_image', 'option');
+$concierge_badge = get_field('footer__concierge_badge', 'option');
+$concierge_heading = get_field('footer__concierge_heading', 'option');
+$locations = get_field('footer_locations', 'option');
+$license = get_field('footer_license', 'option');
+if (empty($license)) {
+    $license = 'Managed by VM Travel • International License: 46-028/2015/TCDL-GP LHQ';
+}
+$copyright = get_field('footer_copyright', 'option');
+if (empty($copyright)) {
+    $copyright = get_field('copyright_ft', 'option');
+}
+if (empty($copyright)) {
+    $copyright = '© {{Year}} Hoi An Travel. All rights reserved.';
+}
+if (strpos($copyright, '{{Year}}') !== false) {
+    $copyright = str_replace('{{Year}}', wp_date('Y'), $copyright);
+}
 ?>
 
-
-
 <footer class="main-footer">
-    <div class="main-footer-warp">
-        <div class="container">
-            <div class="main-footer-top d-flex justify-content-between align-items-end">
+    <!-- Vignette and warm lantern glow effects -->
+    <div class="main-footer__glow-gradient" aria-hidden="true"></div>
+    <div class="main-footer__glow-lantern" aria-hidden="true"></div>
+    <div class="container">
+        <!-- 1. THE GRAND INVITATION & DIRECT CONCIERGE BAR -->
+        <div class="main-footer__concierge">
+            <div class="main-footer__concierge-glow" aria-hidden="true"></div>
+            <div class="main-footer__concierge-content">
+                <?php if (!empty($concierge_badge)): ?>
+                    <span class="main-footer__concierge-tag">
+                        <?= $concierge_badge ?>
+                    </span>
+                <?php endif; ?>
+
+                <?php if (!empty($concierge_heading)): ?>
+                    <h2 class="main-footer__concierge-title h3">
+                        <?= $concierge_heading ?>
+                    </h2>
+                <?php endif; ?>
+                <div class="main-footer__concierge-actions">
+                    <a href="https://wa.me/84901971515" class="main-footer__btn main-footer__btn--whatsapp">
+                        <span class="main-footer__btn-icon"
+                            aria-hidden="true"><?php echo ha_svg_icon('whatsapp'); ?></span>
+                        WhatsApp 24/7
+                    </a>
+                    <a href="mailto:vmtravelhoian@gmail.com" class="main-footer__btn main-footer__btn--email">
+                        <span class="main-footer__btn-icon"
+                            aria-hidden="true"><?php echo ha_svg_icon('email'); ?></span>
+                        Email Us
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- 2. 3-CITY REGIONAL STATIONS -->
+        <?php if (!empty($locations)): ?>
+            <div class="main-footer__stations">
+                <?php foreach ($locations as $key => $location): ?>
+                    <div class="station-card">
+                        <h3 class="station-card__title h6">
+                            <?= $location['name'] ?>
+                        </h3>
+
+                        <p class="station-card__address">
+                            <?= $location['address'] ?>
+                        </p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+        <!-- 3. BRAND SIGNATURE & TRUST CREDENTIALS (SUB-FOOTER) -->
+        <div class="main-footer__bottom">
+            <!-- Left Zone (Brand & License Info) -->
+            <div class="main-footer__brand">
                 <div class="main-footer__logo">
                     <a class="d-flex " href="<?php echo home_url(); ?>"
                         aria-label="<?php echo get_bloginfo('name'); ?>">
@@ -24,151 +85,40 @@ $bg_footer = get_field('background_image', 'option');
                     </a>
                 </div>
 
-                <div class="main-footer-top__right d-flex justify-content-between">
-                    <?php if (!empty($phone)): ?>
-                        <?php
-                        $phone = preg_replace('/\D+/', '', $phone);
-                        if (strpos($phone, '0') === 0) {
-                            $phone = '84' . substr($phone, 1);
-                        }
-                        ?>
-                        <div class="main-footer__phone">
-                            <h2 class="h5">24/7 Support</h2>
-                            <a href="https://wa.me/<?= esc_attr($phone); ?>" target="_blank" rel="noopener noreferrer"
-                                aria-label="Chat with us on WhatsApp">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="lucide lucide-phone-forwarded">
-                                    <path d="M14 6h8" />
-                                    <path d="m18 2 4 4-4 4" />
-                                    <path
-                                        d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
-                                </svg>
-                                +<?= $phone ?>
-                            </a>
-
-                        </div>
-                    <?php endif; ?>
-
-                    <?php if (!empty($email)): ?>
-                        <div class="main-footer__email">
-                            <h2 class="h5">Email Us</h2>
-                            <a href="mailto:<?= $email ?>">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="lucide lucide-mail-check-icon lucide-mail-check">
-                                    <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h8"></path>
-                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                                    <path d="m16 19 2 2 4-4"></path>
-                                </svg>
-                                <?= $email ?>
-                            </a>
-                        </div>
-                    <?php endif; ?>
-
-
-                    <?php if (!empty($address)): ?>
-                        <div class="main-footer__address">
-                            <h2 class="h5">Our Location </h2>
-                            <p class="mb-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="lucide lucide-map-pin-check">
-                                    <path
-                                        d="M19.43 12.935c.357-.967.57-1.955.57-2.935a8 8 0 0 0-16 0c0 4.993 5.539 10.193 7.399 11.799a1 1 0 0 0 1.202 0 32.197 32.197 0 0 0 .813-.728" />
-                                    <circle cx="12" cy="10" r="3" />
-                                    <path d="m16 18 2 2 4-4" />
-                                </svg>
-                                <?= $address ?>
-                            </p>
-                        </div>
-                    <?php endif; ?>
-                </div>
+                <?php if (!empty($license)): ?>
+                    <span class="main-footer__license">
+                        <?= $license ?>
+                    </span>
+                <?php endif; ?>
             </div>
 
-            <div class="main-footer-middle d-flex justify-content-between">
-                <?php if (!empty($about_text)): ?>
-                    <div class="main-footer__about">
-                        <h2 class="h5">About Us</h2>
-                        <p class="mb-0"> <?= $about_text ?> </p>
-                    </div>
-                <?php endif; ?>
-
-                <div class="main-footer__menus d-flex justify-content-between">
-
-                    <?php if (has_nav_menu('company-menu')): ?>
-                        <div class="main-footer__menu company-menu">
-                            <h2 class="h5">Company</h2>
-                            <?php wp_nav_menu(array('theme_location' => 'company-menu', 'menu_class' => 'company-menu')) ?>
-                        </div>
-                    <?php endif; ?>
-
-                    <?php if (has_nav_menu('daily-tours-menu')): ?>
-                        <div class="main-footer__menu daily-tours-menu">
-                            <h2 class="h5">Day Trip</h2>
-                            <?php wp_nav_menu(array('theme_location' => 'daily-tours-menu', 'menu_class' => 'daily-tours-menu')) ?>
-                        </div>
-                    <?php endif; ?>
-
-                    <?php if (has_nav_menu('package-tours-menu')): ?>
-                        <div class="main-footer__menu package-tours-menu">
-                            <h2 class="h5">Package Tours</h2>
-                            <?php wp_nav_menu(array('theme_location' => 'package-tours-menu', 'menu_class' => 'package-tours-menu')) ?>
-                        </div>
-                    <?php endif; ?>
-
-                </div>
-            </div>
-
-            <div class="main-footer-bottom d-flex justify-content-between align-items-center">
-                <?php if (!empty($copyright)): ?>
-                    <p class="mb-0 main-footer__copyright"><?= $copyright ?></p>
-                <?php endif; ?>
-
-
+            <!-- Center Zone (Circular Social Icons) -->
+            <div class="main-footer__socials">
                 <?php if (!empty($socials)): ?>
-                    <div class="main-footer__socials d-flex align-items-center">
-                        <?php foreach ($socials as $key => $social): ?>
-                            <div class="item-social">
-                                <a href="<?= $social['link'] ?>" class="d-flex align-items-center justify-content-center">
-                                    <img src="<?= $social['icon'] ?>" alt="icon-footer <?= $key + 1 ?>" width="24"
-                                        height="24" />
-                                </a>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
+                    <?php foreach ($socials as $key => $social): ?>
+                        <a href="<?= esc_url($social['link']); ?>" class="main-footer__social-btn" target="_blank"
+                            rel="noopener noreferrer" aria-label="Social Link <?= $key + 1; ?>">
+                            <?php if (!empty($social['icon'])): ?>
+                                <img src="<?= esc_url($social['icon']); ?>" alt="" width="16" height="16" />
+                            <?php endif; ?>
+                        </a>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+
+
+            <div class="main-footer__right">
+                <div class="main-footer__payments">
+                    <span class="main-footer__payment-badge">OnePay</span>
+                    <span class="main-footer__payment-badge">VISA</span>
+                    <span class="main-footer__payment-badge">MasterCard</span>
+                </div>
+                <?php if (!empty($copyright)): ?>
+                    <p class="main-footer__copyright">
+                        <?= $copyright ?>
+                    </p>
                 <?php endif; ?>
             </div>
         </div>
     </div>
-
-    <?php get_template_part('template-parts/modal-search'); ?>
-
-    <a href="#" class="back-to-top" aria-label="Back to top">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-chevron-up">
-            <path d="m18 15-6-6-6 6" />
-        </svg>
-    </a>
-
-    <?php if (!empty($phone)): ?>
-        <?php
-        $phone = preg_replace('/\D+/', '', $phone);
-        if (strpos($phone, '0') === 0) {
-            $phone = '84' . substr($phone, 1);
-        }
-        ?>
-        <a class="btn-whatsapp" href="https://wa.me/<?= esc_attr($phone); ?>" target="_blank" rel="noopener noreferrer"
-            aria-label="Chat with us on WhatsApp">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="lucide lucide-phone-forwarded preview-icon">
-                <path d="M14 6h8" />
-                <path d="m18 2 4 4-4 4" />
-                <path
-                    d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
-            </svg>
-        </a>
-    <?php endif; ?>
 </footer>
