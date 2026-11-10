@@ -892,31 +892,6 @@ body.page-template-tours-template {
             }
         }
 
-
-        // Eyebrow Label: Flex row with small amber/gold accent dot + uppercase text
-        &__eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 16px;
-
-            &-dot {
-                width: 6px;
-                height: 6px;
-                border-radius: 50%;
-                background-color: $color-primary;
-                flex-shrink: 0;
-            }
-
-            &-text {
-                font-size: 13px;
-                font-weight: 700;
-                text-transform: uppercase;
-                color: $color-primary;
-                line-height: 1.2;
-            }
-        }
-
         &__heading {
             margin-bottom: 24px;
         }

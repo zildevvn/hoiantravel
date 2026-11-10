@@ -1,7 +1,7 @@
 <?php
-$heading  = get_field('hd_ab_tpl_tour');
-$sub_hd   = get_field('sub_hd_ab_tpl_tour');
-$desc     = get_field('desc_ab_tpl_tour');
+$heading = get_field('hd_ab_tpl_tour');
+$sub_hd = get_field('sub_hd_ab_tpl_tour');
+$desc = get_field('desc_ab_tpl_tour');
 $gallerys = get_field('gallery_ab_tpl_tour');
 
 // Normalize ACF gallery if present
@@ -67,30 +67,36 @@ $display_heading = !empty($heading) ? $heading : 'Explore Hoi An: Ancient Soul, 
                 <!-- Column 1 (Left): Top-Left Portrait + Bottom-Left Square -->
                 <div class="hoi-an-intro__gallery-col">
                     <div class="hoi-an-intro__photo hoi-an-intro__photo--portrait">
-                        <img src="<?= esc_url($photos[0]['url']); ?>" alt="<?= esc_attr($photos[0]['alt']); ?>" loading="lazy" />
+                        <img src="<?= esc_url($photos[0]['url']); ?>" alt="<?= esc_attr($photos[0]['alt']); ?>"
+                            loading="lazy" />
                     </div>
                     <div class="hoi-an-intro__photo hoi-an-intro__photo--square">
-                        <img src="<?= esc_url($photos[1]['url']); ?>" alt="<?= esc_attr($photos[1]['alt']); ?>" loading="lazy" />
+                        <img src="<?= esc_url($photos[1]['url']); ?>" alt="<?= esc_attr($photos[1]['alt']); ?>"
+                            loading="lazy" />
                     </div>
                 </div>
 
                 <!-- Column 2 (Right): Top-Right Square + Bottom-Right Portrait -->
                 <div class="hoi-an-intro__gallery-col">
                     <div class="hoi-an-intro__photo hoi-an-intro__photo--square">
-                        <img src="<?= esc_url($photos[2]['url']); ?>" alt="<?= esc_attr($photos[2]['alt']); ?>" loading="lazy" />
+                        <img src="<?= esc_url($photos[2]['url']); ?>" alt="<?= esc_attr($photos[2]['alt']); ?>"
+                            loading="lazy" />
                     </div>
                     <div class="hoi-an-intro__photo hoi-an-intro__photo--portrait">
-                        <img src="<?= esc_url($photos[3]['url']); ?>" alt="<?= esc_attr($photos[3]['alt']); ?>" loading="lazy" />
+                        <img src="<?= esc_url($photos[3]['url']); ?>" alt="<?= esc_attr($photos[3]['alt']); ?>"
+                            loading="lazy" />
                     </div>
                 </div>
             </div>
 
             <!-- Right Column: Editorial Narrative Copy -->
             <div class="hoi-an-intro__content">
-                <div class="hoi-an-intro__eyebrow">
-                    <span class="hoi-an-intro__eyebrow-dot" aria-hidden="true"></span>
-                    <span class="hoi-an-intro__eyebrow-text"><?= esc_html($display_eyebrow); ?></span>
-                </div>
+                <?php if (!empty($display_eyebrow)): ?>
+                    <div class="ha-badge">
+                        <?php echo ha_svg_icon('badge'); ?>
+                        <?= esc_html($display_eyebrow); ?>
+                    </div>
+                <?php endif; ?>
 
                 <h2 class="hoi-an-intro__heading">
                     <?= esc_html($display_heading); ?>
@@ -100,8 +106,12 @@ $display_heading = !empty($heading) ? $heading : 'Explore Hoi An: Ancient Soul, 
                     <?php if (!empty($desc)): ?>
                         <?= wp_kses_post($desc); ?>
                     <?php else: ?>
-                        <p>Immerse yourself in a living open-air gallery of saffron-washed merchant facades, romantic timber footbridges, and evening riverbanks illuminated by thousands of floating paper lanterns. Hoi An captures Southeast Asia’s most romantic heritage with effortless grace.</p>
-                        <p>Beyond its quiet pedestrian alleys, the ancient port acts as the premier launchpad for Central Vietnam. Seamlessly transition from sacred ancient mountain valleys and marble cliffs to imperial capitals—all within an easy day trip.</p>
+                        <p>Immerse yourself in a living open-air gallery of saffron-washed merchant facades, romantic timber
+                            footbridges, and evening riverbanks illuminated by thousands of floating paper lanterns. Hoi An
+                            captures Southeast Asia’s most romantic heritage with effortless grace.</p>
+                        <p>Beyond its quiet pedestrian alleys, the ancient port acts as the premier launchpad for Central
+                            Vietnam. Seamlessly transition from sacred ancient mountain valleys and marble cliffs to
+                            imperial capitals—all within an easy day trip.</p>
                     <?php endif; ?>
                 </div>
             </div>

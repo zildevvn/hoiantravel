@@ -12290,26 +12290,6 @@ body.page-template-tours-template .hoi-an-intro__content {
     margin-right: auto;
   }
 }
-body.page-template-tours-template .hoi-an-intro__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-body.page-template-tours-template .hoi-an-intro__eyebrow-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #DFA128;
-  flex-shrink: 0;
-}
-body.page-template-tours-template .hoi-an-intro__eyebrow-text {
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #DFA128;
-  line-height: 1.2;
-}
 body.page-template-tours-template .hoi-an-intro__heading {
   margin-bottom: 24px;
 }
