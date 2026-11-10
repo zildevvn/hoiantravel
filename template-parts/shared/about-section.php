@@ -8,24 +8,24 @@ $append_content = $args['append_content'] ?? '';
 $prepend_section = $args['prepend_section'] ?? '';
 $counters = $args['counters'] ?? [];
 ?>
-<section class="vm-section about-section vm-media-carousel-section">
+<section class="ha-section about-section ha-media-carousel-section">
     <?= $prepend_section ?>
     <div class="container">
-        <?php vm_icon_heading(); ?>
+
         <?php if (!empty($heading)): ?>
-            <h2 class="vm-heading">
+            <h2 class="ha-heading">
                 <?= $heading ?>
             </h2>
         <?php endif; ?>
 
         <?php if (!empty($sub_hd)): ?>
-            <div class="vm-sub-heading">
+            <div class="ha-sub-heading">
                 <?= wp_kses_post($sub_hd) ?>
             </div>
         <?php endif; ?>
 
         <?php if (!empty($counters)): ?>
-            <div class="vm-counters">
+            <div class="ha-counters">
                 <?php foreach ($counters as $key => $counter): ?>
                     <div class="counter-item">
                         <div class="counter-item__icon">
@@ -36,7 +36,7 @@ $counters = $args['counters'] ?? [];
                             <h2 class="h6">
                                 <?= $counter['label'] ?>
                             </h2>
-                            <p class="vm-counter mb-0 h2">
+                            <p class="ha-counter mb-0 h2">
                                 <?= $counter['number'] ?>
                             </p>
                         </div>
@@ -45,7 +45,7 @@ $counters = $args['counters'] ?? [];
             </div>
         <?php endif; ?>
 
-        <div class="vm-media-carousel-section__media">
+        <div class="ha-media-carousel-section__media">
             <div class="content">
                 <?php if (!empty($desc)): ?>
                     <?= wp_kses_post($desc) ?>

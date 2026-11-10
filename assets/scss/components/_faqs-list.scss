@@ -1,0 +1,213 @@
+// ==========================================================================
+// Global Component: FAQs List & Accordion Item
+// Reusable across Tour templates, Single Tours, Tour Locations, Tickets, etc.
+// ==========================================================================
+
+.faqs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    @include media-breakpoint-up(md) {
+        gap: 16px;
+    }
+}
+
+.faq-item {
+    position: relative;
+    background-color: #ffffff;
+    border: 1px solid rgba($color-heading, 0.08);
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    overflow: hidden;
+
+    @include media-breakpoint-up(md) {
+        border-radius: 16px;
+    }
+
+    &:hover {
+        border-color: rgba($color-primary, 0.35);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    &.is-active {
+        border-color: rgba($color-primary, 0.5);
+        box-shadow: 0 8px 24px rgba(223, 161, 40, 0.08);
+        background-color: #ffffff;
+
+        .faq-item__icon,
+        .faq-item__question > svg {
+            background-color: $color-primary;
+            color: #ffffff;
+            transform: rotate(180deg);
+        }
+
+        .faq-item__number {
+            background-color: $color-primary;
+            color: #ffffff;
+        }
+
+        > .faq-item__answer {
+            grid-template-rows: 1fr;
+
+            > .faq-item__answer-inner,
+            > *:not(.faq-item__answer-inner) {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    }
+
+    // Trigger / Question Row
+    &__question {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        width: 100%;
+        padding: 16px 18px;
+        margin: 0;
+        background: none;
+        border: none;
+        text-align: left;
+        color: $color-heading;
+        cursor: pointer;
+        user-select: none;
+        transition: color 0.25s ease;
+
+        @include media-breakpoint-up(md) {
+            padding: 20px 24px;
+            gap: 18px;
+        }
+
+        &:focus {
+            outline: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid $color-primary;
+            outline-offset: -2px;
+            border-radius: 14px;
+        }
+
+        // Support heading inside question
+        h3,
+        .h6,
+        &__title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            margin: 0;
+            font-family: $font-second;
+            font-size: 0.975rem;
+            font-weight: 600;
+            line-height: 1.45;
+            color: $color-heading;
+
+            @include media-breakpoint-up(md) {
+                font-size: 1.0625rem;
+                gap: 14px;
+            }
+        }
+    }
+
+    // Question Number Badge (e.g. "01", "02")
+    &__number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 28px;
+        height: 28px;
+        padding: 0 6px;
+        border-radius: 6px;
+        background-color: rgba($color-primary, 0.1);
+        color: $color-primary;
+        font-family: $font-primary;
+        font-size: 0.8125rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        line-height: 1;
+        flex-shrink: 0;
+        transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    &__text {
+        flex: 1;
+    }
+
+    // Toggle Icon / Chevron
+    &__icon,
+    &__question > svg {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        border-radius: 50%;
+        background-color: #F8F7F4;
+        color: #555555;
+        flex-shrink: 0;
+        transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.25s ease, color 0.25s ease;
+
+        svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            display: block;
+        }
+    }
+
+    // Answer Accordion Content (Smooth CSS Grid Animation)
+    &__answer {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+        overflow: hidden;
+
+        > .faq-item__answer-inner,
+        > *:not(.faq-item__answer-inner) {
+            min-height: 0;
+            padding: 0 18px 18px;
+            color: #555555;
+            font-family: $font-second;
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: opacity 0.3s ease 0.05s, transform 0.3s ease 0.05s;
+
+            @include media-breakpoint-up(md) {
+                padding: 0 24px 22px 60px;
+            }
+
+            p:last-child {
+                margin-bottom: 0;
+            }
+
+            a {
+                color: $color-primary;
+                text-decoration: underline;
+
+                &:hover {
+                    color: darken($color-primary, 10%);
+                }
+            }
+
+            ul, ol {
+                padding-left: 1.25rem;
+                margin-bottom: 0.75rem;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}
+

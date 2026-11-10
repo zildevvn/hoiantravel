@@ -9,6 +9,7 @@ $price_group_child = get_field('child_price_group');
 $price_private = get_field('price_for_private_tour');
 $gallery_tour = get_field('gallery_tour');
 $price_tour = get_field('price_tour');
+$currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('currency', 'option');
 $faqs_tour = get_field('faqs_list_tour');
 ?>
 <section class="vm-section main-section">
@@ -155,8 +156,7 @@ $faqs_tour = get_field('faqs_list_tour');
                     <div class="price">
                         <span class="label">From:</span>
                         <span class="value">
-                            <span
-                                class="mb-0">₫</span><?php echo number_format((float) ($price_tour ? $price_tour : 100)); ?>
+                            <?= esc_html(ha_format_price($price_tour ? $price_tour : 100, $currency)); ?>
                         </span>
                         <?php
                         $is_car_tour = has_term('Car Tours', 'tour_cats', get_the_ID());

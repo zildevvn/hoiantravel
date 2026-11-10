@@ -54,7 +54,7 @@ function ha_custom_tour_booking_column($column, $post_id)
         case 'total_price':
             $price = get_post_meta($post_id, 'total_price', true);
             if ($price) {
-                echo number_format((float) $price, 0, '.', ',') . ' VND';
+                echo esc_html(ha_format_price($price));
             }
             break;
     }
@@ -125,9 +125,9 @@ function ha_booking_meta_box_html($post)
     echo '<tr><th>Starting Time</th><td>' . esc_html($starting_time) . '</td></tr>';
     echo '<tr><th>Participants</th><td>' . esc_html($total_pax) . ' (' . esc_html($adults) . ' Adults, ' . esc_html($children) . ' Children)</td></tr>';
     if ($total_price) {
-        echo '<tr><th>Total Price</th><td><strong style="color:#0C2C7A;font-size:16px;">' . number_format((float) $total_price, 0, '.', ',') . ' VND</strong></td></tr>';
+        echo '<tr><th>Total Price</th><td><strong style="color:#0C2C7A;font-size:16px;">' . esc_html(ha_format_price($total_price)) . '</strong></td></tr>';
     } else {
-        echo '<tr><th>Total Price</th><td><strong style="color:#0C2C7A;font-size:16px;">Contact for Price</strong></td></tr>';
+        echo '<tr><th>Total Price</th><td><strong style="color:#0C2C7A;font-size:16px;">' . esc_html(ha_format_price('', '', 'Contact for Price')) . '</strong></td></tr>';
     }
     echo '</tbody></table>';
 }

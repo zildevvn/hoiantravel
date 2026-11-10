@@ -1,0 +1,223 @@
+// Tour Card
+.tour-card {
+    width: 100%;
+    border-radius: 1.5rem; // rounded-3xl (24px)
+    overflow: hidden;
+    background-color: $color-bg; // bg-[#FBF9F5]
+    border: 1px solid rgba(231, 229, 228, 0.7); // border-stone-200/70
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); // shadow-sm
+    transform: translateY(0);
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-shrink: 0;
+    text-decoration: none;
+
+    &:hover {
+        transform: translateY(-6px); // hover:-translate-y-1.5
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); // hover:shadow-xl
+
+        .tour-card__img {
+            transform: scale(1.05);
+        }
+
+        .tour-card__title {
+            color: $color-accent; // group-hover:text-[#C24A2D]
+        }
+    }
+
+    &__media {
+        height: 240px;
+        position: relative;
+        overflow: hidden;
+        background-color: #f5f5f4; // bg-stone-100
+    }
+
+    &__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s ease;
+    }
+
+
+    &__duration {
+        position: absolute;
+        top: 1rem; // top-4
+        right: 1rem; // right-4
+        background-color: $color-primary; // bg-black/40
+        color: $color-heading;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 0.25rem 0.75rem; // py-1 px-3
+        border-radius: 9999px;
+        line-height: 1.4;
+    }
+
+    &__body {
+        padding: 1.5rem; // p-6 (24px)
+        flex: 1 1 0%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    // ---- Top metadata row: Location + Rating ----
+    &__meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem; // gap-2
+        margin-bottom: 0.625rem; // mb-2.5
+        min-width: 0;
+    }
+
+    &__location {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        min-width: 0;
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 1.3;
+        letter-spacing: 0.05em; // tracking-wider
+        text-transform: uppercase;
+        color: $color-secondary; // #1E4D48
+
+        svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+            stroke: $color-primary; // #DFA128
+            stroke-width: 2;
+        }
+    }
+
+    &__location-text {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    &__rating {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem; // gap-1.5
+        flex-shrink: 0;
+        white-space: nowrap;
+        line-height: 1;
+    }
+
+    &__rating-star {
+        font-size: 12px;
+        line-height: 1;
+        color: $color-primary; // #DFA128
+    }
+
+    &__rating-score {
+        font-size: 0.75rem; // text-xs
+        font-weight: 700;
+        color: $color-body; // #241C1A
+    }
+
+    &__rating-count {
+        font-size: 11px;
+        font-weight: 400;
+        color: #a8a29e; // stone-400
+    }
+
+    // ---- Title ----
+    &__title {
+        // font-family: $font-primary; // Playfair Display
+        // font-weight: 700;
+        // font-size: 1.125rem; // text-lg (18px)
+        // line-height: 1.35;
+        // color: $color-body; // #241C1A
+        margin: 0;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        overflow: hidden;
+        min-height: calc(2 * 1.35em); // always reserve 2 lines
+        transition: color 0.2s ease;
+
+        // @include media-breakpoint-up(xl) {
+        //     font-size: 1.25rem; // text-xl (20px)
+        // }
+    }
+
+    // ---- Specs & amenities micro-pills ----
+    &__highlights {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5rem; // gap-2
+        margin-top: 0.75rem; // mt-3
+        padding-top: 0.75rem; // pt-3
+        border-top: 1px solid #f5f5f4; // border-stone-100
+    }
+
+    &__highlight-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem; // gap-1.5
+        padding: 0.25rem 0.625rem; // py-1 px-2.5
+        border: 1px solid rgba(231, 229, 228, 0.7); // border-stone-200/70
+        border-radius: 0.375rem; // rounded-md
+        background-color: $color-bg; // #FBF9F5
+        color: #57534e; // stone-600
+        font-size: 11px;
+        font-weight: 500;
+        line-height: 1.3;
+        white-space: nowrap;
+
+        svg {
+            width: 13px;
+            height: 13px;
+            flex-shrink: 0;
+            stroke: $color-primary;
+            stroke-width: 2;
+            fill: none;
+        }
+    }
+
+    &__footer {
+        margin-top: 1.5rem; // mt-6 (24px)
+        padding-top: 1rem; // pt-4 (16px)
+        border-top: 1px solid rgba(231, 229, 228, 0.8); // border-stone-200/80
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__price-box {
+        display: flex;
+        align-items: baseline;
+        gap: 0.375rem;
+    }
+
+    &__price-label {
+        font-size: 11px;
+        color: #78716c; // text-stone-500
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+    }
+
+    &__price-val {
+        font-family: $font-primary; // font-playfair
+        font-size: 1.5rem; // text-2xl (24px)
+        font-weight: 700;
+        color: $color-body; // text-[#241C1A]
+        line-height: 1.2;
+    }
+
+    .ha-button {
+        padding: 0.625rem 1.25rem;
+        font-size: 0.85rem;
+    }
+}

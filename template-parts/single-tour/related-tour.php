@@ -69,7 +69,7 @@ if (is_array($current_tour_cats) && !empty($current_tour_cats)) {
                         $the_query->the_post();
                         ?>
                         <div class="swiper-slide">
-                            <?php vm_item_tour(); ?>
+                            <?php ha_item_tour(); ?>
                         </div>
                         <?php
                     endwhile;

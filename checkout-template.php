@@ -13,6 +13,7 @@ $selected_option = null;
 $total_price = 0;
 $price_per_person = 0;
 $total_pax = 0;
+$currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('currency', 'option');
 
 if (!$booking_data) {
     $error_msg = 'Your booking session has expired or is invalid. Please return to the tours page and try again.';
@@ -299,41 +300,31 @@ if (!$booking_data) {
                                             <?php if (!empty($pricing['is_car_tour'])): ?>
                                                 <li>
                                                     Vehicle Price
-                                                    <strong><?= number_format($price_per_person, 0, '.', ',') ?>
-                                                        <span class="mb-0">₫</span>
-                                                    </strong>
+                                                    <strong><?= esc_html(ha_format_price($price_per_person, $currency)); ?></strong>
                                                 </li>
                                             <?php elseif (!empty($pricing['is_private_tour'])): ?>
                                                 <li>
                                                     Private Tour Package
-                                                    <strong><?= number_format($price_per_person, 0, '.', ',') ?>
-                                                        <span class="mb-0">₫</span>
-                                                    </strong>
+                                                    <strong><?= esc_html(ha_format_price($price_per_person, $currency)); ?></strong>
                                                 </li>
                                             <?php else: ?>
                                                 <?php if ($adults > 0): ?>
                                                     <li>
                                                         Adults (× <?= esc_html($adults) ?>)
-                                                        <strong><?= number_format($price_per_person, 0, '.', ',') ?>
-                                                            <span class="mb-0">₫</span>
-                                                        </strong>
+                                                        <strong><?= esc_html(ha_format_price($price_per_person, $currency)); ?></strong>
                                                     </li>
                                                 <?php endif; ?>
                                                 <?php if ($children > 0): ?>
                                                     <li>
                                                         Children (× <?= esc_html($children) ?>)
-                                                        <strong><?= number_format($pricing['child_price'], 0, '.', ',') ?>
-                                                            <span class="mb-0">₫</span>
-                                                        </strong>
+                                                        <strong><?= esc_html(ha_format_price($pricing['child_price'], $currency)); ?></strong>
                                                     </li>
                                                 <?php endif; ?>
                                             <?php endif; ?>
                                         </ul>
                                         <div class="total-price-box">
                                             <span>Total Price</span>
-                                            <strong class="total-amount"><?= number_format($total_price, 0, '.', ',') ?>
-                                                <span class="h5 mb-0">₫</span>
-                                            </strong>
+                                            <strong class="total-amount"><?= esc_html(ha_format_price($total_price, $currency)); ?></strong>
                                         </div>
                                     <?php endif; ?>
                                 </div>

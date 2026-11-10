@@ -2,6 +2,7 @@
 $location_tour = get_field('location_tour');
 $time_tour = get_field('time_tour');
 $price_tour = get_field('price_tour');
+$currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('currency', 'option');
 $paxs_tours = get_field('paxs_tours');
 $min_pax = isset($paxs_tours['min']) ? $paxs_tours['min'] : '';
 $max_pax = isset($paxs_tours['max']) ? $paxs_tours['max'] : '';
@@ -73,7 +74,7 @@ $max_pax = isset($paxs_tours['max']) ? $paxs_tours['max'] : '';
                         </div>
                         <div class="info-content">
                             <span class="info-label">Price</span>
-                            <span class="info-value price-value">$<?php echo number_format((float) $price_tour, 2); ?></span>
+                            <span class="info-value price-value"><?= esc_html(ha_format_price($price_tour, $currency)); ?></span>
                         </div>
                     </div>
                 <?php endif; ?>

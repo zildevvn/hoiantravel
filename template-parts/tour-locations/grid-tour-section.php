@@ -37,7 +37,7 @@ $sub_heading = $grid_tour['sub_heading'] ?? '';
                 <?php
                 global $wp_query;
                 $current_paged = get_query_var('paged') ? get_query_var('paged') : 1;
-                vm_pagination($current_paged, $wp_query->max_num_pages);
+                ha_pagination($current_paged, $wp_query->max_num_pages);
                 ?>
             </div>
     </section>

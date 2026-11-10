@@ -113,7 +113,7 @@ $sub_hd = get_field('sub_hd_blog_tpl');
                     data-container="#vm-posts-results"
                     data-nonce="<?= esc_attr(wp_create_nonce('vm_filter_posts')) ?>"
                     data-params="<?= esc_attr(wp_json_encode([])) ?>">
-                    <?php vm_pagination($paged, $query->max_num_pages); ?>
+                    <?php ha_pagination($paged, $query->max_num_pages); ?>
                 </div>
 
                 <div id="vm-posts-empty" style="display: none;">

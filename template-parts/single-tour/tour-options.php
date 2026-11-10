@@ -1,6 +1,6 @@
 <?php
-
 $tour_options = get_field('tour_options');
+$currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('currency', 'option');
 ?>
 
 <?php if (!empty($tour_options)): ?>
@@ -115,33 +115,24 @@ $tour_options = get_field('tour_options');
                                 <div class="option-item__price-total">Liên hệ để biết giá</div>
                             <?php else: ?>
                                 <h4 class="option-item__price-total h5">
-                                    <span class="h6 mb-0">₫</span>
-                                    <?= number_format($total_price, 0, '.', ',') ?>
+                                    <?= esc_html(ha_format_price($total_price, $currency)); ?>
                                 </h4>
                                 <?php if (!empty($pricing['is_car_tour'])): ?>
                                     <div class="option-item__price-calc">
                                         <span>Vehicle Price</span>
-                                        <span>
-                                            <span class="mb-0">₫</span>
-                                            <?= number_format($price_per_person, 0, '.', ',') ?>
-                                        </span>
+                                        <span><?= esc_html(ha_format_price($price_per_person, $currency)); ?></span>
                                     </div>
                                 <?php else: ?>
                                     <?php if ($adults > 0): ?>
                                         <div class="option-item__price-calc">
                                             <span>Adults × <?= esc_html($adults) ?></span>
-                                            <span>
-                                                <span class="mb-0">₫</span>
-                                                <?= number_format($price_per_person, 0, '.', ',') ?> </span>
+                                            <span><?= esc_html(ha_format_price($price_per_person, $currency)); ?></span>
                                         </div>
                                     <?php endif; ?>
                                     <?php if ($children > 0): ?>
                                         <div class="option-item__price-calc">
                                             <span>Children × <?= esc_html($children) ?></span>
-                                            <span>
-                                                <span class="mb-0">₫</span>
-                                                <?= number_format($pricing['child_price'], 0, '.', ',') ?>
-                                            </span>
+                                            <span><?= esc_html(ha_format_price($pricing['child_price'], $currency)); ?></span>
                                         </div>
                                     <?php endif; ?>
                                 <?php endif; ?>

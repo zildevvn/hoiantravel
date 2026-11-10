@@ -9,6 +9,7 @@ if (!$image) {
 $location_tour = get_field('location_tour');
 $time_tour = get_field('time_tour');
 $price_tour = get_field('price_tour');
+$currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('currency', 'option');
 $paxs_tours = get_field('paxs_tours');
 $min_pax = isset($paxs_tours['min']) ? $paxs_tours['min'] : '';
 $max_pax = isset($paxs_tours['max']) ? $paxs_tours['max'] : '';
@@ -66,10 +67,7 @@ $tour_type_name = ($tour_types && !is_wp_error($tour_types)) ? $tour_types[0]->n
 
                 <?php if ($price_tour): ?>
                     <div class="meta-item">
-                        <span>From
-                            <span class="mb-0">₫</span>
-                            <?php echo number_format((float) $price_tour, 0); ?>
-                        </span>
+                        <span>From <?= esc_html(ha_format_price($price_tour, $currency)); ?></span>
                     </div>
                 <?php endif; ?>
             </div>

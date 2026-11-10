@@ -35,12 +35,19 @@ $phone = get_field('phone', 'option');
                     'info' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>'
                 ];
 
-                // Helper function for formatting inline
-                $format_price = function ($price) {
-                    $val = trim($price);
-                    if ($val === '')
+                $currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('currency', 'option');
+                $currency_code = ($currency === '₫') ? 'VND' : (($currency === '€') ? 'EUR' : 'USD');
+
+                // Helper function for formatting inline using project standard
+                $format_price = function ($price) use ($currency) {
+                    if (!is_scalar($price) || is_bool($price)) {
                         return '<span class="price-contact">Contact</span>';
-                    return '<span class="price-amount">$ ' . number_format((float) $val, 0) . '</span>';
+                    }
+                    $val = trim((string) $price);
+                    if ($val === '' || $val === '0') {
+                        return '<span class="price-contact">Contact</span>';
+                    }
+                    return '<span class="price-amount">' . esc_html(ha_format_price($val, $currency)) . '</span>';
                 };
                 ?>
                 <div class="hotel-area-tabs-container">
@@ -142,9 +149,7 @@ $phone = get_field('phone', 'option');
                                         <span class="footer-icon">
                                             <?= $svgs['info'] ?>
                                         </span>
-                                        <span class="footer-text">All prices are in USD and for reference only. Please contact
-                                            us for more
-                                            details.</span>
+                                        <span class="footer-text">All prices are in <?= esc_html($currency_code); ?> and for reference only. Please contact us for more details.</span>
                                     </div>
                                 </div>
 

@@ -592,10 +592,51 @@ import { CountUp } from 'countup.js';
         });
     };
 
+    /**
+     * FAQ Accordion Interaction Module
+     * Handles accessible toggling, keyboard navigation, and smooth accordion animation
+     * for all .faqs-list and .faq-item elements across the site.
+     */
+    const initFaqAccordion = () => {
+        $(document).on('click', '.faq-item__question', function (e) {
+            e.preventDefault();
+            const $trigger = $(this);
+            const $item = $trigger.closest('.faq-item');
+            const $list = $item.closest('.faqs-list');
+            const isCurrentlyActive = $item.hasClass('is-active');
+
+            // Close sibling items in the same container for clean accordion UX
+            if ($list.length) {
+                $list.find('.faq-item.is-active').not($item).each(function () {
+                    $(this).removeClass('is-active');
+                    $(this).find('.faq-item__question').attr('aria-expanded', 'false');
+                });
+            }
+
+            // Toggle current item
+            if (isCurrentlyActive) {
+                $item.removeClass('is-active');
+                $trigger.attr('aria-expanded', 'false');
+            } else {
+                $item.addClass('is-active');
+                $trigger.attr('aria-expanded', 'true');
+            }
+        });
+
+        // Keyboard accessibility for non-button triggers (Enter and Space)
+        $(document).on('keydown', '.faq-item__question[role="button"], div.faq-item__question', function (e) {
+            if (e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32) {
+                e.preventDefault();
+                $(this).trigger('click');
+            }
+        });
+    };
+
     $(document).ready(function () {
         modalSearch();
         heroSlider();
         destinationPreview();
         tourSwiper();
+        initFaqAccordion();
     });
 })(jQuery);

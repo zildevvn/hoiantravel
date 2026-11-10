@@ -1,13 +1,14 @@
 <?php
 $price_tour = get_field('price_tour');
 $price_group = get_field('price_for_group_tour');
+$currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('currency', 'option');
 ?>
 <div id="form-booking-tour" class="vm-form-booking">
     <div class="vm-form-booking__header">
         <div class="price">
             <span class="label">FROM</span>
             <span class="value">
-                <span class="mb-0">₫</span><?php echo number_format((float) ($price_tour ? $price_tour : 100)); ?>
+                <?= esc_html(ha_format_price($price_tour ? $price_tour : 100, $currency)); ?>
             </span>
             <?php
             $is_car_tour = has_term('Car Tours', 'tour_cats', get_the_ID());

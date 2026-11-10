@@ -42,11 +42,11 @@
             "append": ""
         },
         {
-            "key": "field_6a8415b1f0763",
-            "label": "Description",
-            "name": "desc_list_tours",
+            "key": "field_6af1a08f126f2",
+            "label": "Badge",
+            "name": "badge_list_tours",
             "aria-label": "",
-            "type": "textarea",
+            "type": "text",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -58,7 +58,28 @@
             "default_value": "",
             "maxlength": "",
             "allow_in_bindings": 0,
-            "rows": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6a8415b1f0763",
+            "label": "Description",
+            "name": "desc_list_tours",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "100",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "rows": 4,
             "placeholder": "",
             "new_lines": ""
         },
@@ -211,30 +232,9 @@
             "append": ""
         },
         {
-            "key": "field_6ab736c458cfb",
-            "label": "Sub Heading",
-            "name": "sub_hd_faq_tpl_t",
-            "aria-label": "",
-            "type": "textarea",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "50",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "maxlength": "",
-            "allow_in_bindings": 0,
-            "rows": "",
-            "placeholder": "",
-            "new_lines": ""
-        },
-        {
-            "key": "field_6ab736c958cfc",
-            "label": "Heading Image",
-            "name": "hd_img_faq_tpl_t",
+            "key": "field_6af2a3573ca63",
+            "label": "Badge",
+            "name": "badge_faq_tpl_t",
             "aria-label": "",
             "type": "text",
             "instructions": "",
@@ -253,7 +253,7 @@
             "append": ""
         },
         {
-            "key": "field_6ab736cc58cfd",
+            "key": "field_6af2c9e6cd8cf",
             "label": "Image",
             "name": "img_faq_tpl_t",
             "aria-label": "",
@@ -266,7 +266,7 @@
                 "class": "",
                 "id": ""
             },
-            "return_format": "url",
+            "return_format": "array",
             "library": "all",
             "min_width": "",
             "min_height": "",
@@ -276,7 +276,7 @@
             "max_size": "",
             "mime_types": "",
             "allow_in_bindings": 0,
-            "preview_size": "medium"
+            "preview_size": "thumbnail"
         },
         {
             "key": "field_6ab736d058cfe",
@@ -288,7 +288,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "100",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -368,5 +368,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1794218907
+    "modified": 1794296376
 }

@@ -61,7 +61,7 @@ $query = new WP_Query($args);
             <div class="mt-5" id="vm-grid-tours-pagination" data-ajax="true" data-action="vm_ajax_load_grid_tours"
                 data-container="#vm-grid-tours-results" data-nonce="<?= esc_attr(wp_create_nonce('vm_load_grid_tours')) ?>"
                 data-params="<?= esc_attr(wp_json_encode(['category' => $category->slug])) ?>">
-                <?php vm_pagination($paged, $query->max_num_pages); ?>
+                <?php ha_pagination($paged, $query->max_num_pages); ?>
             </div>
     </section>
 <?php endif; ?>

@@ -60,6 +60,15 @@ html {
     }
 }
 
+.ha-text-hidde {
+    display: none !important;
+}
+
+a,
+a>* {
+    color: $color-primary;
+}
+
 // ==========================================
 // GLOBAL SWIPER NAVIGATION BUTTONS
 // ==========================================
@@ -85,11 +94,11 @@ html {
     text-decoration: none;
     flex-shrink: 0;
     transition: background-color 0.25s ease,
-                border-color 0.25s ease,
-                color 0.25s ease,
-                transform 0.2s ease,
-                box-shadow 0.25s ease,
-                opacity 0.2s ease;
+        border-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.25s ease,
+        opacity 0.2s ease;
 
     // Suppress Swiper default icon font pseudo-elements
     &::after {

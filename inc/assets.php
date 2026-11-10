@@ -33,6 +33,7 @@ add_action('wp_enqueue_scripts', function () {
 		'ajax_url' => admin_url('admin-ajax.php'),
 		'site_url' => site_url(),
 		'rest_url' => get_rest_url(),
+		'currency' => function_exists('ha_get_currency') ? ha_get_currency() : '₫',
 	]);
 
 	wp_localize_script('theme-scripts', 'themeData', [
