@@ -70,62 +70,140 @@ $paged = get_query_var('paged') ? get_query_var('paged') : 1;
                 </div>
             </div>
 
-            <!-- 2. Master Floating Toolbar -->
+            <!-- 2. Master Filter & Search Toolbar (Direct on Desktop/Tablet, Compact + Drawer on Mobile) -->
             <div class="tours-toolbar">
-                <!-- Search Box -->
-                <div class="tours-toolbar__search">
-                    <span class="tours-toolbar__search-icon" aria-hidden="true">
+                <!-- Zone 1: Search Box -->
+                <div class="tours-toolbar__group tours-toolbar__group--search">
+                    <label for="ha-tours-search-input" class="tours-toolbar__label">
                         <?= ha_svg_icon('search-icon'); ?>
-                    </span>
-                    <input type="text" id="ha-tours-search-input" placeholder="Search experiences, destinations..."
-                        class="tours-toolbar__search-input" autocomplete="off">
-                    <button type="button" class="tours-toolbar__search-clear" id="ha-search-clear-btn"
-                        aria-label="Clear search" style="display: none;">
-                        <?= ha_svg_icon('menu-close-icon'); ?>
-                    </button>
+                        <span>Search Tours</span>
+                    </label>
+                    <div class="tours-toolbar__search">
+                        <span class="tours-toolbar__search-icon" aria-hidden="true">
+                            <?= ha_svg_icon('search-icon'); ?>
+                        </span>
+                        <input type="text" id="ha-tours-search-input" placeholder="Search experiences, destinations..."
+                            class="tours-toolbar__search-input" autocomplete="off">
+                        <button type="button" class="tours-toolbar__search-clear" id="ha-search-clear-btn"
+                            aria-label="Clear search" style="display: none;">
+                            <?= ha_svg_icon('menu-close-icon'); ?>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Right Toolbar Actions -->
-                <div class="tours-toolbar__actions">
-                    <!-- Filter Trigger Button (Opens Drawer) -->
+                <!-- Zone 2 & 3: Pax & Price Filters (Inline on Desktop/Tablet, Off-Canvas Drawer on Mobile) -->
+                <div class="tours-filter-drawer" id="ha-tours-filter-drawer" aria-hidden="false">
+                    <div class="tours-filter-drawer__header">
+                        <div class="tours-filter-drawer__title-wrap">
+                            <?= ha_svg_icon('filter-icon'); ?>
+                            <h3 class="tours-filter-drawer__title">Filter Options</h3>
+                        </div>
+                        <button type="button" class="btn-close-filter" id="ha-close-filter-btn" aria-label="Close filters">
+                            <?= ha_svg_icon('menu-close-icon'); ?>
+                        </button>
+                    </div>
+
+                    <div class="tours-filter-drawer__body">
+                        <!-- Pax Widget -->
+                        <div class="tours-drawer-widget tours-toolbar__group tours-toolbar__group--pax">
+                            <div class="range-header">
+                                <label class="form-label tours-toolbar__label">
+                                    <?= ha_svg_icon('users'); ?>
+                                    <span>Guests (Pax)</span>
+                                </label>
+                                <span class="range-value" id="ha-tours-pax-display">1 - 20 Guests</span>
+                            </div>
+                            <div class="range-slider-container">
+                                <div id="ha-tours-pax-slider"></div>
+                                <div class="range-slider-Result-hints" aria-hidden="true">
+                                    <span>1 guest</span>
+                                    <span>50 guests</span>
+                                </div>
+                            </div>
+                            <input type="hidden" id="ha-tours-pax-min" value="1" data-default="1">
+                            <input type="hidden" id="ha-tours-pax-max" value="50" data-default="20">
+                        </div>
+
+                        <!-- Price Widget -->
+                        <div class="tours-drawer-widget tours-toolbar__group tours-toolbar__group--price">
+                            <div class="range-header">
+                                <label class="form-label tours-toolbar__label">
+                                    <span>Price Range</span>
+                                </label>
+                                <span class="range-value"
+                                    id="ha-tours-price-display"><?= esc_html(ha_format_price(0, $currency)); ?> -
+                                    <?= esc_html(ha_format_price(500, $currency)); ?></span>
+                            </div>
+                            <div class="range-slider-container">
+                                <div id="ha-tours-price-slider" data-min="0" data-max="500" data-step="10"></div>
+                                <div class="range-slider-Result-hints" aria-hidden="true">
+                                    <span><?= esc_html(ha_format_price(0, $currency)); ?></span>
+                                    <span><?= esc_html(ha_format_price(500, $currency)); ?></span>
+                                </div>
+                            </div>
+                            <input type="hidden" id="ha-tours-price-min" value="0" min="0" max="500" step="10" data-default="0">
+                            <input type="hidden" id="ha-tours-price-max" value="500" min="0" max="500" step="10" data-default="500">
+                        </div>
+                    </div>
+
+                    <div class="tours-filter-drawer__footer">
+                        <button type="button" class="tours-drawer-btn-reset" id="ha-drawer-reset-btn">
+                            <?= ha_svg_icon('rotate-ccw'); ?>
+                            Reset
+                        </button>
+                        <button type="button" class="tours-drawer-btn-apply ha-button" id="ha-drawer-apply-btn">
+                            Apply Filters
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Zone 4: Right Toolbar Actions (Mobile Filter Trigger + Sort Select) -->
+                <div class="tours-toolbar__group tours-toolbar__group--actions tours-toolbar__actions">
+                    <!-- Filter Trigger Button (Mobile Only - Opens Drawer) -->
                     <button type="button" class="tours-toolbar__btn-filter" id="ha-mobile-filter-btn"
-                        aria-label="Open filter options">
+                        aria-label="Open filter options" aria-expanded="false" aria-controls="ha-tours-filter-drawer">
                         <span class="tours-toolbar__btn-icon" aria-hidden="true"><?= ha_svg_icon('filter-icon'); ?></span>
                         <span class="tours-toolbar__btn-text">Filter Options</span>
                         <span class="filter-count-badge" id="ha-filter-active-count" style="display: none;">0</span>
                     </button>
 
                     <!-- Sort Select -->
-                    <div class="tours-toolbar__sort">
-                        <label for="ha-tours-sort" class="visually-hidden">Sort by</label>
-                        <select id="ha-tours-sort" class="tours-toolbar__select">
-                            <option value="default">Sort: Recommended</option>
-                            <option value="price_low">Price: Low to High</option>
-                            <option value="price_high">Price: High to Low</option>
-                            <option value="newest">Newest First</option>
-                            <option value="title_az">Title: A–Z</option>
-                        </select>
+                    <div class="tours-toolbar__sort-wrap">
+                        <label for="ha-tours-sort" class="tours-toolbar__label">
+                            <span>Sort By</span>
+                        </label>
+                        <div class="tours-toolbar__sort">
+                            <select id="ha-tours-sort" class="tours-toolbar__select">
+                                <option value="default">Recommended</option>
+                                <option value="price_low">Price: Low to High</option>
+                                <option value="price_high">Price: High to Low</option>
+                                <option value="newest">Newest First</option>
+                                <option value="title_az">Title: A–Z</option>
+                            </select>
+                        </div>
                     </div>
-
-                    <!-- Clear All Filters Button -->
-                    <button type="button" id="ha-clear-filters" class="tours-toolbar__btn-clear" style="display: none;">
-                        <?= ha_svg_icon('rotate-ccw'); ?>
-                        <span>Reset</span>
-                    </button>
                 </div>
             </div>
 
-            <!-- Active Filter Chips Bar -->
-            <div class="tours-active-chips" id="ha-active-chips" style="display: none;">
-                <div class="tours-active-chips__list" id="ha-active-chips-list"></div>
-                <button type="button" class="tours-active-chips__clear-all" id="ha-chips-clear-all">Clear all</button>
-            </div>
-
-            <!-- Results Meta Bar: Result Count & Quick Status -->
-            <div class="tours-results-meta">
-                <div class="tours-result-count">
-                    Showing <strong id="ha-tours-count"><?= esc_html($query->found_posts); ?></strong> tours in Hoi An
+            <!-- Results Meta & Active Filter Chips Bar -->
+            <div class="tours-results-bar">
+                <div class="tours-results-meta">
+                    <div class="tours-result-count">
+                        Showing <strong id="ha-tours-count"><?= esc_html($query->found_posts); ?></strong> tours in Hoi An
+                    </div>
                 </div>
+
+                <!-- Active Filter Chips Bar -->
+                <div class="tours-active-chips" id="ha-active-chips" style="display: none;">
+                    <div class="tours-active-chips__list" id="ha-active-chips-list"></div>
+                    <button type="button" class="tours-active-chips__clear-all" id="ha-chips-clear-all">Clear all</button>
+                </div>
+
+                <!-- Clear All Filters Button -->
+                <button type="button" id="ha-clear-filters" class="tours-toolbar__btn-clear" style="display: none;">
+                    <?= ha_svg_icon('rotate-ccw'); ?>
+                    <span>Reset Filters</span>
+                </button>
             </div>
 
             <!-- 3. Full-Width Main Tour Content -->
@@ -172,58 +250,6 @@ $paged = get_query_var('paged') ? get_query_var('paged') : 1;
                 <?php endif; ?>
             </div>
 
-            <!-- 4. Refined Off-Canvas Filter Drawer (for Pax, Price, & Deep Filtering) -->
-            <div class="tours-filter-drawer" id="ha-tours-filter-drawer" aria-hidden="true">
-                <div class="tours-filter-drawer__header">
-                    <div class="tours-filter-drawer__title-wrap">
-                        <?= ha_svg_icon('filter-icon'); ?>
-                        <h3 class="tours-filter-drawer__title">Refine Tours</h3>
-                    </div>
-                    <button type="button" class="btn-close-filter" id="ha-close-filter-btn" aria-label="Close filters">
-                        <?= ha_svg_icon('menu-close-icon'); ?>
-                    </button>
-                </div>
-
-                <div class="tours-filter-drawer__body">
-                    <!-- Pax Widget -->
-                    <div class="tours-drawer-widget">
-                        <div class="range-header">
-                            <label class="form-label">Number of Guests</label>
-                            <span class="range-value" id="ha-tours-pax-display">1 - 20 Guests</span>
-                        </div>
-                        <div class="range-slider-container">
-                            <div id="ha-tours-pax-slider"></div>
-                        </div>
-                        <input type="hidden" id="ha-tours-pax-min" value="1">
-                        <input type="hidden" id="ha-tours-pax-max" value="50">
-                    </div>
-
-                    <!-- Price Widget -->
-                    <div class="tours-drawer-widget">
-                        <div class="range-header">
-                            <label class="form-label">Price Range</label>
-                            <span class="range-value"
-                                id="ha-tours-price-display"><?= esc_html(ha_format_price(0, $currency)); ?> -
-                                <?= esc_html(ha_format_price(500000, $currency)); ?></span>
-                        </div>
-                        <div class="range-slider-container">
-                            <div id="ha-tours-price-slider"></div>
-                        </div>
-                        <input type="hidden" id="ha-tours-price-min" value="0">
-                        <input type="hidden" id="ha-tours-price-max" value="500000">
-                    </div>
-                </div>
-
-                <div class="tours-filter-drawer__footer">
-                    <button type="button" class="tours-drawer-btn-reset" id="ha-drawer-reset-btn">
-                        <?= ha_svg_icon('rotate-ccw'); ?>
-                        Reset
-                    </button>
-                    <button type="button" class="tours-drawer-btn-apply ha-button" id="ha-drawer-apply-btn">
-                        Apply Filters
-                    </button>
-                </div>
-            </div>
             <div class="tours-sidebar-backdrop" id="ha-tours-sidebar-backdrop"></div>
 
         </div>

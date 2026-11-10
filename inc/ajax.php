@@ -18,8 +18,8 @@ function ha_ajax_filter_tours_handler()
     $tour_cat = isset($_POST['tour_cat']) ? sanitize_text_field(wp_unslash($_POST['tour_cat'])) : 'all';
     $pax_min = isset($_POST['pax_min']) ? intval($_POST['pax_min']) : 1;
     $pax_max = isset($_POST['pax_max']) ? intval($_POST['pax_max']) : 50;
-    $price_min = isset($_POST['price_min']) ? floatval($_POST['price_min']) : 0;
-    $price_max = isset($_POST['price_max']) ? floatval($_POST['price_max']) : 20000000;
+    $price_min = isset($_POST['price_min']) ? max(0, min(500, floatval($_POST['price_min']))) : 0;
+    $price_max = isset($_POST['price_max']) ? max(0, min(500, floatval($_POST['price_max']))) : 500;
     $sort = isset($_POST['sort']) ? sanitize_text_field(wp_unslash($_POST['sort'])) : 'default';
     $paged = isset($_POST['paged']) ? max(1, intval($_POST['paged'])) : 1;
 
@@ -59,7 +59,7 @@ function ha_ajax_filter_tours_handler()
     // Meta query for price
     $meta_query = array('relation' => 'AND');
 
-    if ($price_max > 0) {
+    if ($price_max >= 0 && $price_max >= $price_min) {
         $meta_query[] = array(
             'key'     => 'price_tour',
             'value'   => array($price_min, $price_max),

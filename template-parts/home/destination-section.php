@@ -222,7 +222,7 @@ $action = get_field('action_destination_home');
                         <a href="<?= esc_url($button['url'] ?? '#'); ?>"
                             target="<?= esc_attr(!empty($button['target']) ? $button['target'] : '_self'); ?>"
                             class="ha-button">
-                            <span><?= esc_html($button['title'] ?? 'Request a Custom Itinerary'); ?></span>
+                            <?= esc_html($button['title'] ?? 'Request a Custom Itinerary'); ?>
                             <?php echo ha_svg_icon('arrow_next'); ?>
                         </a>
                     </div>

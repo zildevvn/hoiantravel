@@ -64,15 +64,42 @@
         const categoryPills = section.querySelectorAll('.tours-cat-pill');
 
         // State tracking
-        const DEFAULT_PAX_MIN = 1;
+        const DEFAULT_PAX_MIN = paxMinInput ? (Number(paxMinInput.getAttribute('data-default') || paxMinInput.value) || 1) : 1;
         const DEFAULT_PAX_MAX = 50;
-        const DEFAULT_PRICE_MIN = 0;
-        const DEFAULT_PRICE_MAX = 20000000;
+        const INITIAL_PAX_MAX = paxMaxInput ? (Number(paxMaxInput.getAttribute('data-default')) || 20) : 20;
+
+        const PRICE_MIN = 0;
+        const PRICE_MAX = 500;
+        const PRICE_STEP = 10;
+        const DEFAULT_PRICE_MIN = PRICE_MIN;
+        const DEFAULT_PRICE_MAX = PRICE_MAX;
+
+        const sanitizePriceStep = (val, fallback) => {
+            const num = Number(val);
+            if (!Number.isFinite(num)) return fallback;
+            const stepped = Math.round(num / PRICE_STEP) * PRICE_STEP;
+            return Math.min(PRICE_MAX, Math.max(PRICE_MIN, stepped));
+        };
 
         let paxSlider = null;
         let priceSlider = null;
         let searchDebounceTimer = null;
+        let sliderDebounceTimer = null;
         let activeXHR = null;
+
+        const isMobileDrawerMode = () => {
+            return window.innerWidth < 768;
+        };
+
+        const triggerDesktopSliderFilter = () => {
+            // On desktop/tablet (inline toolbar), automatically apply filter when slider handle is released
+            if (!isMobileDrawerMode() || !(drawer && drawer.classList.contains('is-open'))) {
+                clearTimeout(sliderDebounceTimer);
+                sliderDebounceTimer = setTimeout(() => {
+                    fetchTours(1);
+                }, 150);
+            }
+        };
 
         // ----------------------------------------------------
         // 1. Initialize noUiSlider (if library is loaded)
@@ -80,7 +107,7 @@
         if (typeof noUiSlider !== 'undefined') {
             if (paxSliderEl && !paxSliderEl.noUiSlider) {
                 paxSlider = noUiSlider.create(paxSliderEl, {
-                    start: [DEFAULT_PAX_MIN, 20],
+                    start: [DEFAULT_PAX_MIN, INITIAL_PAX_MAX],
                     connect: true,
                     step: 1,
                     range: {
@@ -98,13 +125,17 @@
                         paxDisplay.textContent = `${min} - ${max} Guests`;
                     }
                 });
+
+                paxSlider.on('change', function () {
+                    triggerDesktopSliderFilter();
+                });
             }
 
             if (priceSliderEl && !priceSliderEl.noUiSlider) {
                 priceSlider = noUiSlider.create(priceSliderEl, {
                     start: [DEFAULT_PRICE_MIN, DEFAULT_PRICE_MAX],
                     connect: true,
-                    step: 10,
+                    step: PRICE_STEP,
                     range: {
                         'min': DEFAULT_PRICE_MIN,
                         'max': DEFAULT_PRICE_MAX
@@ -112,24 +143,46 @@
                 });
 
                 priceSlider.on('update', function (values) {
-                    const min = Math.round(values[0]);
-                    const max = Math.round(values[1]);
+                    const min = sanitizePriceStep(values[0], DEFAULT_PRICE_MIN);
+                    const max = sanitizePriceStep(values[1], DEFAULT_PRICE_MAX);
                     if (priceMinInput) priceMinInput.value = min;
                     if (priceMaxInput) priceMaxInput.value = max;
                     if (priceDisplay) {
                         priceDisplay.textContent = `${formatPriceValue(min)} - ${formatPriceValue(max)}`;
                     }
                 });
+
+                priceSlider.on('change', function () {
+                    triggerDesktopSliderFilter();
+                });
             }
         }
 
         // ----------------------------------------------------
-        // 2. Drawer Open / Close
+        // 2. Drawer Open / Close (Mobile Viewports)
         // ----------------------------------------------------
+        const syncDrawerA11y = () => {
+            if (!drawer) return;
+            if (isMobileDrawerMode()) {
+                const isOpen = drawer.classList.contains('is-open');
+                drawer.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+                if (openDrawerBtn) openDrawerBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            } else {
+                drawer.classList.remove('is-open');
+                drawer.setAttribute('aria-hidden', 'false');
+                if (backdrop) backdrop.classList.remove('is-active');
+                if (openDrawerBtn) openDrawerBtn.setAttribute('aria-expanded', 'false');
+                document.body.classList.remove('tours-filter-open');
+            }
+        };
+
         const openDrawer = () => {
             if (drawer) {
                 drawer.classList.add('is-open');
                 drawer.setAttribute('aria-hidden', 'false');
+            }
+            if (openDrawerBtn) {
+                openDrawerBtn.setAttribute('aria-expanded', 'true');
             }
             if (backdrop) {
                 backdrop.classList.add('is-active');
@@ -140,13 +193,21 @@
         const closeDrawer = () => {
             if (drawer) {
                 drawer.classList.remove('is-open');
-                drawer.setAttribute('aria-hidden', 'true');
+                if (isMobileDrawerMode()) {
+                    drawer.setAttribute('aria-hidden', 'true');
+                }
+            }
+            if (openDrawerBtn) {
+                openDrawerBtn.setAttribute('aria-expanded', 'false');
             }
             if (backdrop) {
                 backdrop.classList.remove('is-active');
             }
             document.body.classList.remove('tours-filter-open');
         };
+
+        window.addEventListener('resize', syncDrawerA11y);
+        syncDrawerA11y();
 
         if (openDrawerBtn) openDrawerBtn.addEventListener('click', openDrawer);
         if (closeDrawerBtn) closeDrawerBtn.addEventListener('click', closeDrawer);
@@ -228,13 +289,13 @@
         // ----------------------------------------------------
         const resetSliders = () => {
             if (paxSlider) {
-                paxSlider.set([DEFAULT_PAX_MIN, 20]);
+                paxSlider.set([DEFAULT_PAX_MIN, INITIAL_PAX_MAX]);
             }
             if (priceSlider) {
                 priceSlider.set([DEFAULT_PRICE_MIN, DEFAULT_PRICE_MAX]);
             }
             if (paxMinInput) paxMinInput.value = DEFAULT_PAX_MIN;
-            if (paxMaxInput) paxMaxInput.value = DEFAULT_PAX_MAX;
+            if (paxMaxInput) paxMaxInput.value = INITIAL_PAX_MAX;
             if (priceMinInput) priceMinInput.value = DEFAULT_PRICE_MIN;
             if (priceMaxInput) priceMaxInput.value = DEFAULT_PRICE_MAX;
         };
@@ -291,8 +352,8 @@
             }
 
             // Price
-            const curPriceMax = priceMaxInput ? Number(priceMaxInput.value) : DEFAULT_PRICE_MAX;
-            const curPriceMin = priceMinInput ? Number(priceMinInput.value) : DEFAULT_PRICE_MIN;
+            const curPriceMin = priceMinInput ? sanitizePriceStep(priceMinInput.value, DEFAULT_PRICE_MIN) : DEFAULT_PRICE_MIN;
+            const curPriceMax = priceMaxInput ? sanitizePriceStep(priceMaxInput.value, DEFAULT_PRICE_MAX) : DEFAULT_PRICE_MAX;
             if (curPriceMin > DEFAULT_PRICE_MIN || curPriceMax < DEFAULT_PRICE_MAX) {
                 activeFilterCount++;
                 chipsHtml += `<span class="tours-chip" data-chip="price">${formatPriceValue(curPriceMin)} - ${formatPriceValue(curPriceMax)} <button type="button" aria-label="Remove price filter" class="tours-chip__remove">×</button></span>`;
@@ -300,8 +361,8 @@
 
             // Pax
             const curPaxMin = paxMinInput ? Number(paxMinInput.value) : DEFAULT_PAX_MIN;
-            const curPaxMax = paxMaxInput ? Number(paxMaxInput.value) : 20;
-            if (curPaxMin > DEFAULT_PAX_MIN || curPaxMax < 20) {
+            const curPaxMax = paxMaxInput ? Number(paxMaxInput.value) : INITIAL_PAX_MAX;
+            if (curPaxMin !== DEFAULT_PAX_MIN || curPaxMax !== INITIAL_PAX_MAX) {
                 activeFilterCount++;
                 chipsHtml += `<span class="tours-chip" data-chip="pax">${curPaxMin} - ${curPaxMax} Guests <button type="button" aria-label="Remove guests filter" class="tours-chip__remove">×</button></span>`;
             }
@@ -348,9 +409,9 @@
                         if (priceMinInput) priceMinInput.value = DEFAULT_PRICE_MIN;
                         if (priceMaxInput) priceMaxInput.value = DEFAULT_PRICE_MAX;
                     } else if (chipType === 'pax') {
-                        if (paxSlider) paxSlider.set([DEFAULT_PAX_MIN, 20]);
+                        if (paxSlider) paxSlider.set([DEFAULT_PAX_MIN, INITIAL_PAX_MAX]);
                         if (paxMinInput) paxMinInput.value = DEFAULT_PAX_MIN;
-                        if (paxMaxInput) paxMaxInput.value = DEFAULT_PAX_MAX;
+                        if (paxMaxInput) paxMaxInput.value = INITIAL_PAX_MAX;
                     }
                     fetchTours(1);
                 });
@@ -375,8 +436,8 @@
             const sort = sortSelect ? sortSelect.value : 'default';
             const paxMin = paxMinInput ? paxMinInput.value : 1;
             const paxMax = paxMaxInput ? paxMaxInput.value : 50;
-            const priceMin = priceMinInput ? priceMinInput.value : 0;
-            const priceMax = priceMaxInput ? priceMaxInput.value : 500000;
+            const priceMin = priceMinInput ? sanitizePriceStep(priceMinInput.value, DEFAULT_PRICE_MIN) : DEFAULT_PRICE_MIN;
+            const priceMax = priceMaxInput ? sanitizePriceStep(priceMaxInput.value, DEFAULT_PRICE_MAX) : DEFAULT_PRICE_MAX;
 
             if (loadingOverlay) loadingOverlay.classList.add('is-active');
 

@@ -43,16 +43,22 @@ body.page-template-tours-template {
         // 1. Horizontal Category Nav Tabs
         // ------------------------------------------
         .tours-category-nav-wrapper {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
             position: relative;
+
+            @include media-breakpoint-up(md) {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 1.5rem;
+            }
         }
 
         .tours-category-nav {
             display: flex;
             align-items: center;
-            gap: 0.625rem;
+            gap: 0.5rem;
             overflow-x: auto;
-            padding-bottom: 0.5rem;
+            padding: 0.25rem 0.125rem 0.5rem;
             scrollbar-width: none; // Firefox
             -ms-overflow-style: none; // IE/Edge
 
@@ -61,10 +67,18 @@ body.page-template-tours-template {
             }
 
             @include media-breakpoint-up(md) {
+                display: inline-flex;
                 flex-wrap: wrap;
                 justify-content: center;
                 overflow-x: visible;
-                padding-bottom: 0;
+                padding: 0.45rem;
+                background: rgba(255, 255, 255, 0.72);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                border: 1px solid rgba(25, 35, 43, 0.08);
+                border-radius: 1.125rem;
+                box-shadow: 0 4px 16px rgba(25, 35, 43, 0.04);
+                max-width: 100%;
             }
         }
 
@@ -72,20 +86,27 @@ body.page-template-tours-template {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.55rem 1.15rem;
-            border-radius: 9999px;
+            padding: 0.5rem 1.1rem;
+            border-radius: 0.75rem;
             background-color: #fff;
-            border: 1px solid rgba(231, 229, 228, 0.9);
+            border: 1px solid rgba(25, 35, 43, 0.08);
             color: $color-body;
             font-family: $font-second;
             font-size: 0.875rem;
-            font-weight: 500;
+            font-weight: 600;
             white-space: nowrap;
             cursor: pointer;
-            transition: all 0.25s ease;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            transition: all 0.22s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
             user-select: none;
             flex-shrink: 0;
+
+            @include media-breakpoint-up(md) {
+                background-color: transparent;
+                border-color: transparent;
+                box-shadow: none;
+                padding: 0.5rem 1rem;
+            }
 
             &__icon {
                 display: inline-flex;
@@ -104,58 +125,119 @@ body.page-template-tours-template {
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                padding: 0.125rem 0.45rem;
+                min-width: 22px;
+                height: 20px;
+                padding: 0 0.4rem;
                 border-radius: 9999px;
-                background-color: rgba($color-body, 0.06);
-                font-size: 0.75rem;
-                font-weight: 600;
-                color: rgba($color-body, 0.65);
-                transition: all 0.25s ease;
+                background-color: rgba($color-heading, 0.07);
+                font-size: 0.725rem;
+                font-weight: 700;
+                color: rgba($color-heading, 0.7);
+                transition: all 0.22s ease;
             }
 
-            &:hover {
-                border-color: $color-primary;
+            &:hover:not(.is-active) {
+                background-color: #fff;
+                border-color: rgba($color-primary, 0.45);
                 color: $color-heading;
-                transform: translateY(-1px);
-                box-shadow: 0 4px 12px rgba(223, 161, 40, 0.15);
+                box-shadow: 0 2px 8px rgba(223, 161, 40, 0.12);
             }
 
             &.is-active {
                 background-color: $color-secondary;
                 border-color: $color-secondary;
                 color: #fff;
-                box-shadow: 0 4px 14px rgba(30, 77, 72, 0.25);
+                box-shadow: 0 4px 12px rgba(30, 77, 72, 0.22);
 
                 .tours-cat-pill__icon {
                     color: $color-primary;
                 }
 
                 .tours-cat-pill__count {
-                    background-color: rgba(255, 255, 255, 0.18);
+                    background-color: rgba(255, 255, 255, 0.2);
                     color: #fff;
                 }
             }
         }
 
         // ------------------------------------------
-        // 2. Master Floating Toolbar
+        // 2. Master Filter & Search Toolbar
         // ------------------------------------------
         .tours-toolbar {
             background: #fff;
-            border: 1px solid rgba(231, 229, 228, 0.9);
+            border: 1px solid rgba(25, 35, 43, 0.09);
             border-radius: 1.25rem;
-            padding: 0.875rem 1.25rem;
-            box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.06);
+            padding: 0.875rem 1rem;
+            box-shadow: 0 10px 30px -6px rgba(25, 35, 43, 0.06);
             display: flex;
             flex-direction: column;
-            gap: 0.875rem;
+            gap: 0.75rem;
             margin-bottom: 1.25rem;
 
             @include media-breakpoint-up(md) {
-                flex-direction: row;
+                display: grid;
+                grid-template-columns: 1fr 220px;
+                gap: 1.125rem 1.5rem;
+                align-items: start;
+                padding: 1.25rem 1.5rem;
+            }
+
+            @include media-breakpoint-up(xl) {
+                grid-template-columns: minmax(250px, 1.15fr) minmax(0, 2fr) 210px;
+                gap: 0;
+                align-items: stretch;
+                padding: 1.125rem 1.5rem;
+            }
+
+            // Shared Field Label (Desktop/Tablet)
+            &__label {
+                display: inline-flex;
                 align-items: center;
-                justify-content: space-between;
-                padding: 0.75rem 1.25rem;
+                gap: 0.375rem;
+                font-family: $font-second;
+                font-size: 0.75rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                color: rgba($color-heading, 0.65);
+                margin-bottom: 0.5rem;
+                line-height: 1.2;
+
+                svg {
+                    width: 14px;
+                    height: 14px;
+                    stroke: $color-primary;
+                    flex-shrink: 0;
+                }
+            }
+
+            &__group {
+                min-width: 0;
+
+                &--search {
+                    .tours-toolbar__label {
+                        @include media-breakpoint-down(md) {
+                            display: none;
+                        }
+                    }
+
+                    @include media-breakpoint-up(xl) {
+                        padding-right: 1.5rem;
+                        border-right: 1px solid rgba(25, 35, 43, 0.08);
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                    }
+                }
+
+                &--actions {
+                    @include media-breakpoint-up(xl) {
+                        padding-left: 1.5rem;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                    }
+                }
             }
 
             // Search Input Box
@@ -163,12 +245,7 @@ body.page-template-tours-template {
                 position: relative;
                 display: flex;
                 align-items: center;
-                flex: 1;
-                max-width: 100%;
-
-                @include media-breakpoint-up(md) {
-                    max-width: 360px;
-                }
+                width: 100%;
 
                 &-icon {
                     position: absolute;
@@ -187,15 +264,16 @@ body.page-template-tours-template {
 
                 &-input {
                     width: 100%;
+                    height: 42px;
                     background-color: $color-bg;
-                    border: 1px solid rgba(231, 229, 228, 0.8);
-                    border-radius: 9999px;
-                    padding: 0.6rem 2.25rem 0.6rem 2.5rem;
+                    border: 1px solid rgba(25, 35, 43, 0.1);
+                    border-radius: 0.75rem;
+                    padding: 0.5rem 2.25rem 0.5rem 2.4rem;
                     font-family: $font-second;
                     font-size: 0.875rem;
                     color: $color-heading;
                     outline: none;
-                    transition: all 0.25s ease;
+                    transition: all 0.22s ease;
 
                     &::placeholder {
                         color: rgba($color-body, 0.45);
@@ -210,7 +288,7 @@ body.page-template-tours-template {
 
                 &-clear {
                     position: absolute;
-                    right: 0.75rem;
+                    right: 0.625rem;
                     background: none;
                     border: none;
                     padding: 0.25rem;
@@ -233,34 +311,40 @@ body.page-template-tours-template {
                 }
             }
 
-            // Right Actions (Filter Trigger, Sort, Reset)
+            // Right Actions (Mobile Filter Trigger + Sort)
             &__actions {
                 display: flex;
                 align-items: center;
-                flex-wrap: wrap;
                 gap: 0.625rem;
-                justify-content: flex-start;
+                width: 100%;
 
                 @include media-breakpoint-up(md) {
-                    justify-content: flex-end;
+                    display: block;
                 }
             }
 
-            // Filter Drawer Trigger Button
+            // Filter Drawer Trigger Button (Mobile Only)
             &__btn-filter {
+                flex: 1;
                 display: inline-flex;
                 align-items: center;
+                justify-content: center;
                 gap: 0.5rem;
+                height: 42px;
                 background-color: $color-bg;
-                border: 1px solid rgba(231, 229, 228, 0.9);
-                border-radius: 9999px;
-                padding: 0.6rem 1.15rem;
+                border: 1px solid rgba(25, 35, 43, 0.1);
+                border-radius: 0.75rem;
+                padding: 0 1rem;
                 font-family: $font-second;
                 font-size: 0.875rem;
                 font-weight: 600;
                 color: $color-heading;
                 cursor: pointer;
-                transition: all 0.25s ease;
+                transition: all 0.22s ease;
+
+                @include media-breakpoint-up(md) {
+                    display: none !important;
+                }
 
                 svg {
                     width: 16px;
@@ -272,8 +356,8 @@ body.page-template-tours-template {
                     display: inline-flex;
                     align-items: center;
                     justify-content: center;
-                    width: 18px;
-                    height: 18px;
+                    width: 19px;
+                    height: 19px;
                     border-radius: 50%;
                     background-color: $color-primary;
                     color: $color-heading;
@@ -284,35 +368,53 @@ body.page-template-tours-template {
                 &:hover {
                     background-color: #fff;
                     border-color: $color-primary;
-                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
                 }
             }
 
-            // Sort Select
+            // Sort Wrapper & Select
+            &__sort-wrap {
+                flex: 1;
+                min-width: 0;
+
+                .tours-toolbar__label {
+                    @include media-breakpoint-down(md) {
+                        display: none;
+                    }
+                }
+            }
+
             &__sort {
                 position: relative;
-                display: inline-block;
+                display: block;
+                width: 100%;
             }
 
             &__select {
+                width: 100%;
+                height: 42px;
                 appearance: none;
                 -webkit-appearance: none;
                 background-color: $color-bg;
-                border: 1px solid rgba(231, 229, 228, 0.9);
-                border-radius: 9999px;
-                padding: 0.6rem 2.25rem 0.6rem 1.15rem;
+                border: 1px solid rgba(25, 35, 43, 0.1);
+                border-radius: 0.75rem;
+                padding: 0.5rem 2.25rem 0.5rem 0.95rem;
                 font-family: $font-second;
                 font-size: 0.875rem;
-                font-weight: 500;
+                font-weight: 600;
                 color: $color-heading;
                 cursor: pointer;
                 outline: none;
-                transition: all 0.25s ease;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2319232B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+                transition: all 0.22s ease;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2319232B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
                 background-repeat: no-repeat;
-                background-position: right 0.875rem center;
+                background-position: right 0.85rem center;
+
+                &:hover {
+                    border-color: rgba($color-primary, 0.6);
+                }
 
                 &:focus {
+                    background-color: #fff;
                     border-color: $color-primary;
                     box-shadow: 0 0 0 3px rgba($color-primary, 0.15);
                 }
@@ -323,15 +425,16 @@ body.page-template-tours-template {
                 display: inline-flex;
                 align-items: center;
                 gap: 0.35rem;
-                background: none;
-                border: none;
-                padding: 0.4rem 0.75rem;
+                background: #fff;
+                border: 1px solid rgba($color-accent, 0.25);
+                border-radius: 9999px;
+                padding: 0.3rem 0.85rem;
                 color: $color-accent;
                 font-family: $font-second;
                 font-size: 0.8125rem;
                 font-weight: 600;
                 cursor: pointer;
-                transition: opacity 0.2s ease;
+                transition: all 0.2s ease;
 
                 svg {
                     width: 13px;
@@ -340,22 +443,32 @@ body.page-template-tours-template {
                 }
 
                 &:hover {
-                    opacity: 0.8;
-                    text-decoration: underline;
+                    background-color: $color-accent;
+                    color: #fff;
+                    border-color: $color-accent;
                 }
             }
         }
 
         // ------------------------------------------
-        // Active Filter Chips Bar
+        // Results Bar (Count + Active Filter Chips + Reset)
         // ------------------------------------------
+        .tours-results-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem 1rem;
+            margin-bottom: 1.5rem;
+            padding: 0 0.25rem;
+        }
+
         .tours-active-chips {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin-bottom: 1.25rem;
-            padding: 0 0.25rem;
+            flex: 1;
 
             &__list {
                 display: flex;
@@ -365,33 +478,21 @@ body.page-template-tours-template {
             }
 
             &__clear-all {
-                background: none;
-                border: none;
-                padding: 0;
-                color: $color-accent;
-                font-size: 0.8125rem;
-                font-weight: 600;
-                cursor: pointer;
-                text-decoration: underline;
-                margin-left: 0.25rem;
-
-                &:hover {
-                    opacity: 0.8;
-                }
+                display: none; // Handled by #ha-clear-filters right next to it
             }
         }
 
         .tours-chip {
             display: inline-flex;
             align-items: center;
-            gap: 0.35rem;
+            gap: 0.375rem;
             background-color: #fff;
-            border: 1px solid rgba(223, 161, 40, 0.4);
+            border: 1px solid rgba(223, 161, 40, 0.45);
             border-radius: 9999px;
-            padding: 0.3rem 0.75rem;
+            padding: 0.275rem 0.75rem;
             font-family: $font-second;
             font-size: 0.8125rem;
-            font-weight: 500;
+            font-weight: 600;
             color: $color-heading;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 
@@ -401,7 +502,7 @@ body.page-template-tours-template {
                 padding: 0;
                 font-size: 1rem;
                 line-height: 1;
-                color: rgba($color-body, 0.6);
+                color: rgba($color-body, 0.55);
                 cursor: pointer;
                 display: inline-flex;
                 align-items: center;
@@ -413,18 +514,12 @@ body.page-template-tours-template {
             }
         }
 
-        // ------------------------------------------
-        // Results Meta Bar
-        // ------------------------------------------
         .tours-results-meta {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
-            padding: 0 0.25rem;
             font-family: $font-second;
             font-size: 0.9375rem;
-            color: rgba($color-body, 0.7);
+            color: rgba($color-body, 0.75);
 
             strong {
                 color: $color-heading;
@@ -521,25 +616,52 @@ body.page-template-tours-template {
         }
 
         // ------------------------------------------
-        // 4. Refined Off-Canvas Filter Drawer
+        // 4. Responsive Filter Controls (Inline on Desktop/Tablet, Off-Canvas Drawer on Mobile)
         // ------------------------------------------
         .tours-filter-drawer {
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            max-width: 380px;
-            background: #fff;
-            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
-            z-index: 1050;
-            display: flex;
-            flex-direction: column;
-            transform: translateX(100%);
-            transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+            @include media-breakpoint-down(md) {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                max-width: 380px;
+                background: #fff;
+                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+                z-index: 1050;
+                display: flex;
+                flex-direction: column;
+                transform: translateX(100%);
+                transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
 
-            &.is-open {
-                transform: translateX(0);
+                &.is-open {
+                    transform: translateX(0);
+                }
+            }
+
+            @include media-breakpoint-up(md) {
+                position: static;
+                width: 100%;
+                max-width: none;
+                background: transparent;
+                box-shadow: none;
+                transform: none !important;
+                transition: none;
+                z-index: auto;
+                grid-column: 1 / -1;
+                order: 3;
+                border-top: 1px solid rgba(25, 35, 43, 0.08);
+                padding-top: 1.125rem;
+            }
+
+            @include media-breakpoint-up(xl) {
+                grid-column: auto;
+                order: 0;
+                border-top: none;
+                padding: 0 1.5rem;
+                border-right: 1px solid rgba(25, 35, 43, 0.08);
+                display: flex;
+                align-items: stretch;
             }
 
             &__header {
@@ -548,6 +670,10 @@ body.page-template-tours-template {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+
+                @include media-breakpoint-up(md) {
+                    display: none !important;
+                }
             }
 
             &__title-wrap {
@@ -593,12 +719,28 @@ body.page-template-tours-template {
             }
 
             &__body {
-                padding: 1.75rem 1.5rem;
-                overflow-y: auto;
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                gap: 2rem;
+                @include media-breakpoint-down(md) {
+                    padding: 1.75rem 1.5rem;
+                    overflow-y: auto;
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2rem;
+                }
+
+                @include media-breakpoint-up(md) {
+                    display: grid;
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    gap: 1.75rem;
+                    width: 100%;
+                    padding: 0;
+                    overflow: visible;
+                }
+
+                @include media-breakpoint-up(xl) {
+                    gap: 0;
+                    align-items: stretch;
+                }
             }
 
             &__footer {
@@ -608,6 +750,10 @@ body.page-template-tours-template {
                 align-items: center;
                 gap: 1rem;
                 background-color: $color-bg;
+
+                @include media-breakpoint-up(md) {
+                    display: none !important;
+                }
             }
 
             .tours-drawer-btn-reset {
@@ -646,35 +792,81 @@ body.page-template-tours-template {
             }
         }
 
-        // Drawer Sliders Widgets
+        // Inline / Drawer Sliders Widgets (Guests & Price Range)
         .tours-drawer-widget {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            &.tours-toolbar__group--pax {
+                @include media-breakpoint-up(md) {
+                    padding-right: 0.875rem;
+                    border-right: 1px solid rgba(25, 35, 43, 0.08);
+                }
+
+                @include media-breakpoint-up(xl) {
+                    padding-right: 1.5rem;
+                }
+            }
+
+            &.tours-toolbar__group--price {
+                @include media-breakpoint-up(xl) {
+                    padding-left: 1.5rem;
+                }
+            }
+
             .range-header {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                margin-bottom: 1.25rem;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+
+                @include media-breakpoint-up(md) {
+                    margin-bottom: 0.65rem;
+                }
 
                 .form-label {
-                    font-family: $font-second;
-                    font-size: 0.9375rem;
-                    font-weight: 700;
-                    color: $color-heading;
                     margin: 0;
+                    font-family: $font-second;
+                    font-size: 0.75rem;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 0.06em;
+                    color: rgba($color-heading, 0.65);
+
+                    @include media-breakpoint-down(md) {
+                        font-size: 0.875rem;
+                        color: $color-heading;
+                    }
                 }
 
                 .range-value {
                     font-family: $font-second;
-                    font-size: 0.8125rem;
-                    font-weight: 600;
+                    font-size: 0.75rem;
+                    font-weight: 700;
                     color: $color-secondary;
-                    background-color: rgba($color-secondary, 0.08);
-                    padding: 0.2rem 0.65rem;
+                    background-color: rgba($color-secondary, 0.09);
+                    padding: 0.175rem 0.6rem;
                     border-radius: 9999px;
+                    white-space: nowrap;
                 }
             }
 
             .range-slider-container {
-                padding: 0 0.5rem;
+                padding: 0.25rem 0.625rem 0;
+            }
+
+            .range-slider-Result-hints {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-top: 0.45rem;
+                font-family: $font-second;
+                font-size: 0.6875rem;
+                font-weight: 500;
+                color: rgba($color-body, 0.48);
+                line-height: 1;
             }
         }
 
@@ -910,7 +1102,7 @@ body.page-template-tours-template {
     // ==========================================
     .faqs-section {
         position: relative;
-        background-color: #fbf9f5;
+        background: radial-gradient(circle at 50% 30%, rgb(248, 243, 235) 0%, rgb(243, 235, 221) 65%, rgb(233, 222, 206) 100%);
         padding-top: 40px;
         padding-bottom: 40px;
         border-top: 1px solid rgba(25, 35, 43, 0.05);
