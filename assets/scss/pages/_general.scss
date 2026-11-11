@@ -319,11 +319,11 @@
 
     &__title {
         // 'Playfair Display' (serif)
-        font-size: 1.125rem; // text-lg (18px)
-        font-weight: 700;
-        color: $color-body; // text-[#241C1A]
-        line-height: 1.35;
-        margin-bottom: 0;
+        // font-size: 1.125rem; // text-lg (18px)
+        // font-weight: 700;
+        // color: $color-body; // text-[#241C1A]
+        // line-height: 1.35;
+        // margin-bottom: 0;
 
         // Fixed 2-line clamp to guarantee uniform height across all 4 cards
         display: -webkit-box;
@@ -334,7 +334,7 @@
         transition: color 0.2s ease;
 
         @include media-breakpoint-up(xl) {
-            font-size: 1.25rem; // text-xl (20px)
+            // font-size: 1.25rem; // text-xl (20px)
             min-height: 54px;
         }
     }

@@ -231,7 +231,7 @@ function ha_item_car()
                 </div>
             <?php endif; ?>
 
-            <h3 class="car-card__title">
+            <h3 class="car-card__title h5">
                 <?php the_title() ?>
             </h3>
 

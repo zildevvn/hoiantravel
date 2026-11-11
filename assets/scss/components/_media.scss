@@ -1,0 +1,357 @@
+// ==========================================================================
+// Global Component: HA Media (`ha-media`)
+// Modern, responsive, and flexible media component for images, videos & media-objects.
+// Designed to be clean, non-opinionated, and seamlessly compatible across all templates.
+// ==========================================================================
+
+.ha-media {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+
+    // ----------------------------------------------------------------------
+    // 1. Direct Media Elements (When ha-media is used as a standalone wrapper)
+    // ----------------------------------------------------------------------
+    >img,
+    >video,
+    >picture,
+    >iframe {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    // ----------------------------------------------------------------------
+    // 2. Media Object / Split Layout (When containing both Image and Content)
+    // ----------------------------------------------------------------------
+    &--split,
+    &:has(.ha-media__content) {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+        align-items: center;
+
+        @include media-breakpoint-up(md) {
+            gap: 2.25rem;
+        }
+
+        @include media-breakpoint-up(lg) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 3.5rem;
+        }
+
+        @include media-breakpoint-up(xl) {
+            gap: 4.5rem;
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 3. Media Image / Figure Wrapper
+    // ----------------------------------------------------------------------
+    &__image,
+    &__figure {
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        border-radius: 1.25rem; // 20px - matches project design language
+        background-color: rgba(25, 35, 43, 0.04);
+
+        img,
+        video,
+        picture {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        // When aspect-ratio or explicit height is applied
+        &[style*="aspect-ratio"],
+        &[style*="height"] {
+
+            img,
+            video,
+            picture {
+                height: 100%;
+            }
+        }
+    }
+
+    &__image {
+        border-radius: 1.5rem;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, .25);
+        border: 4px solid #fff;
+    }
+
+    // ----------------------------------------------------------------------
+    // 4. Narrative / Content Wrapper
+    // ----------------------------------------------------------------------
+    &__content,
+    &__body {
+        position: relative;
+        min-width: 0;
+        width: 100%;
+
+        .ha-badge {
+            margin-bottom: 0.875rem;
+        }
+
+
+        .ha-sub-heading,
+        .content,
+        p {
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 5. Practical Layout Modifiers
+    // ----------------------------------------------------------------------
+
+    // Reverse order (Content & Media swap positions on desktop)
+    &--reverse {
+        @include media-breakpoint-up(lg) {
+
+            .ha-media__image,
+            .ha-media__figure {
+                order: 2;
+            }
+
+            .ha-media__content,
+            .ha-media__body {
+                order: 1;
+            }
+        }
+    }
+
+    // Vertical / Stacked modifier (forces single column on all breakpoints)
+    &--vertical,
+    &--stacked {
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: 1fr !important;
+        gap: 1.25rem !important;
+        align-items: stretch !important;
+
+        .ha-media__image,
+        .ha-media__figure {
+            order: 1;
+        }
+
+        .ha-media__content,
+        .ha-media__body {
+            order: 2;
+        }
+    }
+
+    // Vertical alignment modifiers
+    &--align-top {
+        align-items: start;
+    }
+
+    &--align-center {
+        align-items: center;
+    }
+
+    &--align-bottom {
+        align-items: end;
+    }
+
+    // ----------------------------------------------------------------------
+    // 6. Object-Fit Modifiers
+    // ----------------------------------------------------------------------
+    &--cover {
+
+        .ha-media__image,
+        .ha-media__figure {
+            height: 100%;
+
+            img,
+            video,
+            picture {
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    &--contain {
+
+        .ha-media__image img,
+        .ha-media__image video,
+        .ha-media__figure img,
+        .ha-media__figure video,
+        >img,
+        >video {
+            object-fit: contain !important;
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 7. Aspect Ratio Modifiers
+    // ----------------------------------------------------------------------
+    &--16-9 {
+
+        .ha-media__image,
+        .ha-media__figure,
+        >img,
+        >video {
+            aspect-ratio: 16 / 9;
+
+            img,
+            video {
+                height: 100%;
+            }
+        }
+    }
+
+    &--4-3 {
+
+        .ha-media__image,
+        .ha-media__figure,
+        >img,
+        >video {
+            aspect-ratio: 4 / 3;
+
+            img,
+            video {
+                height: 100%;
+            }
+        }
+    }
+
+    &--1-1 {
+
+        .ha-media__image,
+        .ha-media__figure,
+        >img,
+        >video {
+            aspect-ratio: 1 / 1;
+
+            img,
+            video {
+                height: 100%;
+            }
+        }
+    }
+
+    &--4-5 {
+
+        .ha-media__image,
+        .ha-media__figure,
+        >img,
+        >video {
+            aspect-ratio: 4 / 5;
+
+            img,
+            video {
+                height: 100%;
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 8. Border Radius Modifiers
+    // ----------------------------------------------------------------------
+    &--rounded-none {
+        border-radius: 0 !important;
+
+        .ha-media__image,
+        .ha-media__figure,
+        >img,
+        >video {
+            border-radius: 0 !important;
+        }
+    }
+
+    &--rounded-sm {
+        border-radius: 0.5rem !important;
+
+        .ha-media__image,
+        .ha-media__figure,
+        >img,
+        >video {
+            border-radius: 0.5rem !important;
+        }
+    }
+
+    &--rounded-md {
+        border-radius: 1rem !important;
+
+        .ha-media__image,
+        .ha-media__figure,
+        >img,
+        >video {
+            border-radius: 1rem !important;
+        }
+    }
+
+    &--rounded-lg {
+        border-radius: 1.5rem !important;
+
+        .ha-media__image,
+        .ha-media__figure,
+        >img,
+        >video {
+            border-radius: 1.5rem !important;
+        }
+    }
+
+    &--rounded-full {
+        border-radius: 9999px !important;
+
+        .ha-media__image,
+        .ha-media__figure,
+        >img,
+        >video {
+            border-radius: 9999px !important;
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 9. Visual Elevation Modifier
+    // ----------------------------------------------------------------------
+    &--shadow {
+
+        .ha-media__image,
+        .ha-media__figure,
+        >img,
+        >video {
+            box-shadow: 0 16px 36px -12px rgba(25, 35, 43, 0.12),
+                0 4px 12px -2px rgba(25, 35, 43, 0.04);
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 10. Opt-In Micro-Interactions (Zoom only on explicit opt-in)
+    // ----------------------------------------------------------------------
+    &--zoom,
+    &--hover-zoom {
+        &:hover {
+
+            .ha-media__image img,
+            .ha-media__image video,
+            .ha-media__figure img,
+            .ha-media__figure video,
+            >img,
+            >video {
+                transform: scale(1.04);
+            }
+        }
+    }
+}

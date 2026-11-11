@@ -128,9 +128,6 @@ $action = get_field('action_destination_home');
                                 <span class="dest-number"><?= esc_html(str_pad($index + 1, 2, '0', STR_PAD_LEFT)) ?></span>
                                 <div class="dest-content">
                                     <h3 class="dest-title h4"><?= esc_html($term->name) ?></h3>
-                                    <?php if (!empty($term->description)): ?>
-                                        <span class="dest-desc"><?= esc_html($term->description) ?></span>
-                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="dest-meta">
@@ -157,15 +154,9 @@ $action = get_field('action_destination_home');
                         <!-- Bottom Content -->
                         <div class="destination-preview-card__content">
                             <h3 class="destination-preview-card__title h4" id="preview-title">
-
                                 <?= esc_html($first_term->name) ?>
                             </h3>
-                            <?php if (!empty($first_term->description)): ?>
 
-                                <p class="destination-preview-card__desc" id="preview-desc">
-                                    <?= esc_html($first_term->description) ?>
-                                </p>
-                            <?php endif; ?>
                             <a class="destination-preview-card__cta" href="<?= esc_url($first_term_link) ?>"
                                 id="preview-cta">
                                 <?= esc_html($first_cta_text) ?>
