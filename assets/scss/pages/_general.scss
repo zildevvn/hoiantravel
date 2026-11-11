@@ -221,3 +221,481 @@
         font-size: 0.85rem;
     }
 }
+
+
+// Car Card
+.car-card {
+    min-width: 0;
+    background-color: #fff;
+    border-radius: 1.5rem; // rounded-3xl (24px)
+    padding: 1.25rem; // p-5 (20px)
+    border: 1px solid rgba(231, 229, 228, 0.7); // border-stone-200/70
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); // shadow-sm
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    text-decoration: none;
+
+    &:hover {
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); // hover:shadow-xl
+        transform: translateY(-0.375rem); // hover:-translate-y-1.5 (-6px)
+
+        img,
+        .car-card__image {
+            transform: scale(1.05); // group-hover:scale-105
+        }
+
+        .car-card__title {
+            color: $color-accent; // group-hover:text-[#C24A2D]
+        }
+    }
+
+    &__media {
+        height: 200px; // h-[200px]
+        width: 100%;
+        border-radius: 1rem; // rounded-2xl (16px)
+        overflow: hidden;
+        position: relative;
+        background-color: #f5f5f4; // bg-stone-100
+        margin-bottom: 1rem; // mb-4 (16px)
+
+        img,
+        .car-card__image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease; // duration-500
+        }
+    }
+
+    &__tag {
+        position: absolute;
+        top: 0.75rem; // top-3 (12px)
+        left: 0.75rem; // left-3 (12px)
+        font-size: 10px; // text-[10px]
+        font-weight: 700; // font-bold
+        padding: 0.25rem 0.625rem; // py-1 px-2.5 (4px 10px)
+        border-radius: 9999px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em; // tracking-wider
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); // shadow-sm
+        line-height: 1.2;
+        color: $color-primary;
+    }
+
+    &__duration {
+        position: absolute;
+        top: 1rem; // top-4
+        right: 1rem; // right-4
+        background-color: $color-primary; // bg-black/40
+        color: $color-heading;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 0.25rem 0.75rem; // py-1 px-3
+        border-radius: 9999px;
+        line-height: 1.4;
+    }
+
+    &__route-box,
+    &__route-wrap {
+        margin-bottom: 0.5rem; // mb-2 (8px)
+    }
+
+    &__route {
+        display: inline-block;
+        padding: 0.25rem 0.625rem; // px-2.5 py-1 (4px 10px)
+        border-radius: 0.375rem; // rounded-md (6px)
+        background-color: rgba($color-secondary, 0.08); // bg-[#1E4D48]/8
+        border: 1px solid rgba($color-secondary, 0.15); // border border-[#1E4D48]/15
+        color: $color-secondary; // text-[#1E4D48]
+        font-size: 11px; // text-[11px]
+        font-weight: 700; // font-bold
+        text-transform: uppercase;
+        letter-spacing: 1.5px; // tracking-[1.5px]
+        line-height: 1.2;
+        margin-bottom: 0.5rem; // mb-2 (8px)
+    }
+
+    &__title {
+        // 'Playfair Display' (serif)
+        font-size: 1.125rem; // text-lg (18px)
+        font-weight: 700;
+        color: $color-body; // text-[#241C1A]
+        line-height: 1.35;
+        margin-bottom: 0;
+
+        // Fixed 2-line clamp to guarantee uniform height across all 4 cards
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 50px; // min-h-[50px]
+        transition: color 0.2s ease;
+
+        @include media-breakpoint-up(xl) {
+            font-size: 1.25rem; // text-xl (20px)
+            min-height: 54px;
+        }
+    }
+
+    &__price-box {
+        display: flex;
+        align-items: baseline;
+        gap: 0.375rem;
+    }
+
+    // 2x2 Specs Grid
+    &__specs,
+    &__features {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr)); // grid-cols-2
+        gap: 0.5rem; // gap-2 (8px)
+        margin-top: 1rem; // mt-4 (16px)
+        padding-top: 0.875rem; // pt-3.5 (14px)
+        border-top: 1px solid #f5f5f4; // border-stone-100
+        margin-bottom: 0;
+        padding-left: 0;
+        list-style: none;
+
+        .car-card__spec-item,
+        .car-card__feature-item,
+        li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; // gap-2 (8px)
+            padding: 0.375rem 0.5rem; // p-1.5 (6px 8px)
+            border-radius: 0.5rem; // rounded-lg (8px)
+            background-color: $color-bg; // bg-[#FBF9F5]
+            border: 1px solid rgba(231, 229, 228, 0.6); // border border-stone-200/60
+            min-width: 0; // prevents overflow
+
+            svg {
+                width: 14px; // 14px stroke icons
+                height: 14px;
+                flex-shrink: 0;
+                color: $color-secondary; // #1E4D48
+                stroke: currentColor;
+                stroke-width: 2;
+                fill: none;
+            }
+
+            span {
+                font-size: 11px; // text-[11px]
+                font-weight: 500; // font-medium
+                color: #57534e; // text-stone-600
+                font-family: $font-second;
+                line-height: 1.3;
+                min-width: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap; // truncate
+            }
+        }
+    }
+
+    &__footer {
+        margin-top: 1.5rem; // mt-6 (24px)
+        padding-top: 1rem; // pt-4 (16px)
+        border-top: 1px solid rgba(231, 229, 228, 0.7); // border-stone-200/70
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__price-label {
+        font-size: 10px; // text-[10px]
+        color: #78716c; // text-stone-500
+        display: block;
+        text-transform: uppercase;
+        letter-spacing: 0.05em; // tracking-wider
+        font-weight: 600;
+        line-height: 1.2;
+    }
+
+    &__price-val {
+        font-family: $font-primary;
+        font-size: 1.5rem; // text-2xl (24px)
+        font-weight: 700;
+        color: $color-body; // text-[#241C1A]
+        line-height: 1.25; // leading-tight
+    }
+
+    .ha-button {
+        font-size: 0.75rem;
+        padding: 0.525rem 1.15rem;
+        gap: 5px;
+    }
+}
+
+// ==========================================
+// ABOUT HOI AN INTRO SECTION (4-Photo Masonry & Editorial)
+// ==========================================
+
+.hoi-an-intro {
+    background-color: #FBF9F5;
+    border-top: 1px solid rgba(223, 161, 40, 0.25);
+    padding-top: 40px;
+    padding-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+
+    @include media-breakpoint-up(md) {
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+
+    @include media-breakpoint-up(lg) {
+        padding-top: 90px;
+        padding-bottom: 90px;
+    }
+
+    // 1. Two-Column Flex/Grid (50% Left / 50% Right on Desktop, gap: 56px, align-items: center)
+    &__grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 40px;
+        align-items: center;
+
+        @include media-breakpoint-up(lg) {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 56px;
+        }
+
+        @include media-breakpoint-up(xl) {
+            gap: 64px;
+        }
+    }
+
+    // 2. Left Column: 4-Photo Masonry / Collage Grid
+    &__gallery {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        width: 100%;
+
+        @include media-breakpoint-down(md) {
+            gap: 10px;
+        }
+
+        @include media-breakpoint-down(lg) {
+            max-width: 580px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        &-col {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            @include media-breakpoint-down(md) {
+                gap: 10px;
+            }
+        }
+    }
+
+    &__photo {
+        position: relative;
+        width: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+        background-color: #edece9;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+        @include media-breakpoint-down(md) {
+            border-radius: 12px;
+        }
+
+        &--portrait {
+            aspect-ratio: 4 / 5;
+
+            @include media-breakpoint-down(sm) {
+                aspect-ratio: 3 / 4;
+            }
+        }
+
+        &--square {
+            aspect-ratio: 1 / 1;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        &:hover img {
+            transform: scale(1.04);
+        }
+    }
+
+    // 3. Right Column: Editorial Narrative Copy
+    &__content {
+        position: relative;
+
+        @include media-breakpoint-down(lg) {
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    &__heading {
+        margin-bottom: 24px;
+    }
+
+    &__body {
+        p {
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+.ha-list-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+    padding-top: 48px;
+    border-top: 1px solid rgba($color: $color-primary, $alpha: 0.25);
+
+    @include media-breakpoint-down(lg) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 32px;
+        padding-top: 32px;
+    }
+
+    @include media-breakpoint-down(md) {
+        margin-top: 24px;
+        padding-top: 24px;
+        gap: 16px;
+    }
+
+    .card-item {
+        text-align: left;
+
+        &__icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: rgba($color: $color-secondary, $alpha: 0.1);
+            border-radius: 0.75rem;
+
+            @include media-breakpoint-down(md) {
+                width: 32px;
+                height: 32px;
+
+                svg,
+                img {
+                    width: 100%;
+                    height: auto;
+                    max-width: 16px;
+                }
+            }
+        }
+
+        h3 {
+            margin: 24px 0 12px 0;
+
+            @include media-breakpoint-down(md) {
+                margin: 20px 0 10px 0;
+            }
+        }
+    }
+}
+
+// ==========================================
+// FAQS SECTION (Editorial 2-Column Layout)
+// ==========================================
+.faqs-section {
+    position: relative;
+    background: radial-gradient(circle at 50% 30%, rgb(248, 243, 235) 0%, rgb(243, 235, 221) 65%, rgb(233, 222, 206) 100%);
+    padding-top: 40px;
+    padding-bottom: 40px;
+    border-top: 1px solid rgba(25, 35, 43, 0.05);
+
+    @include media-breakpoint-up(md) {
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+
+    @include media-breakpoint-up(lg) {
+        padding-top: 90px;
+        padding-bottom: 90px;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
+
+        @include media-breakpoint-up(lg) {
+            grid-template-columns: 5.5fr 6.5fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        @include media-breakpoint-up(xl) {
+            grid-template-columns: 5fr 7fr;
+            gap: 48px;
+        }
+    }
+
+    &__sidebar {
+        position: relative;
+
+        @include media-breakpoint-up(lg) {
+            position: sticky;
+            top: 100px;
+        }
+    }
+
+    &__title {
+        margin-top: 0.5rem;
+        margin-bottom: 1.5rem;
+
+        @include media-breakpoint-up(lg) {
+
+            margin-bottom: 1.75rem;
+        }
+    }
+
+    &__media {
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+        margin-bottom: 1.5rem;
+        aspect-ratio: 4 / 3;
+        background-color: #edece9;
+
+        @include media-breakpoint-down(md) {
+            max-width: 440px;
+            aspect-ratio: 16 / 10;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        &:hover img {
+            transform: scale(1.03);
+        }
+    }
+
+    &__content {
+        position: relative;
+        min-width: 0;
+    }
+}

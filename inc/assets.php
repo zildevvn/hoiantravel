@@ -2,7 +2,7 @@
 
 add_action('wp_enqueue_scripts', function () {
 
-	if (is_page_template('tours-template.php')) {
+	if (is_page_template('tours-template.php') || is_page_template('cars-template.php')) {
 		wp_enqueue_style('vm-nouislider', get_template_directory_uri() . '/assets/lib/no-ui-slider/nouislider.min.css', array(), '15.7.1');
 		wp_enqueue_script('vm-nouislider', get_template_directory_uri() . '/assets/lib/no-ui-slider/nouislider.min.js', array(), '15.7.1', true);
 	}

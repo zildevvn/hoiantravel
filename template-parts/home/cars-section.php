@@ -53,70 +53,8 @@ $query = new WP_Query($args);
             <div class="cars-section__grid">
                 <?php while ($query->have_posts()):
                     $query->the_post();
-                    $location = get_field('location_car');
-                    $time = get_field('time_car');
-                    $price = get_field('price_car');
-                    $pick_up = get_field('pick_up_car');
-                    $route_display = !empty($location) ? preg_replace('/\s*[-–—]\s*/u', ' ➔ ', $location) : '';
-                    ?>
-                    <a href="<?= the_permalink(); ?>" class="car-card" aria-label="read more <?php the_title() ?>">
-
-                        <div>
-                            <div class="car-card__media">
-                                <img src="<?= get_the_post_thumbnail_url(); ?>" alt="image for <?= the_title(); ?>" width="380"
-                                    height="260" />
-
-                                <div class="car-card__duration">
-                                    <?= $time; ?>
-                                </div>
-                            </div>
-
-                            <?php if (!empty($route_display)): ?>
-                                <div class="car-card__route-wrap">
-                                    <span class="car-card__route"><?= esc_html($route_display); ?></span>
-                                </div>
-                            <?php endif; ?>
-
-                            <h3 class="car-card__title">
-                                <?php the_title() ?>
-                            </h3>
-
-                            <div class="car-card__specs">
-                                <div class="car-card__spec-item" title="Modern Fleet (Sedan, SUV &amp; Van)">
-                                    <?= ha_svg_icon('car'); ?>
-                                    <span>Modern Fleet (Sedan, SUV &amp; Van)</span>
-                                </div>
-                                <div class="car-card__spec-item"
-                                    title="<?= !empty($pick_up) ? esc_attr($pick_up) : 'Door-to-Door Service'; ?>">
-                                    <?= ha_svg_icon('door'); ?>
-                                    <span><?= !empty($pick_up) ? esc_html($pick_up) : 'Door-to-Door Service'; ?></span>
-                                </div>
-                                <div class="car-card__spec-item" title="English-Speaking Driver">
-                                    <?= ha_svg_icon('guide'); ?>
-                                    <span>English-Speaking Driver</span>
-                                </div>
-                                <div class="car-card__spec-item" title="Free Cold Water &amp; Wi-Fi">
-                                    <?= ha_svg_icon('wifi'); ?>
-                                    <span>Free Cold Water &amp; Wi-Fi</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="car-card__footer">
-                            <div class="car-card__price-box">
-                                <span class="car-card__price-label">From</span>
-                                <span class="car-card__price-val">
-                                    <?= esc_html(ha_format_price($price, $currency)); ?>
-                                </span>
-                            </div>
-                            <button class="ha-button" type="button">
-
-                                Book Car
-                                <?= ha_svg_icon('arrow-right'); ?>
-                            </button>
-                        </div>
-                    </a>
-                <?php endwhile;
+                    ha_item_car();
+                endwhile;
                 wp_reset_postdata();
                 ?>
             </div>

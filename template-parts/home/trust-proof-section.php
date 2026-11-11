@@ -29,7 +29,7 @@ $cards = get_field('list_cards_trust_proof');
         </div>
 
         <?php if (!empty($cards)): ?>
-            <div class="trust-proof-section__cards">
+            <div class="trust-proof-section__cards ha-list-cards">
                 <?php foreach ($cards as $card): ?>
                     <div class="card-item">
                         <?php if (!empty($card['icon'])): ?>
