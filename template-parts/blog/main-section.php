@@ -59,8 +59,6 @@ $query = new WP_Query($args);
 $heading = get_field('hd_blog_tpl') ?: get_field('heading_cars_home');
 $badge   = get_field('badge_blog_tpl') ?: get_field('badge_cars_home');
 $desc    = get_field('desc_blog_tpl') ?: get_field('desc_cars_home');
-
-$form_action = get_permalink();
 ?>
 
 <section class="ha-section posts-list-section" id="posts-list-section" data-nonce="<?= esc_attr(wp_create_nonce('ha_filter_posts')) ?>">
@@ -88,15 +86,18 @@ $form_action = get_permalink();
             </div>
         <?php endif; ?>
 
-        <!-- Search & Filter Bar (Live Debounced AJAX Search + Category Filter) -->
-        <form method="GET" action="<?= esc_url($form_action); ?>" class="posts-filter-bar" id="ha-posts-filter-form" role="search" onsubmit="return false;">
+        <!-- Search & Filter Bar (Pure AJAX Container — No Form Element) -->
+        <div class="posts-filter-bar" id="ha-posts-filter-bar" role="search" aria-label="<?php esc_attr_e('Filter posts', 'hoiantravel'); ?>">
             <!-- Search Box (Auto Search with Debounce) -->
             <div class="posts-filter-bar__search">
                 <div class="search-input-wrapper">
+                    <label for="ha-posts-search-input" class="visually-hidden">
+                        <?php esc_html_e('Search insights, news, and guides', 'hoiantravel'); ?>
+                    </label>
                     <span class="search-icon" aria-hidden="true">
                         <?= ha_svg_icon('search-icon'); ?>
                     </span>
-                    <input type="text"
+                    <input type="search"
                            name="s"
                            id="ha-posts-search-input"
                            value="<?= esc_attr($search_query); ?>"
@@ -114,7 +115,8 @@ $form_action = get_permalink();
                 <input type="hidden" name="category" id="ha-posts-category-input" value="<?= esc_attr($selected_cat_slug); ?>">
                 <div class="vm-custom-dropdown posts-category-dropdown" id="ha-posts-category-dropdown">
                     <button type="button" class="vm-dropdown-trigger" aria-expanded="false"
-                        aria-controls="posts-category-menu" id="ha-posts-category-trigger">
+                        aria-controls="posts-category-menu" id="ha-posts-category-trigger"
+                        aria-label="<?php esc_attr_e('Filter by category', 'hoiantravel'); ?>">
                         <span class="vm-dropdown-label" id="ha-posts-category-label"><?= esc_html($selected_cat_name); ?></span>
                         <span class="vm-dropdown-icon">
                             <?= ha_svg_icon('chevron-down'); ?>
@@ -145,13 +147,13 @@ $form_action = get_permalink();
             </div>
 
             <!-- Actions (Reset Button) -->
-            <div class="posts-filter-bar__actions">
-                <a href="<?= esc_url($form_action); ?>" class="btn-clear-filters" id="ha-posts-clear-filters" style="<?= $has_active_filters ? '' : 'display: none;' ?>">
+            <div class="posts-filter-bar__actions" style="<?= $has_active_filters ? '' : 'display: none;' ?>">
+                <button type="button" class="btn-clear-filters" id="ha-posts-clear-filters" style="<?= $has_active_filters ? '' : 'display: none;' ?>" aria-label="<?php esc_attr_e('Reset all filters', 'hoiantravel'); ?>">
                     <?= ha_svg_icon('rotate-ccw'); ?>
                     <span><?php esc_html_e('Reset', 'hoiantravel'); ?></span>
-                </a>
+                </button>
             </div>
-        </form>
+        </div>
 
         <!-- Posts Content & Empty State Wrapper -->
         <div class="posts-list-wrapper position-relative">
@@ -220,10 +222,10 @@ $form_action = get_permalink();
                         <?php endif; ?>
                     </p>
                     <div class="empty-state__action mt-3">
-                        <a href="<?= esc_url($form_action); ?>" class="ha-button ha-button--secondary" id="ha-posts-empty-reset">
+                        <button type="button" class="ha-button ha-button--secondary" id="ha-posts-empty-reset">
                             <?= ha_svg_icon('rotate-ccw'); ?>
                             <span><?php esc_html_e('Reset All Filters', 'hoiantravel'); ?></span>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>

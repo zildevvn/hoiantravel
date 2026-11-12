@@ -9,8 +9,8 @@
         const section = document.getElementById('posts-list-section');
         if (!section) return;
 
-        // Core containers & elements
-        const form               = section.querySelector('#ha-posts-filter-form');
+        // Core containers & elements (pure AJAX, no <form> element required)
+        const filterBar          = section.querySelector('#ha-posts-filter-bar');
         const resultsContainer   = section.querySelector('#vm-posts-results');
         const paginationContainer= section.querySelector('#vm-posts-pagination');
         const emptyState         = section.querySelector('#vm-posts-empty');
@@ -82,6 +82,10 @@
             const hasActive = Boolean(state.s || (state.category && state.category !== 'all'));
             if (clearBtn) {
                 clearBtn.style.display = hasActive ? 'inline-flex' : 'none';
+                const actionsWrapper = clearBtn.closest('.posts-filter-bar__actions');
+                if (actionsWrapper) {
+                    actionsWrapper.style.display = hasActive ? 'flex' : 'none';
+                }
             }
         };
 
