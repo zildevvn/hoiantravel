@@ -6,7 +6,7 @@
     position: relative;
     width: 100%;
     min-height: 380px;
-    padding: 130px 0 110px;
+    padding: 130px 0 80px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -253,7 +253,7 @@
         max-width: 720px;
         margin-left: auto;
         margin-right: auto;
-        margin-bottom: 1.25rem;
+        // margin-bottom: 1.25rem;
         text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 
         @include media-breakpoint-up(md) {

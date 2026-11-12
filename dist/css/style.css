@@ -7719,7 +7719,7 @@ body.search-modal-open {
   position: relative;
   width: 100%;
   min-height: 380px;
-  padding: 130px 0 110px;
+  padding: 130px 0 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7945,7 +7945,6 @@ body.search-modal-open {
   max-width: 720px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 1.25rem;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 @media (min-width: 768px) {
