@@ -293,13 +293,20 @@ if (!function_exists('ha_pagination')) {
 		$existing_args = [];
 		if (isset($url_parts[1])) {
 			wp_parse_str($url_parts[1], $existing_args);
+			unset($existing_args['paged'], $existing_args['page']);
 		}
 
-		$merged_args = array_merge($existing_args, (array) $query_args);
-		$pagenum_link = remove_query_arg(array_keys($existing_args), $pagenum_link);
-		$pagenum_link = trailingslashit($pagenum_link) . '%_%';
+		$merged_args = array_filter(array_merge($existing_args, (array) $query_args), function ($val) {
+			return $val !== '' && $val !== null;
+		});
+		unset($merged_args['paged'], $merged_args['page']);
 
-		$format = ($wp_rewrite && $wp_rewrite->using_permalinks()) ? user_trailingslashit('page/%#%', 'paged') : '?paged=%#%';
+		$args_to_remove = array_merge(array_keys($existing_args), ['paged', 'page']);
+		$pagenum_link   = remove_query_arg($args_to_remove, $pagenum_link);
+		$pagenum_link   = trailingslashit($pagenum_link) . '%_%';
+
+		$is_singular_or_page = is_singular() || is_page();
+		$format = ($wp_rewrite && $wp_rewrite->using_permalinks() && !$is_singular_or_page) ? user_trailingslashit('page/%#%', 'paged') : '?paged=%#%';
 
 		// Accessible previous & next buttons with theme SVGs
 		$prev_icon = function_exists('ha_svg_icon') ? ha_svg_icon('arrow_prev') : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';

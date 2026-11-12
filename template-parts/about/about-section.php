@@ -9,13 +9,7 @@ $license_image = $operator_license['image'];
 $license_desc = $operator_license['description'];
 ?>
 <section class="ha-section about-section">
-    <div class="about-section__graphic">
-        <img src="<?= get_template_directory_uri(); ?>/assets/images/img-graphic-001.png"
-            alt="image graphic phu quoc island tours" />
-    </div>
-
     <div class="container">
-        <?php ha_icon_heading() ?>
         <?php if (!empty($heading)): ?>
             <h2 class="ha-heading">
                 <?= $heading ?>

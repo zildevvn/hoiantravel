@@ -271,3 +271,98 @@ function ha_item_car()
         </div>
     </a>
 <?php }
+
+function ha_item_post($post_id = null)
+{
+    $post_id = $post_id ? $post_id : get_the_ID();
+    if (!$post_id) {
+        return;
+    }
+
+    $permalink = get_permalink($post_id);
+    $title = get_the_title($post_id);
+
+    $thumb_url = has_post_thumbnail($post_id)
+        ? get_the_post_thumbnail_url($post_id, 'large')
+        : '';
+
+    if (empty($thumb_url)) {
+        $thumb_url = 'https://lh3.googleusercontent.com/aida/AEtjO1XOa-2n3kfHFEN18NvbixXY_CUXbTZlchtFKuZ-Ja-QQ9mUlW2KQxBaqTTzcly6J6Kv57UarQeCKZRgofffJ957OZjFM3TMVs_1j37Mm1oaIjqFNoaTOfnd_CXU_znxbClN4kyX5ukJCniJpfQu3QFFgkldP4Crk4CxGZWb5phrVKjGnJ7JRoCTV8uTpRJlt6A6ZrfqlH3-y-qfPv8v6SAa50PlKEajY7gKOfJkrQ';
+    }
+
+    $categories = get_the_category($post_id);
+    $category = (!empty($categories) && !is_wp_error($categories)) ? $categories[0] : null;
+    $cat_name = $category ? $category->name : __('Travel Insights', 'hoiantravel');
+    $cat_link = $category ? get_category_link($category->term_id) : '#';
+
+    $date_formatted = get_the_date('M j, Y', $post_id);
+    $date_iso = get_the_date('c', $post_id);
+
+    $author_id = get_post_field('post_author', $post_id);
+    $author_name = get_the_author_meta('display_name', $author_id) ?: __('Hoi An Insider', 'hoiantravel');
+    $author_link = get_author_posts_url($author_id);
+    ?>
+    <article <?php post_class('ha-post-card', $post_id); ?>>
+        <div class="ha-post-card__media-wrap">
+            <a href="<?= esc_url($permalink); ?>" class="ha-post-card__media" tabindex="-1" aria-hidden="true">
+                <img src="<?= esc_url($thumb_url); ?>" alt="<?= esc_attr($title); ?>" loading="lazy" width="400"
+                    height="250" />
+                <span class="ha-post-card__overlay" aria-hidden="true"></span>
+            </a>
+
+            <?php if (!empty($cat_name)): ?>
+                <a href="<?= esc_url($cat_link); ?>" class="ha-post-card__badge">
+                    <?= esc_html($cat_name); ?>
+                </a>
+            <?php endif; ?>
+        </div>
+
+        <div class="ha-post-card__body">
+            <h3 class="ha-post-card__title h5">
+                <a href="<?= esc_url($permalink); ?>" title="<?= esc_attr($title); ?>">
+                    <?= esc_html($title); ?>
+                </a>
+            </h3>
+
+            <div class="ha-post-card__divider" aria-hidden="true"></div>
+
+            <div class="ha-post-card__meta">
+                <div class="ha-post-card__meta-item ha-post-card__meta-item--date">
+                    <span class="ha-post-card__meta-icon" aria-hidden="true">
+                        <?= ha_svg_icon('calendar'); ?>
+                    </span>
+                    <time datetime="<?= esc_attr($date_iso); ?>" class="ha-post-card__meta-text">
+                        <?= esc_html($date_formatted); ?>
+                    </time>
+                </div>
+
+                <span class="ha-post-card__meta-separator" aria-hidden="true"></span>
+
+                <div class="ha-post-card__meta-item ha-post-card__meta-item--author">
+                    <span class="ha-post-card__meta-icon" aria-hidden="true">
+                        <?= ha_svg_icon('user'); ?>
+                    </span>
+                    <a href="<?= esc_url($author_link); ?>" class="ha-post-card__meta-text">
+                        <?= esc_html($author_name); ?>
+                    </a>
+                </div>
+            </div>
+
+            <div class="ha-post-card__action">
+                <a href="<?= esc_url($permalink); ?>" class="ha-post-card__read-more ha-button"
+                    aria-label="<?= esc_attr(sprintf(__('Read more about %s', 'hoiantravel'), $title)); ?>">
+                    <?= esc_html__('Read More', 'hoiantravel'); ?>
+                    <?= ha_svg_icon('arrow-right'); ?>
+                </a>
+            </div>
+        </div>
+    </article>
+    <?php
+}
+
+if (!function_exists('ha_post_item')) {
+    function ha_post_item($post_id = null)
+    {
+        ha_item_post($post_id);
+    }
+}
