@@ -14370,6 +14370,23 @@ body.page-template-blog-template .blog-about-section__content .h2 {
 body.page-template-blog-template .blog-about-section__content .blog-about-section__desc p:last-child {
   margin-bottom: 0;
 }
+body.page-template-blog-template .experiences-section {
+  background: #fff;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+@media (min-width: 768px) {
+  body.page-template-blog-template .experiences-section {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+}
+@media (min-width: 1024px) {
+  body.page-template-blog-template .experiences-section {
+    padding-top: 90px;
+    padding-bottom: 90px;
+  }
+}
 
 .error-404-section {
   padding: 120px 0 100px;
@@ -14521,7 +14538,6 @@ body.page-template-blog-template .blog-about-section__content .blog-about-sectio
 }
 
 .destinations-list-section {
-  position: relative;
   padding-top: 40px;
   padding-bottom: 40px;
   background-color: #FBF9F5;

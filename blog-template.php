@@ -8,5 +8,7 @@ get_header();
     <?php get_template_part('template-parts/blog/hero-section'); ?>
     <?php get_template_part('template-parts/blog/about-section'); ?>
     <?php get_template_part('template-parts/blog/main-section'); ?>
+    <?php get_template_part('template-parts/blog/experiences-section'); ?>
+    <?php get_template_part('template-parts/blog/faqs-section'); ?>
 </main>
 <?php get_footer(); ?>

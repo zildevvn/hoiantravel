@@ -235,3 +235,78 @@ function ha_ajax_filter_cars_handler()
     ));
 }
 
+add_action('wp_ajax_ha_ajax_filter_posts', 'ha_ajax_filter_posts_handler');
+add_action('wp_ajax_nopriv_ha_ajax_filter_posts', 'ha_ajax_filter_posts_handler');
+
+function ha_ajax_filter_posts_handler()
+{
+    check_ajax_referer('ha_filter_posts', 'nonce');
+
+    $s        = isset($_POST['s']) ? sanitize_text_field(wp_unslash($_POST['s'])) : '';
+    $category = isset($_POST['category']) ? sanitize_text_field(wp_unslash($_POST['category'])) : (isset($_POST['post_cat']) ? sanitize_text_field(wp_unslash($_POST['post_cat'])) : 'all');
+    $paged    = isset($_POST['paged']) ? max(1, intval($_POST['paged'])) : 1;
+
+    $args = array(
+        'post_type'      => 'post',
+        'post_status'    => 'publish',
+        'posts_per_page' => 12,
+        'paged'          => $paged,
+    );
+
+    // Search query
+    if (!empty($s)) {
+        $args['s'] = $s;
+    }
+
+    // Taxonomy filter
+    $selected_term = null;
+    if (!empty($category) && $category !== 'all') {
+        if (is_numeric($category)) {
+            $selected_term = get_term(intval($category), 'category');
+        } else {
+            $selected_term = get_term_by('slug', $category, 'category');
+        }
+
+        if ($selected_term && !is_wp_error($selected_term)) {
+            $args['tax_query'] = array(
+                array(
+                    'taxonomy' => 'category',
+                    'field'    => 'term_id',
+                    'terms'    => $selected_term->term_id,
+                ),
+            );
+        }
+    }
+
+    $query = new WP_Query($args);
+
+    ob_start();
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            ha_item_post();
+        }
+        wp_reset_postdata();
+    }
+    $html = ob_get_clean();
+
+    ob_start();
+    $pagination_args = [];
+    if (!empty($s)) {
+        $pagination_args['s'] = $s;
+    }
+    if ($selected_term) {
+        $pagination_args['category'] = $selected_term->slug;
+    }
+    ha_pagination($paged, $query->max_num_pages, $pagination_args);
+    $pagination = ob_get_clean();
+
+    wp_send_json_success(array(
+        'html'          => $html,
+        'pagination'    => $pagination,
+        'count'         => $query->found_posts,
+        'max_pages'     => $query->max_num_pages,
+        'category_name' => $selected_term ? $selected_term->name : '',
+    ));
+}
+
