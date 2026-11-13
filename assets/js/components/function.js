@@ -632,11 +632,57 @@ import { CountUp } from 'countup.js';
         });
     };
 
+    /**
+     * Single Tour Gallery Lightbox (Fancybox 5 integration)
+     * Handles keyboard navigation (Escape, arrows), swipe gestures, zoom,
+     * infobar counter, and mobile CTA trigger.
+     */
+    const initTourGalleryLightbox = () => {
+        if (typeof window.Fancybox !== 'undefined') {
+            window.Fancybox.bind('[data-fancybox="tour-gallery"]', {
+                dragToClose: true,
+                closeButton: 'top',
+                Images: {
+                    zoom: true,
+                },
+                Toolbar: {
+                    display: {
+                        left: ['infobar'],
+                        middle: [],
+                        right: ['iterateZoom', 'slideshow', 'fullscreen', 'close'],
+                    },
+                },
+                Thumbs: false,
+                keyboard: {
+                    Escape: 'close',
+                    Delete: 'close',
+                    Backspace: 'close',
+                    PageUp: 'next',
+                    PageDown: 'prev',
+                    ArrowUp: 'next',
+                    ArrowDown: 'prev',
+                    ArrowRight: 'next',
+                    ArrowLeft: 'prev',
+                },
+            });
+        }
+
+        // Delegate mobile CTA or other custom buttons to open gallery album
+        $(document).on('click', '[data-gallery-trigger]', function (e) {
+            e.preventDefault();
+            const firstGalleryItem = document.querySelector('[data-fancybox="tour-gallery"]');
+            if (firstGalleryItem) {
+                firstGalleryItem.click();
+            }
+        });
+    };
+
     $(document).ready(function () {
         modalSearch();
         heroSlider();
         destinationPreview();
         tourSwiper();
         initFaqAccordion();
+        initTourGalleryLightbox();
     });
 })(jQuery);

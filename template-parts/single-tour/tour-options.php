@@ -4,13 +4,13 @@ $currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('
 ?>
 
 <?php if (!empty($tour_options)): ?>
-    <section class="vm-section vm-tour-options">
+    <section class="ha-section ha-tour-options">
         <div class="container">
             <h2 class="h4"> Choose from
                 <?php echo count($tour_options); ?> available options
             </h2>
 
-            <div class="vm-tour-options__grid">
+            <div class="ha-tour-options__grid">
                 <?php foreach ($tour_options as $key => $option): ?>
                     <?php
                     $starting_time = $option['starting_time'] ?? '';
@@ -29,7 +29,7 @@ $currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('
                     $children = isset($_POST['children']) ? intval($_POST['children']) : 0;
                     $total_pax = $adults + $children;
 
-                    $pricing = vm_calculate_tour_price($option, $adults, $children, get_the_ID());
+                    $pricing = ha_calculate_tour_price($option, $adults, $children, get_the_ID());
                     $price_per_person = $pricing['price_per_person'];
                     $total_price = $pricing['total_price'];
                     $is_price_available = $pricing['is_price_available'];

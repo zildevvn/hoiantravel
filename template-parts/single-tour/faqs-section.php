@@ -1,32 +1,57 @@
 <?php
+/**
+ * Single Tour FAQs Section
+ *
+ * Reusable accordion list utilizing global theme behavior (.faqs-list / .faq-item)
+ *
+ * @package hoiantravel
+ */
+
 $faqs = get_field('faqs_list_tour');
+
+if (empty($faqs) || !is_array($faqs)) {
+    return;
+}
 ?>
 
-<?php if (!empty($faqs)): ?>
-    <div id="tour-faqs" class="tour-faqs">
-        <h2 class="vm-heading ">Frequently Asked Questions</h2>
-        <div class="faqs-section__list faqs-list">
-            <?php foreach ($faqs as $key => $item): ?>
-                <?php $classActive = $key == 0 ? 'is-active' : '' ?>
-                <div class="faq-item <?= $classActive ?>">
-                    <div class="faq-item__question d-flex justify-content-between gap-2">
-                        <h3 class="h6 mb-0">
-                            0
-                            <?= $key + 1 ?> -
-                            <?= $item['question'] ?>
-                        </h3>
+<div id="tour-faqs" class="tour-section-block tour-faqs">
+    <div class="tour-section-header">
+        <h2 class="ha-heading tour-section-title h3">
+            <?php esc_html_e('Frequently Asked Questions', 'ha'); ?>
+        </h2>
+    </div>
 
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-chevron-down-icon lucide-chevron-down">
-                            <path d="m6 9 6 6 6-6" />
-                        </svg>
+    <div class="faqs-section__list faqs-list">
+        <?php foreach ($faqs as $key => $item):
+            $question = $item['question'] ?? '';
+            $answer = $item['answer'] ?? '';
+            if (empty($question)) {
+                continue;
+            }
+            $is_first = ($key === 0);
+            $class_active = $is_first ? 'is-active' : '';
+            ?>
+            <div class="faq-item <?= esc_attr($class_active); ?>">
+                <div class="faq-item__question" role="button" tabindex="0"
+                    aria-expanded="<?= $is_first ? 'true' : 'false'; ?>">
+                    <div class="faq-item__q-left">
+                        <span class="faq-item__index"><?php printf('%02d', $key + 1); ?></span>
+                        <h3 class="faq-item__title">
+                            <?= esc_html($question); ?>
+                        </h3>
                     </div>
-                    <div class="faq-item__answer">
-                        <?= $item['answer'] ?>
+
+                    <span class="faq-item__arrow" aria-hidden="true">
+                        <?= ha_svg_icon('chevron-down'); ?>
+                    </span>
+                </div>
+
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-inner">
+                        <?= wp_kses_post(wpautop($answer)); ?>
                     </div>
                 </div>
-            <?php endforeach; ?>
-        </div>
+            </div>
+        <?php endforeach; ?>
     </div>
-<?php endif; ?>
+</div>

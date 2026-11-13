@@ -8,7 +8,7 @@ $min_pax = isset($paxs_tours['min']) ? $paxs_tours['min'] : '';
 $max_pax = isset($paxs_tours['max']) ? $paxs_tours['max'] : '';
 
 ?>
-<section class="vm-tour-info vm-section">
+<section class="ha-tour-info ha-section">
     <div class="container">
         <?php if ($location_tour || $time_tour || $price_tour || ($min_pax && $max_pax)): ?>
             <div class="tour-info-card">
@@ -74,7 +74,8 @@ $max_pax = isset($paxs_tours['max']) ? $paxs_tours['max'] : '';
                         </div>
                         <div class="info-content">
                             <span class="info-label">Price</span>
-                            <span class="info-value price-value"><?= esc_html(ha_format_price($price_tour, $currency)); ?></span>
+                            <span
+                                class="info-value price-value"><?= esc_html(ha_format_price($price_tour, $currency)); ?></span>
                         </div>
                     </div>
                 <?php endif; ?>

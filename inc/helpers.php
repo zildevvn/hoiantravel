@@ -200,11 +200,11 @@ if (!function_exists('ha_calculate_tour_price')) {
 		}
 
 		return [
-			'is_car_tour'        => $is_car_tour,
-			'is_private_tour'    => $private_tour,
-			'price_per_person'   => $price_per_person,
-			'child_price'        => $child_price,
-			'total_price'        => $total_price,
+			'is_car_tour' => $is_car_tour,
+			'is_private_tour' => $private_tour,
+			'price_per_person' => $price_per_person,
+			'child_price' => $child_price,
+			'total_price' => $total_price,
 			'is_price_available' => $is_price_available,
 		];
 	}
@@ -246,9 +246,9 @@ if (!function_exists('ha_pagination')) {
 			$opts = $query_or_paged;
 			$target_query = isset($opts['query']) && ($opts['query'] instanceof WP_Query) ? $opts['query'] : $wp_query;
 			$current_page = isset($opts['current']) ? intval($opts['current']) : 0;
-			$max_pages    = isset($opts['total']) ? intval($opts['total']) : intval($target_query->max_num_pages ?? 1);
-			$query_args   = isset($opts['query_args']) ? (array) $opts['query_args'] : [];
-			$echo         = isset($opts['echo']) ? (bool) $opts['echo'] : true;
+			$max_pages = isset($opts['total']) ? intval($opts['total']) : intval($target_query->max_num_pages ?? 1);
+			$query_args = isset($opts['query_args']) ? (array) $opts['query_args'] : [];
+			$echo = isset($opts['echo']) ? (bool) $opts['echo'] : true;
 
 			if ($current_page < 1) {
 				$current_page = max(1, intval($target_query->get('paged') ?: ($target_query->get('page') ?: (get_query_var('paged') ?: (get_query_var('page') ?: 1)))));
@@ -269,12 +269,12 @@ if (!function_exists('ha_pagination')) {
 		// Option C: Explicit page numbers (e.g. $paged, $query->max_num_pages)
 		elseif (is_numeric($query_or_paged)) {
 			$current_page = max(1, intval($query_or_paged));
-			$max_pages    = $total_pages !== null ? intval($total_pages) : intval($wp_query->max_num_pages ?? 1);
+			$max_pages = $total_pages !== null ? intval($total_pages) : intval($wp_query->max_num_pages ?? 1);
 		}
 		// Option D: Default - use main global $wp_query
 		else {
 			$current_page = max(1, intval(get_query_var('paged') ?: (get_query_var('page') ?: 1)));
-			$max_pages    = intval($wp_query->max_num_pages ?? 1);
+			$max_pages = intval($wp_query->max_num_pages ?? 1);
 		}
 
 		// Do not render pagination if 1 or 0 pages exist
@@ -302,8 +302,8 @@ if (!function_exists('ha_pagination')) {
 		unset($merged_args['paged'], $merged_args['page']);
 
 		$args_to_remove = array_merge(array_keys($existing_args), ['paged', 'page']);
-		$pagenum_link   = remove_query_arg($args_to_remove, $pagenum_link);
-		$pagenum_link   = trailingslashit($pagenum_link) . '%_%';
+		$pagenum_link = remove_query_arg($args_to_remove, $pagenum_link);
+		$pagenum_link = trailingslashit($pagenum_link) . '%_%';
 
 		$is_singular_or_page = is_singular() || is_page();
 		$format = ($wp_rewrite && $wp_rewrite->using_permalinks() && !$is_singular_or_page) ? user_trailingslashit('page/%#%', 'paged') : '?paged=%#%';
@@ -316,16 +316,16 @@ if (!function_exists('ha_pagination')) {
 		$next_text = '<span class="ha-pagination__icon" aria-hidden="true">' . $next_icon . '</span><span class="visually-hidden">' . esc_html__('Next', 'ha') . '</span>';
 
 		$links = paginate_links([
-			'base'      => $pagenum_link,
-			'format'    => $format,
-			'current'   => $current_page,
-			'total'     => $max_pages,
-			'type'      => 'list',
+			'base' => $pagenum_link,
+			'format' => $format,
+			'current' => $current_page,
+			'total' => $max_pages,
+			'type' => 'list',
 			'prev_text' => $prev_text,
 			'next_text' => $next_text,
-			'add_args'  => $merged_args,
-			'end_size'  => 1,
-			'mid_size'  => 2,
+			'add_args' => $merged_args,
+			'end_size' => 1,
+			'mid_size' => 2,
 		]);
 
 		if (!$links) {
@@ -346,5 +346,46 @@ if (!function_exists('vm_pagination')) {
 	function vm_pagination($query_or_paged = null, $total_pages = null, $query_args = [], $echo = true)
 	{
 		return ha_pagination($query_or_paged, $total_pages, $query_args, $echo);
+	}
+}
+
+
+// Helper function to safely extract image data
+if (!function_exists('ha_extract_gallery_image_data')) {
+	function ha_extract_gallery_image_data($image)
+	{
+		$data = [
+			'url' => '',
+			'thumb' => '',
+			'alt' => get_the_title() . ' - Gallery',
+			'title' => ''
+		];
+
+		if (is_array($image)) {
+			$data['url'] = !empty($image['url']) ? $image['url'] : '';
+			$data['thumb'] = isset($image['sizes']['large']) ? $image['sizes']['large'] : $data['url'];
+			if (!empty($image['alt'])) {
+				$data['alt'] = $image['alt'];
+			} elseif (!empty($image['title'])) {
+				$data['alt'] = $image['title'];
+			}
+			$data['title'] = !empty($image['title']) ? $image['title'] : '';
+		} elseif (is_numeric($image)) {
+			$data['url'] = wp_get_attachment_url($image);
+			$img_src_large = wp_get_attachment_image_src($image, 'large');
+			$data['thumb'] = $img_src_large ? $img_src_large[0] : $data['url'];
+			$alt = get_post_meta($image, '_wp_attachment_image_alt', true);
+			if (!empty($alt)) {
+				$data['alt'] = $alt;
+			} else {
+				$data['alt'] = get_the_title($image);
+			}
+			$data['title'] = get_the_title($image);
+		} elseif (is_string($image)) {
+			$data['url'] = $image;
+			$data['thumb'] = $image;
+		}
+
+		return $data;
 	}
 }

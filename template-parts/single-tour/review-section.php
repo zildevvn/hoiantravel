@@ -71,8 +71,8 @@ if ($unapproved_comment) {
 
 $total_pages = $total_reviews > 0 ? ceil($total_reviews / $reviews_per_page) : 1;
 
-if (!function_exists('vm_render_stars')) {
-    function vm_render_stars(float $rating, string $size = '18'): string
+if (!function_exists('ha_render_stars')) {
+    function ha_render_stars(float $rating, string $size = '18'): string
     {
         $out = '';
         for ($i = 1; $i <= 5; $i++) {
@@ -97,45 +97,44 @@ $section_id = ($post_type === 'cars') ? 'car-review' : 'tour-review';
 $empty_message = ($post_type === 'cars') ? 'Be the first to leave a review for this car!' : 'Be the first to leave a review for this tour!';
 ?>
 
-<div id="<?php echo esc_attr($section_id); ?>" class="vm-reviews">
+<div id="<?php echo esc_attr($section_id); ?>" class="ha-reviews tour-section-block">
 
-    <?php vm_icon_heading() ?>
-    <h2 class="vm-heading vm-reviews__title">
-        <?php esc_html_e('Guest Reviews', 'vm'); ?>
+    <h2 class="ha-heading ha-reviews__title h3">
+        <?php esc_html_e('Guest Reviews', 'ha'); ?>
     </h2>
 
     <?php if ($total_reviews > 0 || $unapproved_comment): ?>
-        <div class="vm-reviews__container">
-            <div class="vm-reviews__list-wrapper">
-                <div class="vm-reviews__list">
+        <div class="ha-reviews__container">
+            <div class="ha-reviews__list-wrapper">
+                <div class="ha-reviews__list">
                     <?php foreach ($paginated as $review):
                         $reviewer_rating = intval(get_comment_meta($review->comment_ID, 'rating', true));
                         $initials = strtoupper(mb_substr($review->comment_author, 0, 1));
                         ?>
-                        <div class="vm-reviews__card" id="comment-<?php echo esc_attr($review->comment_ID); ?>">
-                            <div class="vm-reviews__card-header">
-                                <div class="vm-reviews__avatar">
+                        <div class="ha-reviews__card" id="comment-<?php echo esc_attr($review->comment_ID); ?>">
+                            <div class="ha-reviews__card-header">
+                                <div class="ha-reviews__avatar">
                                     <?php echo esc_html($initials); ?>
                                 </div>
-                                <div class="vm-reviews__author-meta">
-                                    <h4 class="vm-reviews__author-name">
+                                <div class="ha-reviews__author-meta">
+                                    <h4 class="ha-reviews__author-name">
                                         <?php echo esc_html($review->comment_author); ?>
                                     </h4>
-                                    <span class="vm-reviews__date">
+                                    <span class="ha-reviews__date">
                                         <?php echo esc_html(date_i18n('F j, Y', strtotime($review->comment_date))); ?>
                                     </span>
                                 </div>
                                 <?php if ($reviewer_rating): ?>
-                                    <div class="vm-reviews__card-rating">
-                                        <?php echo vm_render_stars($reviewer_rating, '16'); ?>
+                                    <div class="ha-reviews__card-rating">
+                                        <?php echo ha_render_stars($reviewer_rating, '16'); ?>
                                     </div>
                                 <?php endif; ?>
                             </div>
-                            <div class="vm-reviews__card-content">
+                            <div class="ha-reviews__card-content">
                                 <?php echo wp_kses_post(wpautop($review->comment_content)); ?>
                             </div>
                             <?php if ($review->comment_approved == '0'): ?>
-                                <div class="vm-reviews__card-pending">
+                                <div class="ha-reviews__card-pending">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2">
                                         <circle cx="12" cy="12" r="10" />
@@ -143,7 +142,7 @@ $empty_message = ($post_type === 'cars') ? 'Be the first to leave a review for t
                                         <line x1="12" y1="16" x2="12.01" y2="16" />
                                     </svg>
                                     <em>
-                                        <?php esc_html_e('Your review is awaiting moderation.', 'vm'); ?>
+                                        <?php esc_html_e('Your review is awaiting moderation.', 'ha'); ?>
                                     </em>
                                 </div>
                             <?php endif; ?>
@@ -153,7 +152,7 @@ $empty_message = ($post_type === 'cars') ? 'Be the first to leave a review for t
 
                 <!-- Pagination -->
                 <?php if ($total_pages > 1): ?>
-                    <div class="vm-reviews__pagination">
+                    <div class="ha-reviews__pagination">
                         <?php
                         echo paginate_comments_links([
                             'base' => add_query_arg('cpage', '%#%'),
@@ -170,7 +169,7 @@ $empty_message = ($post_type === 'cars') ? 'Be the first to leave a review for t
             </div>
         </div>
     <?php else: ?>
-        <div class="vm-reviews__empty">
+        <div class="ha-reviews__empty">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                 stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -183,95 +182,95 @@ $empty_message = ($post_type === 'cars') ? 'Be the first to leave a review for t
 
     <!-- Review Form -->
     <?php if (comments_open($post_id)): ?>
-        <div class="vm-reviews__form-container">
-            <h3 class="vm-reviews__form-title">
-                <?php esc_html_e('Write a Review', 'vm'); ?>
+        <div class="ha-reviews__form-container">
+            <h3 class="ha-reviews__form-title">
+                <?php esc_html_e('Write a Review', 'ha'); ?>
             </h3>
 
             <?php if (isset($_GET['unapproved'])): ?>
-                <div class="vm-reviews__notice vm-reviews__notice--pending">
+                <div class="ha-reviews__notice ha-reviews__notice--pending">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10" />
                         <line x1="12" y1="8" x2="12" y2="12" />
                         <line x1="12" y1="16" x2="12.01" y2="16" />
                     </svg>
-                    <?php esc_html_e('Your review has been submitted and is awaiting moderation. Thank you!', 'vm'); ?>
+                    <?php esc_html_e('Your review has been submitted and is awaiting moderation. Thank you!', 'ha'); ?>
                 </div>
             <?php elseif (isset($_GET['approved'])): ?>
-                <div class="vm-reviews__notice vm-reviews__notice--success">
+                <div class="ha-reviews__notice ha-reviews__notice--success">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                         <polyline points="22 4 12 14.01 9 11.01" />
                     </svg>
-                    <?php esc_html_e('Your review has been published. Thank you!', 'vm'); ?>
+                    <?php esc_html_e('Your review has been published. Thank you!', 'ha'); ?>
                 </div>
             <?php endif; ?>
 
-            <form id="vm-review-form" action="<?php echo esc_url(site_url('/wp-comments-post.php')); ?>" method="post"
-                class="vm-reviews__form" novalidate>
+            <form id="ha-review-form" action="<?php echo esc_url(site_url('/wp-comments-post.php')); ?>" method="post"
+                class="ha-reviews__form" novalidate>
 
                 <!-- Row 1: Name and Email -->
-                <div class="vm-reviews__form-row">
+                <div class="ha-reviews__form-row">
                     <!-- Name -->
-                    <div class="vm-reviews__field">
-                        <label class="vm-reviews__label" for="vm-author">
-                            <?php esc_html_e('Name', 'vm'); ?> <span class="required">*</span>
+                    <div class="ha-reviews__field">
+                        <label class="ha-reviews__label" for="ha-author">
+                            <?php esc_html_e('Name', 'ha'); ?> <span class="required">*</span>
                         </label>
-                        <input type="text" id="vm-author" name="author" class="vm-reviews__input"
-                            placeholder="<?php esc_attr_e('Your full name', 'vm'); ?>" required maxlength="245"
+                        <input type="text" id="ha-author" name="author" class="ha-reviews__input"
+                            placeholder="<?php esc_attr_e('Your full name', 'ha'); ?>" required maxlength="245"
                             value="<?php echo esc_attr(isset($_POST['author']) ? $_POST['author'] : ''); ?>">
                     </div>
                     <!-- Email -->
-                    <div class="vm-reviews__field">
-                        <label class="vm-reviews__label" for="vm-email">
-                            <?php esc_html_e('Email', 'vm'); ?> <span class="required">*</span>
+                    <div class="ha-reviews__field">
+                        <label class="ha-reviews__label" for="ha-email">
+                            <?php esc_html_e('Email', 'ha'); ?> <span class="required">*</span>
                         </label>
-                        <input type="email" id="vm-email" name="email" class="vm-reviews__input"
-                            placeholder="<?php esc_attr_e('your@email.com', 'vm'); ?>" required maxlength="100"
+                        <input type="email" id="ha-email" name="email" class="ha-reviews__input"
+                            placeholder="<?php esc_attr_e('your@email.com', 'ha'); ?>" required maxlength="100"
                             value="<?php echo esc_attr(isset($_POST['email']) ? $_POST['email'] : ''); ?>">
                     </div>
                 </div>
 
                 <!-- Row 2: Title -->
-                <div class="vm-reviews__field">
-                    <label class="vm-reviews__label" for="vm-title">
-                        <?php esc_html_e('Title', 'vm'); ?>
+                <div class="ha-reviews__field">
+                    <label class="ha-reviews__label" for="ha-title">
+                        <?php esc_html_e('Title', 'ha'); ?>
                     </label>
-                    <input type="text" id="vm-title" name="title" class="vm-reviews__input"
-                        placeholder="<?php esc_attr_e('Review Title', 'vm'); ?>" maxlength="245"
+                    <input type="text" id="ha-title" name="title" class="ha-reviews__input"
+                        placeholder="<?php esc_attr_e('Review Title', 'ha'); ?>" maxlength="245"
                         value="<?php echo esc_attr(isset($_POST['title']) ? $_POST['title'] : ''); ?>">
                 </div>
 
                 <!-- Row 3: Ratings and Content -->
-                <div class="vm-reviews__form-row">
+                <div class="ha-reviews__form-row">
                     <!-- Left: Ratings -->
-                    <div class="vm-reviews__ratings-col" style="display: flex; flex-direction: column; gap: 16px;">
+                    <div class="ha-reviews__ratings-col" style="display: flex; flex-direction: column; gap: 16px;">
 
                         <?php if ($post_type === 'tours'): ?>
                             <!-- Category Ratings -->
-                            <label class="vm-reviews__label" for="vm-comment">
+                            <label class="ha-reviews__label" for="ha-comment">
                                 Rating<span class="required">*</span>
                             </label>
 
-                            <div class="vm-reviews__field vm-reviews__field--rating">
+                            <div class="ha-reviews__field ha-reviews__field--rating">
 
                                 <?php
                                 $rating_categories = [
-                                    'services' => __('Services', 'vm'),
-                                    'driver' => __('Driver', 'vm'),
-                                    'experiences' => __('Experiences', 'vm'),
+                                    'services' => __('Services', 'ha'),
+                                    'driver' => __('Driver', 'ha'),
+                                    'experiences' => __('Experiences', 'ha'),
                                 ];
                                 foreach ($rating_categories as $key => $label):
                                     ?>
-                                    <div class="vm-reviews__field--item">
-                                        <label class="vm-reviews__label"><?php echo esc_html($label); ?>:</label>
+                                    <div class="ha-reviews__field--item">
+                                        <label class="ha-reviews__label"><?php echo esc_html($label); ?>:</label>
                                         <div class="star-picker" id="star-picker-<?php echo esc_attr($key); ?>" role="radiogroup"
                                             aria-label="<?php echo esc_attr($label); ?> Rating">
                                             <?php for ($s = 1; $s <= 5; $s++): ?>
                                                 <label class="star-picker__label" for="star-<?php echo esc_attr($key . '-' . $s); ?>"
-                                                    title="<?php printf(esc_attr__('%d star%s', 'vm'), $s, $s > 1 ? 's' : ''); ?>">
+                                                    title="<?php printf(esc_attr__('%d star%s', 'ha'), $s, $s > 1 ? 's' : ''); ?>">
                                                     <input type="radio" class="star-picker__input"
-                                                        name="vm_tour_rating_<?php echo esc_attr($key); ?>"
+                                                        name="ha_tour_rating_<?php echo esc_attr($key); ?>"
                                                         id="star-<?php echo esc_attr($key . '-' . $s); ?>"
                                                         value="<?php echo esc_attr($s); ?>" required>
                                                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -289,12 +288,12 @@ $empty_message = ($post_type === 'cars') ? 'Be the first to leave a review for t
                     </div>
 
                     <!-- Right: Content -->
-                    <div class="vm-reviews__field" style="height: 100%;">
-                        <label class="vm-reviews__label" for="vm-comment">
-                            <?php esc_html_e('Review', 'vm'); ?> <span class="required">*</span>
+                    <div class="ha-reviews__field" style="height: 100%;">
+                        <label class="ha-reviews__label" for="ha-comment">
+                            <?php esc_html_e('Review', 'ha'); ?> <span class="required">*</span>
                         </label>
-                        <textarea id="vm-comment" name="comment" class="vm-reviews__textarea"
-                            placeholder="<?php printf(esc_attr__('Share your experience with this %s...', 'vm'), $post_type_label); ?>"
+                        <textarea id="ha-comment" name="comment" class="ha-reviews__textarea"
+                            placeholder="<?php printf(esc_attr__('Share your experience with this %s...', 'ha'), $post_type_label); ?>"
                             required maxlength="65525" style="height: 100%; min-height: 200px; resize: none;"></textarea>
                     </div>
                 </div>
@@ -304,8 +303,8 @@ $empty_message = ($post_type === 'cars') ? 'Be the first to leave a review for t
                 <input type="hidden" name="comment_post_ID" value="<?php echo esc_attr($post_id); ?>">
                 <input type="hidden" name="comment_parent" value="0">
 
-                <button type="submit" class="vm-button vm-reviews__submit">
-                    <?php esc_html_e('Submit Review', 'vm'); ?>
+                <button type="submit" class="ha-button ha-reviews__submit">
+                    <?php esc_html_e('Submit Review', 'ha'); ?>
                     <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                         color="#000000">
                         <path d="M12 21L12 3M12 3L20.5 11.5M12 3L3.5 11.5" stroke="currentColor" stroke-width="1.5"

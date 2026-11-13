@@ -1,6 +1,14 @@
 <?php
 /**
- * Single Tour Gallery Section
+ * Single Tour Gallery Section — Visual Opening
+ *
+ * 5-Image Showcase Grid (2 Left - 3 Right):
+ * - Left column: 2 stacked equal-height images (Bottom-left carries the Photos badge)
+ * - Right column: 1 wide top image + 2 split bottom images (Bottom-right carries +X more overlay)
+ * - Mobile responsive: Only 1 primary image with Photos badge, followed by smooth horizontal swipe tab bar
+ * - Lightbox: Full Fancybox 5 integration for all images
+ *
+ * @package hoiantravel
  */
 
 $gallery_tour = get_field('gallery_tour');
@@ -9,10 +17,10 @@ if (empty($gallery_tour) || !is_array($gallery_tour)) {
     return;
 }
 
-// Normalize data once and skip invalid items
+// Normalize gallery data
 $gallery_images = [];
 foreach ($gallery_tour as $image) {
-    $img_data = vm_extract_gallery_image_data($image);
+    $img_data = ha_extract_gallery_image_data($image);
     if (!empty($img_data['url'])) {
         $gallery_images[] = $img_data;
     }
@@ -23,128 +31,180 @@ if (empty($gallery_images)) {
 }
 
 $total_images = count($gallery_images);
-$visible_images_count = min(5, $total_images);
-$remaining_images = max(0, $total_images - 5);
+$page_title   = get_the_title();
+
+// Extract up to 5 visible images
+$img_1 = $gallery_images[0] ?? null;
+$img_2 = $gallery_images[1] ?? null;
+$img_3 = $gallery_images[2] ?? null;
+$img_4 = $gallery_images[3] ?? null;
+$img_5 = $gallery_images[4] ?? null;
+
+$remaining_count = max(0, $total_images - 5);
 ?>
 
-<section class="tour-gallery">
+<section class="tour-gallery-opening" id="tour-gallery" aria-label="<?php esc_attr_e('Tour Photo Gallery', 'ha'); ?>">
     <div class="container">
-        <!-- Main Gallery Container -->
-        <div class="tour-gallery__main-container">
-            <div class="tour-gallery__grid">
-                <?php foreach ($gallery_images as $i => $img_data):
-                    $is_featured = ($i === 0);
-                    $is_last_visible = ($i === 4 && $remaining_images > 0);
+        <div class="tour-gallery-opening__wrapper">
+            <!-- 5-Image Grid: 2 Left Stacked - 3 Right (1 Top Wide + 2 Bottom Split) -->
+            <div class="tour-gallery-opening__grid">
 
-                    $item_classes = 'tour-gallery__item';
-                    if ($is_featured) {
-                        $item_classes .= ' tour-gallery__item--featured';
-                    }
-                    if ($i >= 5) {
-                        $item_classes .= ' d-md-none';
-                    }
-                    ?>
-                    <button type="button" class="<?php echo esc_attr($item_classes); ?>" data-index="<?php echo $i; ?>" aria-label="<?php echo esc_attr('Open gallery image ' . ($i + 1)); ?>">
-                        <img src="<?php echo esc_url($img_data['thumb']); ?>" alt="<?php echo esc_attr($img_data['alt']); ?>"
-                            loading="<?php echo $is_featured ? 'eager' : 'lazy'; ?>" decoding="async">
+                <!-- 1. LEFT COLUMN: 2 Stacked Images -->
+                <div class="tour-gallery-opening__col tour-gallery-opening__col--left">
+                    <!-- Photo 1: Top-Left (Primary image shown on all viewports, sole image on mobile) -->
+                    <?php if (!empty($img_1)): ?>
+                        <div class="tour-gallery-opening__item tour-gallery-opening__item--left-top">
+                            <a href="<?php echo esc_url($img_1['url']); ?>"
+                                class="tour-gallery-opening__link"
+                                data-fancybox="tour-gallery"
+                                data-caption="<?php echo esc_attr($img_1['alt'] ?: sprintf(__('%s — Photo 1 of %d', 'ha'), $page_title, $total_images)); ?>"
+                                aria-label="<?php echo esc_attr(sprintf(__('Open photo 1 of %d: %s', 'ha'), $total_images, $img_1['alt'] ?: $page_title)); ?>">
+                                <img src="<?php echo esc_url($img_1['url']); ?>"
+                                    alt="<?php echo esc_attr($img_1['alt'] ?: $page_title); ?>"
+                                    loading="eager"
+                                    decoding="async">
 
-                        <?php if ($is_featured): ?>
-                            <div class="tour-gallery__overlay" aria-hidden="true">
-                                <span class="tour-gallery__overlay-btn">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                                        <polyline points="21 15 16 10 5 21"></polyline>
-                                    </svg>
-                                    View Photos
-                                </span>
-                            </div>
-                        <?php endif; ?>
+                                <!-- Mobile badge positioned at bottom-left of the single mobile photo -->
+                                <div class="tour-gallery-opening__badge d-md-none" aria-hidden="true">
+                                    <span class="tour-gallery-opening__badge-inner">
+                                        <?= ha_svg_icon('camera'); ?>
+                                        <span><?php printf(esc_html(_n('%d Photo', '%d Photos', $total_images, 'ha')), $total_images); ?></span>
+                                    </span>
+                                </div>
 
-                        <?php if ($is_last_visible): ?>
-                            <div class="tour-gallery__counter d-none d-md-flex" aria-hidden="true">
-                                <?php $photo_label = $remaining_images === 1 ? 'Photo' : 'Photos'; ?>
-                                <span>+ <?php echo esc_html($remaining_images . ' ' . $photo_label); ?></span>
-                            </div>
-                        <?php endif; ?>
-                    </button>
-                <?php endforeach; ?>
+                                <div class="tour-gallery-opening__zoom-hint" aria-hidden="true">
+                                    <span class="tour-gallery-opening__zoom-hint-btn">
+                                        <?= ha_svg_icon('search-icon'); ?>
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- Photo 2: Bottom-Left (Desktop/Tablet only; carries the bottom-left Photos badge) -->
+                    <?php if (!empty($img_2)): ?>
+                        <div class="tour-gallery-opening__item tour-gallery-opening__item--left-bottom d-none d-md-block">
+                            <a href="<?php echo esc_url($img_2['url']); ?>"
+                                class="tour-gallery-opening__link"
+                                data-fancybox="tour-gallery"
+                                data-caption="<?php echo esc_attr($img_2['alt'] ?: sprintf(__('%s — Photo 2 of %d', 'ha'), $page_title, $total_images)); ?>"
+                                aria-label="<?php echo esc_attr(sprintf(__('Open photo 2 of %d: %s', 'ha'), $total_images, $img_2['alt'] ?: $page_title)); ?>">
+                                <img src="<?php echo esc_url($img_2['thumb'] ?: $img_2['url']); ?>"
+                                    alt="<?php echo esc_attr($img_2['alt'] ?: sprintf(__('%s photo 2', 'ha'), $page_title)); ?>"
+                                    loading="lazy"
+                                    decoding="async">
+
+                                <!-- Desktop badge placed at bottom-left of the bottom-left photo -->
+                                <div class="tour-gallery-opening__badge" aria-hidden="true">
+                                    <span class="tour-gallery-opening__badge-inner">
+                                        <?= ha_svg_icon('camera'); ?>
+                                        <span><?php printf(esc_html(_n('%d Photo', '%d Photos', $total_images, 'ha')), $total_images); ?></span>
+                                    </span>
+                                </div>
+
+                                <div class="tour-gallery-opening__zoom-hint" aria-hidden="true">
+                                    <span class="tour-gallery-opening__zoom-hint-btn">
+                                        <?= ha_svg_icon('search-icon'); ?>
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <!-- 2. RIGHT COLUMN: 3 Images (1 Top Wide + 2 Bottom Split) — Desktop/Tablet only -->
+                <div class="tour-gallery-opening__col tour-gallery-opening__col--right d-none d-md-grid">
+                    <!-- Photo 3: Top Wide Image -->
+                    <?php if (!empty($img_3)): ?>
+                        <div class="tour-gallery-opening__item tour-gallery-opening__item--right-top">
+                            <a href="<?php echo esc_url($img_3['url']); ?>"
+                                class="tour-gallery-opening__link"
+                                data-fancybox="tour-gallery"
+                                data-caption="<?php echo esc_attr($img_3['alt'] ?: sprintf(__('%s — Photo 3 of %d', 'ha'), $page_title, $total_images)); ?>"
+                                aria-label="<?php echo esc_attr(sprintf(__('Open photo 3 of %d: %s', 'ha'), $total_images, $img_3['alt'] ?: $page_title)); ?>">
+                                <img src="<?php echo esc_url($img_3['thumb'] ?: $img_3['url']); ?>"
+                                    alt="<?php echo esc_attr($img_3['alt'] ?: sprintf(__('%s photo 3', 'ha'), $page_title)); ?>"
+                                    loading="lazy"
+                                    decoding="async">
+
+                                <div class="tour-gallery-opening__zoom-hint" aria-hidden="true">
+                                    <span class="tour-gallery-opening__zoom-hint-btn">
+                                        <?= ha_svg_icon('search-icon'); ?>
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- Photo 4: Bottom-Left Image -->
+                    <?php if (!empty($img_4)): ?>
+                        <div class="tour-gallery-opening__item tour-gallery-opening__item--right-bottom-1">
+                            <a href="<?php echo esc_url($img_4['url']); ?>"
+                                class="tour-gallery-opening__link"
+                                data-fancybox="tour-gallery"
+                                data-caption="<?php echo esc_attr($img_4['alt'] ?: sprintf(__('%s — Photo 4 of %d', 'ha'), $page_title, $total_images)); ?>"
+                                aria-label="<?php echo esc_attr(sprintf(__('Open photo 4 of %d: %s', 'ha'), $total_images, $img_4['alt'] ?: $page_title)); ?>">
+                                <img src="<?php echo esc_url($img_4['thumb'] ?: $img_4['url']); ?>"
+                                    alt="<?php echo esc_attr($img_4['alt'] ?: sprintf(__('%s photo 4', 'ha'), $page_title)); ?>"
+                                    loading="lazy"
+                                    decoding="async">
+
+                                <div class="tour-gallery-opening__zoom-hint" aria-hidden="true">
+                                    <span class="tour-gallery-opening__zoom-hint-btn">
+                                        <?= ha_svg_icon('search-icon'); ?>
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- Photo 5: Bottom-Right Image (with +X more photos overlay if > 5) -->
+                    <?php if (!empty($img_5)): ?>
+                        <div class="tour-gallery-opening__item tour-gallery-opening__item--right-bottom-2">
+                            <a href="<?php echo esc_url($img_5['url']); ?>"
+                                class="tour-gallery-opening__link"
+                                data-fancybox="tour-gallery"
+                                data-caption="<?php echo esc_attr($img_5['alt'] ?: sprintf(__('%s — Photo 5 of %d', 'ha'), $page_title, $total_images)); ?>"
+                                aria-label="<?php echo esc_attr(sprintf(__('Open photo 5 of %d: %s', 'ha'), $total_images, $img_5['alt'] ?: $page_title)); ?>">
+                                <img src="<?php echo esc_url($img_5['thumb'] ?: $img_5['url']); ?>"
+                                    alt="<?php echo esc_attr($img_5['alt'] ?: sprintf(__('%s photo 5', 'ha'), $page_title)); ?>"
+                                    loading="lazy"
+                                    decoding="async">
+
+                                <?php if ($remaining_count > 0): ?>
+                                    <div class="tour-gallery-opening__more-overlay" aria-hidden="true">
+                                        <span class="tour-gallery-opening__more-icon"><?= ha_svg_icon('camera'); ?></span>
+                                        <span class="tour-gallery-opening__more-count">+<?php echo esc_html($remaining_count); ?></span>
+                                        <span class="tour-gallery-opening__more-label"><?php esc_html_e('more photos', 'ha'); ?></span>
+                                    </div>
+                                <?php else: ?>
+                                    <div class="tour-gallery-opening__zoom-hint" aria-hidden="true">
+                                        <span class="tour-gallery-opening__zoom-hint-btn">
+                                            <?= ha_svg_icon('search-icon'); ?>
+                                        </span>
+                                    </div>
+                                <?php endif; ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
             </div>
 
-            <!-- Mobile Gallery Navigation -->
-            <?php if ($total_images > 1): ?>
-                <button type="button" class="swiper-button-prev d-md-none" aria-label="Previous photo">
-                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="currentColor">
-                        <path d="M21 12L3 12M3 12L11.5 3.5M3 12L11.5 20.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                    </svg>
-                </button>
-                <button type="button" class="swiper-button-next d-md-none" aria-label="Next photo">
-                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="currentColor">
-                        <path d="M3 12L21 12M21 12L12.5 3.5M21 12L12.5 20.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                    </svg>
-                </button>
+            <!-- Hidden anchor links for photos 6+ so Fancybox allows browsing the complete album -->
+            <?php if ($total_images > 5): ?>
+                <div class="d-none" aria-hidden="true">
+                    <?php for ($i = 5; $i < $total_images; $i++):
+                        $hidden_img = $gallery_images[$i];
+                        $hidden_caption = $hidden_img['alt'] ?: sprintf(__('%s — Photo %d of %d', 'ha'), $page_title, $i + 1, $total_images);
+                        ?>
+                        <a href="<?php echo esc_url($hidden_img['url']); ?>"
+                            data-fancybox="tour-gallery"
+                            data-caption="<?php echo esc_attr($hidden_caption); ?>"
+                            tabindex="-1"></a>
+                    <?php endfor; ?>
+                </div>
             <?php endif; ?>
-        </div>
-
-        <!-- Mobile Thumbs Gallery -->
-        <div class="tour-gallery__thumbs-container">
-            <div class="tour-gallery__thumbs-grid">
-                <?php foreach ($gallery_images as $i => $img_data): ?>
-                <button type="button" class="tour-gallery__thumb-item" data-index="<?php echo $i; ?>" aria-label="<?php echo esc_attr('View thumbnail ' . ($i + 1)); ?>">
-                    <img src="<?php echo esc_url($img_data['thumb']); ?>" alt="<?php echo esc_attr($img_data['alt']); ?>" loading="lazy" decoding="async">
-                </button>
-                <?php endforeach; ?>
-            </div>
         </div>
     </div>
 </section>
-
-<!-- Lightbox Modal -->
-<div class="tour-gallery__lightbox" id="tourGalleryLightbox" aria-hidden="true" role="dialog" aria-modal="true"
-    aria-label="Image Gallery">
-    <div class="tour-gallery__lightbox-overlay"></div>
-    <div class="tour-gallery__lightbox-content">
-        <button class="tour-gallery__lightbox-close" aria-label="Close gallery">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-        </button>
-
-        <button class="tour-gallery__lightbox-prev" aria-label="Previous image">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-        </button>
-
-        <div class="tour-gallery__lightbox-image-container">
-            <img src="" alt="" class="tour-gallery__lightbox-image" id="tourGalleryLightboxImg" decoding="async">
-        </div>
-
-        <button class="tour-gallery__lightbox-next" aria-label="Next image">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-        </button>
-
-        <div class="tour-gallery__lightbox-counter" id="tourGalleryLightboxCounter"></div>
-    </div>
-</div>
-
-<!-- Gallery Data for JS -->
-<script type="application/json" id="tourGalleryData">
-<?php
-$gallery_data_json = [];
-foreach ($gallery_images as $img_data) {
-    $gallery_data_json[] = [
-        'url' => $img_data['url'],
-        'alt' => $img_data['alt']
-    ];
-}
-echo wp_json_encode(
-    $gallery_data_json,
-    JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
-);
-?>
-</script>
