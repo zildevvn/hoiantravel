@@ -1,0 +1,740 @@
+// ==========================================================================
+// Global Gravity Forms Styles — Hoi An Travel Design System
+// Consistent, accessible, and responsive styles for all Gravity Forms across the site.
+// Strictly adheres to project color tokens, typography, and .ha-button conventions.
+// ==========================================================================
+
+.gform_wrapper {
+    // ----------------------------------------------------------------------
+    // 1. Gravity Forms 2.5+ CSS Custom Properties Integration
+    // ----------------------------------------------------------------------
+    --gf-ctrl-color-primary: #{$color-primary};
+    --gf-color-primary: #{$color-primary};
+    --gf-color-danger: #{$color-accent};
+    --gf-ctrl-radius: 14px;
+    --gf-ctrl-border-color: rgba(25, 35, 43, 0.12);
+    --gf-ctrl-border-color-focus: #{$color-primary};
+    --gf-ctrl-bg-color: #{$color-bg};
+    --gf-ctrl-bg-color-focus: #ffffff;
+    --gf-ctrl-color: #{$color-heading};
+    --gf-ctrl-placeholder-color: rgba(36, 28, 26, 0.45);
+    --gf-label-color-primary: #{$color-heading};
+    --gf-desc-color-primary: rgba(36, 28, 26, 0.65);
+    --gf-btn-bg-color-primary: #{$color-accent};
+    --gf-btn-color-primary: #ffffff;
+    --gf-btn-radius: 9999px;
+
+    width: 100%;
+    margin: 0;
+
+    // Reset default form margins and borders
+    form {
+        margin: 0;
+        padding: 0;
+    }
+
+    // ----------------------------------------------------------------------
+    // 2. Form Heading & Description (When enabled)
+    // ----------------------------------------------------------------------
+    .gform_heading {
+        margin-bottom: 1.5rem;
+
+        .gform_title {
+            font-family: $font-heading;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: $color-heading;
+            line-height: 1.3;
+            margin-bottom: 0.5rem;
+        }
+
+        .gform_description {
+            font-family: $font-body;
+            font-size: 0.9375rem;
+            color: rgba($color-body, 0.75);
+            line-height: 1.6;
+            display: block;
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 3. Grid Architecture & Field Spacing
+    // ----------------------------------------------------------------------
+    .gform_fields {
+        display: grid !important;
+        grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+        gap: 1.25rem !important;
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+
+        @include media-breakpoint-down(md) {
+            gap: 1rem !important;
+        }
+    }
+
+    .gfield {
+        grid-column: span 12; // default full-width
+        margin: 0 !important;
+        padding: 0 !important;
+        min-width: 0;
+
+        // Gravity Forms Modern & Legacy Width Utility Classes
+        &.gfield--width-full {
+            grid-column: span 12;
+        }
+
+        &.gfield--width-eleven-twelfths {
+            grid-column: span 12;
+
+            @include media-breakpoint-up(md) {
+                grid-column: span 11;
+            }
+        }
+
+        &.gfield--width-five-sixths {
+            grid-column: span 12;
+
+            @include media-breakpoint-up(md) {
+                grid-column: span 10;
+            }
+        }
+
+        &.gfield--width-three-quarter,
+        &.gfield--width-three-quarters {
+            grid-column: span 12;
+
+            @include media-breakpoint-up(md) {
+                grid-column: span 9;
+            }
+        }
+
+        &.gfield--width-two-thirds {
+            grid-column: span 12;
+
+            @include media-breakpoint-up(md) {
+                grid-column: span 8;
+            }
+        }
+
+        &.gfield--width-seven-twelfths {
+            grid-column: span 12;
+
+            @include media-breakpoint-up(md) {
+                grid-column: span 7;
+            }
+        }
+
+        &.gfield--width-half,
+        &.gfield--width-50,
+        &.gf_left_half,
+        &.gf_right_half {
+            grid-column: span 12;
+
+            @include media-breakpoint-up(md) {
+                grid-column: span 6;
+            }
+        }
+
+        &.gfield--width-five-twelfths {
+            grid-column: span 12;
+
+            @include media-breakpoint-up(md) {
+                grid-column: span 5;
+            }
+        }
+
+        &.gfield--width-third,
+        &.gf_left_third,
+        &.gf_middle_third,
+        &.gf_right_third {
+            grid-column: span 12;
+
+            @include media-breakpoint-up(md) {
+                grid-column: span 4;
+            }
+        }
+
+        &.gfield--width-quarter {
+            grid-column: span 12;
+
+            @include media-breakpoint-up(md) {
+                grid-column: span 3;
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 4. Labels, Descriptions & Required Asterisk
+    // ----------------------------------------------------------------------
+    .gfield_label,
+    legend.gfield_label {
+        display: inline-block;
+        font-family: $font-heading;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: $color-heading;
+        line-height: 1.4;
+        margin-bottom: 0.375rem;
+        padding: 0;
+        border: none;
+
+        .gfield_required,
+        .gfield_required_asterisk {
+            color: $color-accent;
+            font-weight: 700;
+            margin-left: 0.25rem;
+            display: inline;
+        }
+    }
+
+    .gfield_description,
+    .ginput_container+.gfield_description {
+        font-family: $font-body;
+        font-size: 0.8125rem;
+        color: rgba($color-body, 0.65);
+        line-height: 1.45;
+        margin-top: 0.375rem;
+        margin-bottom: 0;
+    }
+
+    // ----------------------------------------------------------------------
+    // 5. Form Fields: Inputs, Textareas & Selects
+    // ----------------------------------------------------------------------
+    .ginput_container {
+        width: 100%;
+        position: relative;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="password"],
+    input[type="url"],
+    input[type="date"],
+    select,
+    textarea {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 48px;
+        padding: 0 1.25rem;
+        border-radius: 14px;
+        border: 1px solid rgba(25, 35, 43, 0.12);
+        background-color: $color-bg;
+        font-family: $font-body;
+        font-size: 0.9375rem;
+        color: $color-heading;
+        line-height: normal;
+        box-shadow: none;
+        box-sizing: border-box;
+        transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+
+        @include media-breakpoint-down(sm) {
+            height: 46px;
+            padding: 0 1rem;
+            font-size: 0.875rem;
+        }
+
+        &::placeholder {
+            color: rgba($color-body, 0.45);
+            opacity: 1;
+        }
+
+        &:hover {
+            border-color: rgba(25, 35, 43, 0.22);
+        }
+
+        &:focus,
+        &:focus-visible {
+            background-color: #ffffff;
+            border-color: $color-primary;
+            box-shadow: 0 0 0 3px rgba($color-primary, 0.15);
+            outline: none;
+        }
+
+        &:disabled,
+        &[disabled] {
+            background-color: rgba(25, 35, 43, 0.05);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+    }
+
+    // Multiline Textarea
+    textarea {
+        height: auto !important;
+        min-height: 120px;
+        padding: 0.875rem 1.25rem;
+        border-radius: 16px;
+        line-height: 1.6;
+        resize: vertical;
+        height: 200px !important;
+
+        @include media-breakpoint-down(md) {
+            min-height: 100px;
+            padding: 0.75rem 1rem;
+            height: 100px !important;
+        }
+    }
+
+    // Complex Inputs (Name field: First & Last Name)
+    .ginput_complex {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+        width: 100%;
+
+        @include media-breakpoint-down(sm) {
+            grid-template-columns: 1fr;
+        }
+
+        span {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            width: 100%;
+
+            label {
+                font-family: $font-body;
+                font-size: 0.75rem;
+                font-weight: 500;
+                color: rgba($color-body, 0.65);
+                margin: 0;
+            }
+        }
+    }
+
+    // Honeypot anti-spam protection (Always securely hidden)
+    .gfield.gform_validation_container {
+        display: none !important;
+        position: absolute !important;
+        left: -9000px !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+    }
+
+    // Select Dropdown
+    select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        cursor: pointer;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2319232B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 16px auto;
+        padding-right: 2.75rem;
+
+        &::-ms-expand {
+            display: none;
+        }
+
+        option {
+            background-color: #ffffff;
+            color: $color-heading;
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 6. Checkboxes & Radio Buttons
+    // ----------------------------------------------------------------------
+    .gfield_checkbox,
+    .gfield_radio {
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
+        margin-top: 0.375rem;
+        list-style: none;
+        padding: 0;
+
+        .gchoice {
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+            margin: 0;
+
+            input[type="checkbox"],
+            input[type="radio"] {
+                width: 18px !important;
+                height: 18px !important;
+                margin: 0 !important;
+                accent-color: $color-primary;
+                cursor: pointer;
+                flex-shrink: 0;
+                border-radius: 4px;
+            }
+
+            input[type="radio"] {
+                border-radius: 50%;
+            }
+
+            label {
+                font-family: $font-body;
+                font-size: 0.875rem;
+                font-weight: 400;
+                color: $color-heading;
+                cursor: pointer;
+                margin: 0;
+                line-height: 1.4;
+            }
+        }
+    }
+
+    // Consent Field
+    .gfield--type-consent,
+    .ginput_container_consent {
+        .gfield_consent_label {
+            font-family: $font-body;
+            font-size: 0.84375rem;
+            color: rgba($color-body, 0.8);
+            line-height: 1.5;
+            cursor: pointer;
+        }
+    }
+
+    // File Upload Field
+    .ginput_container_fileupload {
+        input[type="file"] {
+            font-family: $font-body;
+            font-size: 0.875rem;
+            color: $color-heading;
+            cursor: pointer;
+            padding: 0.5rem 0;
+
+            &::file-selector-button {
+                font-family: $font-heading;
+                font-size: 0.8125rem;
+                font-weight: 600;
+                padding: 8px 16px;
+                border-radius: 9999px;
+                border: 1px solid rgba($color-primary, 0.3);
+                background-color: rgba($color-primary, 0.1);
+                color: $color-secondary;
+                cursor: pointer;
+                margin-right: 12px;
+                transition: all 0.25s ease;
+
+                &:hover {
+                    background-color: $color-primary;
+                    color: #ffffff;
+                }
+            }
+        }
+
+        .gform_fileupload_rules {
+            font-size: 0.75rem;
+            color: rgba($color-body, 0.6);
+            margin-top: 0.375rem;
+            display: block;
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 7. Validation & Error States
+    // ----------------------------------------------------------------------
+    // Form-level error box
+    .gform_validation_errors {
+        border-radius: 16px;
+        border: 1px solid rgba($color-accent, 0.25);
+        background-color: rgba($color-accent, 0.06);
+        color: $color-accent;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.5rem;
+        box-shadow: none;
+
+        .gform_submission_error,
+        h2 {
+            font-family: $font-heading;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: $color-accent;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        ol,
+        ul {
+            margin: 0.5rem 0 0;
+            padding-left: 1.25rem;
+            font-size: 0.84375rem;
+            color: $color-accent;
+
+            li {
+                margin-bottom: 0.25rem;
+
+                a {
+                    color: $color-accent;
+                    text-decoration: underline;
+
+                    &:hover {
+                        color: darken($color-accent, 10%);
+                    }
+                }
+            }
+        }
+    }
+
+    // Field-level error state
+    .gfield.gfield_error {
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="password"],
+        input[type="url"],
+        input[type="date"],
+        select,
+        textarea {
+            border-color: $color-accent !important;
+            background-color: rgba($color-accent, 0.03);
+
+            &:focus,
+            &:focus-visible {
+                border-color: $color-accent !important;
+                box-shadow: 0 0 0 3px rgba($color-accent, 0.15) !important;
+            }
+        }
+
+        .gfield_label,
+        legend.gfield_label {
+            color: $color-accent;
+        }
+
+        .gfield_validation_message,
+        .validation_message {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            color: $color-accent;
+            font-family: $font-body;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            line-height: 1.4;
+            margin-top: 0.375rem;
+            background: transparent;
+            border: none;
+            padding: 0;
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 8. Submit Button & Form Footer (Synchronized with .ha-button)
+    // ----------------------------------------------------------------------
+    .gform_footer,
+    .gform_page_footer {
+        padding: 0;
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        grid-column: span 12;
+
+        @include media-breakpoint-down(sm) {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+
+    // Primary Submit & Next Page Buttons (Matches .ha-button precisely)
+    .gform_button,
+    .gform_footer input[type="submit"],
+    .gform_footer button[type="submit"],
+    .gform_page_footer input[type="submit"],
+    .gform_page_footer .gform_next_button {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 48px;
+        padding: 12px 28px !important;
+        background-color: $color-accent !important;
+        color: #ffffff !important;
+        font-family: $font-heading !important;
+        font-size: 0.9375rem !important;
+        font-weight: 600 !important;
+        line-height: 1.25 !important;
+        border-radius: 9999px !important;
+        border: 1px solid transparent !important;
+        box-shadow: 0 10px 15px -3px rgba(194, 74, 45, 0.35) !important;
+        cursor: pointer !important;
+        text-decoration: none !important;
+        text-align: center;
+        width: auto;
+        transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+            border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+            color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+            box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+            transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+        @include media-breakpoint-down(sm) {
+            width: 100% !important;
+        }
+
+        &:hover {
+            background-color: #a83d22 !important;
+            color: #ffffff !important;
+            box-shadow: 0 14px 24px -4px rgba(194, 74, 45, 0.45), 0 4px 8px -2px rgba(194, 74, 45, 0.2) !important;
+            transform: translateY(-2px);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 6px 10px -2px rgba(194, 74, 45, 0.3) !important;
+        }
+
+        &:focus-visible {
+            outline: 2px solid $color-accent;
+            outline-offset: 3px;
+        }
+
+        &:disabled,
+        &[disabled],
+        &.disabled {
+            opacity: 0.6 !important;
+            cursor: not-allowed !important;
+            pointer-events: none !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+    }
+
+    // Previous Page Button (Multi-page forms — Matches .ha-button--outline)
+    .gform_page_footer .gform_previous_button {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 48px;
+        padding: 12px 24px !important;
+        background-color: transparent !important;
+        color: $color-heading !important;
+        font-family: $font-heading !important;
+        font-size: 0.9375rem !important;
+        font-weight: 600 !important;
+        line-height: 1.25 !important;
+        border-radius: 9999px !important;
+        border: 1px solid rgba(25, 35, 43, 0.2) !important;
+        box-shadow: none !important;
+        cursor: pointer !important;
+        text-decoration: none !important;
+        transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease !important;
+
+        @include media-breakpoint-down(sm) {
+            width: 100% !important;
+        }
+
+        &:hover {
+            background-color: rgba(25, 35, 43, 0.05) !important;
+            border-color: rgba(25, 35, 43, 0.35) !important;
+            color: $color-heading !important;
+            transform: translateY(-2px);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        &:focus-visible {
+            outline: 2px solid rgba(25, 35, 43, 0.4);
+            outline-offset: 3px;
+        }
+    }
+
+    // AJAX Spinner
+    .gform_ajax_spinner {
+        margin-left: 0.75rem;
+        vertical-align: middle;
+        display: inline-block;
+    }
+}
+
+// ----------------------------------------------------------------------
+// 9. Form Confirmation Message (Success state)
+// ----------------------------------------------------------------------
+.gform_confirmation_wrapper {
+    padding: 2rem;
+    border-radius: 20px;
+    background-color: rgba($color-secondary, 0.05);
+    border: 1px solid rgba($color-secondary, 0.2);
+    text-align: center;
+    margin: 1.5rem 0;
+
+    .gform_confirmation_message {
+        font-family: $font-heading;
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: $color-secondary;
+        line-height: 1.6;
+        margin: 0;
+    }
+}
+
+// ----------------------------------------------------------------------
+// 10. Gravity Forms jQuery UI Datepicker Popup
+// ----------------------------------------------------------------------
+body .ui-datepicker {
+    background-color: #ffffff;
+    border: 1px solid rgba(25, 35, 43, 0.12);
+    border-radius: 16px;
+    box-shadow: 0 16px 36px -8px rgba(25, 35, 43, 0.15);
+    font-family: $font-body;
+    padding: 0.75rem;
+    z-index: 9999 !important;
+
+    .ui-datepicker-header {
+        background-color: transparent;
+        border: none;
+        color: $color-heading;
+        font-family: $font-heading;
+        font-weight: 700;
+        padding: 0.25rem 0 0.5rem;
+    }
+
+    .ui-datepicker-prev,
+    .ui-datepicker-next {
+        cursor: pointer;
+        border-radius: 8px;
+        top: 6px;
+
+        &:hover {
+            background-color: rgba($color-primary, 0.1);
+            border-color: transparent;
+        }
+    }
+
+    th {
+        font-family: $font-heading;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: rgba($color-body, 0.6);
+        padding: 0.35rem;
+    }
+
+    td {
+        padding: 2px;
+
+        a,
+        span {
+            border-radius: 8px;
+            text-align: center;
+            padding: 0.35rem 0.5rem;
+            font-size: 0.84375rem;
+            color: $color-heading;
+            border: none;
+            background: transparent;
+
+            &:hover {
+                background-color: rgba($color-primary, 0.15);
+                color: $color-primary;
+            }
+
+            &.ui-state-active {
+                background-color: $color-primary !important;
+                color: #ffffff !important;
+                font-weight: 600;
+            }
+        }
+    }
+}
