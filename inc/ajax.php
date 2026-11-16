@@ -463,6 +463,206 @@ function ha_ajax_process_booking_handler()
 }
 
 /**
+ * AJAX: Check Car Options Availability
+ */
+add_action('wp_ajax_ha_ajax_check_car_availability', 'ha_ajax_check_car_availability_handler');
+add_action('wp_ajax_nopriv_ha_ajax_check_car_availability', 'ha_ajax_check_car_availability_handler');
+function ha_ajax_check_car_availability_handler()
+{
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tour_options_nonce')) {
+        wp_send_json_error(array('message' => __('Security check failed. Please refresh the page and try again.', 'ha')));
+    }
+
+    $post_id  = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+    $date     = isset($_POST['date']) ? sanitize_text_field(wp_unslash($_POST['date'])) : '';
+    $adults   = isset($_POST['adults']) ? intval($_POST['adults']) : 2;
+    $children = isset($_POST['children']) ? intval($_POST['children']) : 0;
+
+    if (!$post_id) {
+        wp_send_json_error(array('message' => __('Invalid car selected.', 'ha')));
+    }
+
+    if (!empty($date) && strtotime($date) < strtotime(current_time('Y-m-d'))) {
+        wp_send_json_error(array('message' => __('Please select today or a future date.', 'ha')));
+    }
+
+    if ($adults < 1) {
+        wp_send_json_error(array('message' => __('At least 1 adult passenger is required.', 'ha')));
+    }
+
+    if ($children < 0) {
+        wp_send_json_error(array('message' => __('Invalid children count.', 'ha')));
+    }
+
+    $total_passengers = $adults + $children;
+    if ($total_passengers < 1) {
+        wp_send_json_error(array('message' => __('Total number of passengers must be at least 1.', 'ha')));
+    }
+
+    $post = get_post($post_id);
+    if (!$post || $post->post_type !== 'cars') {
+        wp_send_json_error(array('message' => __('Car not found.', 'ha')));
+    }
+
+    $car_options = get_field('option_car', $post_id);
+
+    if (empty($car_options) || !is_array($car_options)) {
+        wp_send_json_success(array(
+            'html'          => '',
+            'count'         => 0,
+            'total_options' => 0,
+        ));
+    }
+
+    // Count suitable options where total_passengers <= type
+    $suitable_count = 0;
+    foreach ($car_options as $option) {
+        $capacity = isset($option['type']) ? intval($option['type']) : 0;
+        if ($total_passengers <= $capacity) {
+            $suitable_count++;
+        }
+    }
+
+    ob_start();
+    get_template_part('template-parts/single-car/car-options', null, array(
+        'post_id'          => $post_id,
+        'date'             => $date,
+        'adults'           => $adults,
+        'children'         => $children,
+        'total_passengers' => $total_passengers,
+        'options'          => $car_options,
+        'suitable_count'   => $suitable_count,
+    ));
+    $html = ob_get_clean();
+
+    wp_send_json_success(array(
+        'html'             => $html,
+        'count'            => $suitable_count,
+        'total_options'    => count($car_options),
+        'total_passengers' => $total_passengers,
+    ));
+}
+
+/**
+ * AJAX: Process Car Booking Session
+ */
+add_action('wp_ajax_ha_ajax_process_car_booking', 'ha_ajax_process_car_booking_handler');
+add_action('wp_ajax_nopriv_ha_ajax_process_car_booking', 'ha_ajax_process_car_booking_handler');
+function ha_ajax_process_car_booking_handler()
+{
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tour_options_nonce')) {
+        wp_send_json_error(array('message' => __('Security check failed. Please refresh the page and try again.', 'ha')));
+    }
+
+    $post_id   = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+    $option_id = isset($_POST['option_id']) ? intval($_POST['option_id']) : -1;
+    $date      = isset($_POST['date']) ? sanitize_text_field(wp_unslash($_POST['date'])) : '';
+    $adults    = isset($_POST['adults']) ? intval($_POST['adults']) : 2;
+    $children  = isset($_POST['children']) ? intval($_POST['children']) : 0;
+
+    if (!$post_id || $option_id < 0 || empty($date)) {
+        wp_send_json_error(array('message' => __('Invalid car booking details.', 'ha')));
+    }
+
+    if (strtotime($date) < strtotime(current_time('Y-m-d'))) {
+        wp_send_json_error(array('message' => __('Please select today or a future date.', 'ha')));
+    }
+
+    if ($adults < 1) {
+        wp_send_json_error(array('message' => __('At least 1 adult passenger is required.', 'ha')));
+    }
+
+    if ($children < 0) {
+        wp_send_json_error(array('message' => __('Invalid children count.', 'ha')));
+    }
+
+    $total_passengers = $adults + $children;
+    if ($total_passengers < 1) {
+        wp_send_json_error(array('message' => __('Total number of passengers must be at least 1.', 'ha')));
+    }
+
+    $post = get_post($post_id);
+    if (!$post || $post->post_type !== 'cars') {
+        wp_send_json_error(array('message' => __('Car not found.', 'ha')));
+    }
+
+    $car_options = get_field('option_car', $post_id);
+    if (empty($car_options) || !isset($car_options[$option_id])) {
+        wp_send_json_error(array('message' => __('Selected vehicle option is not available.', 'ha')));
+    }
+
+    $selected_option = $car_options[$option_id];
+    $capacity = isset($selected_option['type']) ? intval($selected_option['type']) : 0;
+
+    // Strict Capacity Validation: total passengers must not exceed vehicle type capacity
+    if ($total_passengers > $capacity) {
+        wp_send_json_error(array(
+            'message' => sprintf(
+                __('This vehicle (%s) can accommodate at most %d passengers. You have %d passengers. Please choose a larger vehicle.', 'ha'),
+                ha_get_car_type_label($capacity),
+                $capacity,
+                $total_passengers
+            )
+        ));
+    }
+
+    // Server-side Price Calculation: strictly per vehicle, NEVER multiplied by passenger count
+    $price = !empty($selected_option['price']) ? floatval(str_replace(',', '', (string) $selected_option['price'])) : 0;
+    $total_price = $price;
+
+    $token = bin2hex(random_bytes(16));
+    $booking_data = array(
+        'booking_type'     => 'cars',
+        'tour_id'          => $post_id,
+        'car_id'           => $post_id,
+        'option_id'        => $option_id,
+        'option_name'      => !empty($selected_option['name']) ? $selected_option['name'] : ha_get_car_type_label($capacity),
+        'vehicle_type'     => $capacity,
+        'date'             => $date,
+        'date_visit'       => $date,
+        'adults'           => $adults,
+        'children'         => $children,
+        'total_pax'        => $total_passengers,
+        'total_passengers' => $total_passengers,
+        'price'            => $total_price,
+        'total_price'      => $total_price,
+        'created_at'       => current_time('mysql'),
+    );
+
+    set_transient('ha_booking_' . $token, $booking_data, HOUR_IN_SECONDS);
+
+    // Backup token in cookie for resilient recovery
+    if (!headers_sent()) {
+        $cookie_path = defined('COOKIEPATH') && COOKIEPATH ? COOKIEPATH : '/';
+        $cookie_domain = defined('COOKIE_DOMAIN') ? COOKIE_DOMAIN : '';
+        setcookie('ha_booking_token', $token, time() + HOUR_IN_SECONDS, $cookie_path, $cookie_domain, is_ssl(), false);
+    }
+
+    $checkout_url = home_url('/checkout/');
+    $checkout_pages = get_pages(array(
+        'meta_key'   => '_wp_page_template',
+        'meta_value' => 'checkout-template.php',
+        'number'     => 1,
+    ));
+    if (empty($checkout_pages)) {
+        $page_by_path = get_page_by_path('checkout');
+        if ($page_by_path) {
+            $checkout_pages = array($page_by_path);
+        }
+    }
+    if (!empty($checkout_pages)) {
+        $checkout_url = get_permalink($checkout_pages[0]->ID);
+    }
+
+    $checkout_url = trailingslashit($checkout_url);
+
+    wp_send_json_success(array(
+        'redirect_url' => add_query_arg('token', $token, $checkout_url),
+        'token'        => $token,
+    ));
+}
+
+/**
  * AJAX: Submit Tour Checkout Booking
  */
 add_action('wp_ajax_ha_ajax_submit_checkout', 'ha_ajax_submit_checkout_handler');
@@ -511,25 +711,52 @@ function ha_ajax_submit_checkout_handler()
     $tour      = get_post($tour_id);
 
     if (!$tour) {
-        wp_send_json_error(array('message' => __('The selected tour is no longer available.', 'ha')));
+        wp_send_json_error(array('message' => __('The selected tour or vehicle is no longer available.', 'ha')));
     }
 
-    $tour_options = get_field('tour_options', $tour_id);
-    if (empty($tour_options) || !isset($tour_options[$option_id])) {
-        wp_send_json_error(array('message' => __('The selected tour option is no longer available.', 'ha')));
-    }
+    $is_car_booking = (isset($booking_data['booking_type']) && $booking_data['booking_type'] === 'cars') || ($tour->post_type === 'cars');
 
-    $selected_option = $tour_options[$option_id];
-
-    // Recalculate price server-side
     $adults    = isset($booking_data['adults']) ? max(1, intval($booking_data['adults'])) : 2;
     $children  = isset($booking_data['children']) ? max(0, intval($booking_data['children'])) : 0;
     $total_pax = $adults + $children;
 
-    $pricing            = ha_calculate_tour_price($selected_option, $adults, $children, $tour_id);
-    $price_per_person   = $pricing['price_per_person'];
-    $total_price        = $pricing['total_price'];
-    $is_price_available = $pricing['is_price_available'];
+    if ($is_car_booking) {
+        $car_options = get_field('option_car', $tour_id);
+        if (empty($car_options) || !isset($car_options[$option_id])) {
+            wp_send_json_error(array('message' => __('The selected vehicle option is no longer available.', 'ha')));
+        }
+
+        $selected_option = $car_options[$option_id];
+        $capacity = isset($selected_option['type']) ? intval($selected_option['type']) : 0;
+
+        // Strict Server Capacity Check
+        if ($total_pax > $capacity) {
+            wp_send_json_error(array(
+                'message' => sprintf(
+                    __('Total passengers (%d) exceed vehicle capacity (%d). Please return and select a suitable vehicle.', 'ha'),
+                    $total_pax,
+                    $capacity
+                )
+            ));
+        }
+
+        // Price is calculated strictly per vehicle/option
+        $pricing            = ha_calculate_car_price($selected_option, $adults, $children, $tour_id);
+        $price_per_person   = $pricing['price'];
+        $total_price        = $pricing['total_price'];
+        $is_price_available = $pricing['is_price_available'];
+    } else {
+        $tour_options = get_field('tour_options', $tour_id);
+        if (empty($tour_options) || !isset($tour_options[$option_id])) {
+            wp_send_json_error(array('message' => __('The selected tour option is no longer available.', 'ha')));
+        }
+
+        $selected_option    = $tour_options[$option_id];
+        $pricing            = ha_calculate_tour_price($selected_option, $adults, $children, $tour_id);
+        $price_per_person   = $pricing['price_per_person'];
+        $total_price        = $pricing['total_price'];
+        $is_price_available = $pricing['is_price_available'];
+    }
 
     // Prevent duplicate booking submission server-side
     $existing_booking = get_posts(array(
@@ -571,14 +798,16 @@ function ha_ajax_submit_checkout_handler()
     update_post_meta($booking_post_id, 'customer_messages', $customer_messages);
     update_post_meta($booking_post_id, 'payment_method', $payment_method);
 
-    // Tour Info Meta
-    $booking_type = get_post_type($tour_id) ?: 'tours';
+    // Tour / Car Info Meta
+    $booking_type = $is_car_booking ? 'cars' : (get_post_type($tour_id) ?: 'tours');
     update_post_meta($booking_post_id, 'booking_type', $booking_type);
     update_post_meta($booking_post_id, 'tour_id', $tour_id);
     update_post_meta($booking_post_id, 'booking_token', $token);
     update_post_meta($booking_post_id, 'option_name', $selected_option['name'] ?? '');
     update_post_meta($booking_post_id, 'date', $booking_data['date']);
-    update_post_meta($booking_post_id, 'starting_time', $selected_option['starting_time'] ?? '');
+    if (!$is_car_booking && !empty($selected_option['starting_time'])) {
+        update_post_meta($booking_post_id, 'starting_time', $selected_option['starting_time']);
+    }
     update_post_meta($booking_post_id, 'adults', $adults);
     update_post_meta($booking_post_id, 'children', $children);
     update_post_meta($booking_post_id, 'total_pax', $total_pax);
@@ -588,6 +817,8 @@ function ha_ajax_submit_checkout_handler()
     $payment_method_label = $payment_method === 'bank_transfer' ? 'Bank Transfer' : 'Pay on Arrival';
     $formatted_date       = date('F j, Y', strtotime($booking_data['date']));
     $formatted_price      = ha_format_price($total_price);
+    $service_label        = $is_car_booking ? 'Private Car Transfer' : 'Tour';
+    $option_label         = $is_car_booking ? 'Vehicle Option' : 'Tour Option';
 
     // HTML Email Styling
     $table_style = 'width: 100%; max-width: 600px; border-collapse: collapse; margin-bottom: 20px; font-family: Arial, sans-serif; font-size: 14px;';
@@ -598,10 +829,10 @@ function ha_ajax_submit_checkout_handler()
 
     // 1. Admin Email
     $admin_email   = get_field('booking_notification_email', 'option') ?: get_option('admin_email');
-    $subject_admin = 'New Booking Request: ' . $booking_ref;
+    $subject_admin = ($is_car_booking ? 'New Car Booking: ' : 'New Tour Booking: ') . $booking_ref;
 
     $message_admin  = "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;'>";
-    $message_admin .= "<h2 style='{$h2_style}'>New Booking Request: {$booking_ref}</h2>";
+    $message_admin .= "<h2 style='{$h2_style}'>" . ($is_car_booking ? 'New Car Booking Request' : 'New Tour Booking Request') . ": {$booking_ref}</h2>";
     $message_admin .= "<h3 style='{$h3_style}'>Customer Information</h3>";
     $message_admin .= "<table style='{$table_style}'>";
     $message_admin .= "<tr><th style='{$th_style}'>Name</th><td style='{$td_style}'>" . esc_html($customer_name) . "</td></tr>";
@@ -618,16 +849,16 @@ function ha_ajax_submit_checkout_handler()
     $message_admin .= "<tr><th style='{$th_style}'>Payment Method</th><td style='{$td_style}'>" . esc_html($payment_method_label) . "</td></tr>";
     $message_admin .= "</table>";
 
-    $message_admin .= "<h3 style='{$h3_style}'>Booking Information</h3>";
+    $message_admin .= "<h3 style='{$h3_style}'>Booking Details</h3>";
     $message_admin .= "<table style='{$table_style}'>";
-    $message_admin .= "<tr><th style='{$th_style}'>Tour</th><td style='{$td_style}'><strong>" . esc_html($tour->post_title) . "</strong></td></tr>";
-    $message_admin .= "<tr><th style='{$th_style}'>Option</th><td style='{$td_style}'>" . esc_html($selected_option['name'] ?? '') . "</td></tr>";
+    $message_admin .= "<tr><th style='{$th_style}'>{$service_label}</th><td style='{$td_style}'><strong>" . esc_html($tour->post_title) . "</strong></td></tr>";
+    $message_admin .= "<tr><th style='{$th_style}'>{$option_label}</th><td style='{$td_style}'>" . esc_html($selected_option['name'] ?? '') . "</td></tr>";
     $message_admin .= "<tr><th style='{$th_style}'>Date</th><td style='{$td_style}'>" . esc_html($formatted_date) . "</td></tr>";
-    if (!empty($selected_option['starting_time'])) {
+    if (!$is_car_booking && !empty($selected_option['starting_time'])) {
         $message_admin .= "<tr><th style='{$th_style}'>Starting Time</th><td style='{$td_style}'>" . esc_html($selected_option['starting_time']) . "</td></tr>";
     }
-    $message_admin .= "<tr><th style='{$th_style}'>Participants</th><td style='{$td_style}'>{$total_pax} ({$adults} Adults, {$children} Children)</td></tr>";
-    $message_admin .= "<tr><th style='{$th_style}'>Total Price</th><td style='{$td_style}'><strong style='color: #C24A2D; font-size: 16px;'>" . esc_html($formatted_price) . "</strong></td></tr>";
+    $message_admin .= "<tr><th style='{$th_style}'>Passengers</th><td style='{$td_style}'>{$total_pax} ({$adults} Adults, {$children} Children)</td></tr>";
+    $message_admin .= "<tr><th style='{$th_style}'>Total Price</th><td style='{$td_style}'><strong style='color: #C24A2D; font-size: 16px;'>" . esc_html($formatted_price) . ($is_car_booking ? ' (Vehicle Total)' : '') . "</strong></td></tr>";
     $message_admin .= "</table>";
     $message_admin .= "</div>";
 
@@ -636,11 +867,30 @@ function ha_ajax_submit_checkout_handler()
 
     // 2. Customer Confirmation Email
     if (is_email($customer_email)) {
-        $subject_customer = 'Booking Confirmation: ' . $booking_ref . ' - Hoi An Travel';
+        $subject_customer = ($is_car_booking ? 'Car Booking Confirmation: ' : 'Booking Confirmation: ') . $booking_ref . ' - Hoi An Travel';
 
         $message_customer  = "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;'>";
-        $message_customer .= "<h2 style='{$h2_style}'>Booking Confirmation: {$booking_ref}</h2>";
+        $message_customer .= "<h2 style='{$h2_style}'>" . ($is_car_booking ? 'Car Booking Confirmation' : 'Booking Confirmation') . ": {$booking_ref}</h2>";
         $message_customer .= "<p style='font-size: 15px; line-height: 1.6; color: #555;'>Dear <strong>" . esc_html($customer_name) . "</strong>,</p>";
+        $message_customer .= "<p style='font-size: 15px; line-height: 1.6; color: #555;'>Thank you for choosing Hoi An Travel! We have received your booking details and our team will contact you shortly to confirm your reservation.</p>";
+
+        $message_customer .= "<h3 style='{$h3_style}'>Your Booking Summary</h3>";
+        $message_customer .= "<table style='{$table_style}'>";
+        $message_customer .= "<tr><th style='{$th_style}'>{$service_label}</th><td style='{$td_style}'><strong>" . esc_html($tour->post_title) . "</strong></td></tr>";
+        $message_customer .= "<tr><th style='{$th_style}'>{$option_label}</th><td style='{$td_style}'>" . esc_html($selected_option['name'] ?? '') . "</td></tr>";
+        $message_customer .= "<tr><th style='{$th_style}'>Date</th><td style='{$td_style}'>" . esc_html($formatted_date) . "</td></tr>";
+        if (!$is_car_booking && !empty($selected_option['starting_time'])) {
+            $message_customer .= "<tr><th style='{$th_style}'>Starting Time</th><td style='{$td_style}'>" . esc_html($selected_option['starting_time']) . "</td></tr>";
+        }
+        $message_customer .= "<tr><th style='{$th_style}'>Passengers</th><td style='{$td_style}'>{$total_pax} ({$adults} Adults, {$children} Children)</td></tr>";
+        $message_customer .= "<tr><th style='{$th_style}'>Pick-up Location</th><td style='{$td_style}'>" . esc_html($customer_pickup) . "</td></tr>";
+        $message_customer .= "<tr><th style='{$th_style}'>Drop-off Location</th><td style='{$td_style}'>" . esc_html($customer_dropoff) . "</td></tr>";
+        if (!empty($customer_country)) {
+            $message_customer .= "<tr><th style='{$th_style}'>Country</th><td style='{$td_style}'>" . esc_html($customer_country) . "</td></tr>";
+        }
+        $message_customer .= "<tr><th style='{$th_style}'>Total Price</th><td style='{$td_style}'><strong style='color: #C24A2D; font-size: 16px;'>" . esc_html($formatted_price) . ($is_car_booking ? ' (Vehicle Total)' : '') . "</strong></td></tr>";
+        $message_customer .= "<tr><th style='{$th_style}'>Payment Method</th><td style='{$td_style}'>" . esc_html($payment_method_label) . "</td></tr>";
+        $message_customer .= "</table>";
         $message_customer .= "<p style='font-size: 15px; line-height: 1.6; color: #555;'>Thank you for your booking request! We have received your booking details and our team will contact you shortly to confirm your reservation.</p>";
 
         $message_customer .= "<h3 style='{$h3_style}'>Your Booking Summary</h3>";

@@ -1618,13 +1618,13 @@
 .single-tour-sidebar-sticky {
     @include media-breakpoint-up(lg) {
         position: sticky;
-        top: 85px;
+        top: 60px;
         z-index: 80;
     }
 
     body.admin-bar & {
         @include media-breakpoint-up(lg) {
-            top: 117px; // 85px + 32px wpadminbar
+            top: 80px; // 85px + 32px wpadminbar
         }
     }
 }
@@ -1644,6 +1644,7 @@
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
+        gap: 1.25rem;
         padding-bottom: 1.25rem;
         margin-bottom: 1.25rem;
         border-bottom: 1px solid rgba(25, 35, 43, 0.08);
@@ -1654,6 +1655,8 @@
             display: flex;
             flex-direction: column;
             gap: 0.15rem;
+            min-width: 0;
+            flex-shrink: 0;
         }
 
         &-label {
@@ -1662,40 +1665,133 @@
             text-transform: uppercase;
             letter-spacing: 0.06em;
             color: #6b7280;
+            line-height: 1.2;
+            margin-bottom: 0.15rem;
         }
 
         &-wrap {
             display: flex;
             align-items: baseline;
             gap: 0.35rem;
+            white-space: nowrap;
         }
 
         &-val {
             font-family: $font-heading;
-            font-size: 1.85rem;
+            font-size: 1.75rem;
             font-weight: 700;
             color: $color-heading;
             letter-spacing: -0.02em;
             line-height: 1.15;
+            white-space: nowrap;
         }
 
         &-unit {
             font-size: 0.8125rem;
             color: #6b7280;
             font-weight: 500;
+            white-space: nowrap;
+            line-height: 1.15;
+        }
+    }
+
+    &__rating-box {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: flex-start;
+        text-align: right;
+        min-width: 0;
+        flex-shrink: 0;
+        padding-top: 0.15rem;
+    }
+
+    &__kksr {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+
+        .kk-star-ratings {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-end !important;
+            justify-content: flex-start !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            gap: 0.25rem !important;
+            width: auto !important;
+
+            .kksr-stars {
+                display: flex !important;
+                justify-content: flex-end !important;
+                line-height: 1;
+                margin: 0 !important;
+                transform: scale(0.85);
+                transform-origin: top right;
+
+                .kksr-stars-inactive,
+                .kksr-stars-active {
+                    display: flex;
+                }
+            }
+
+            .kksr-legend {
+                display: block !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                font-size: 0.75rem !important;
+                line-height: 1.25 !important;
+                font-weight: 500 !important;
+                color: #6b7280 !important;
+                white-space: nowrap !important;
+                text-align: right !important;
+
+                .kksr-muted {
+                    color: inherit;
+                    opacity: 0.85;
+                }
+            }
         }
     }
 
     &__stars {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.25rem;
-        font-size: 0.84375rem;
-        font-weight: 600;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.2rem;
+        text-align: right;
+        white-space: nowrap;
+
+        .star-row-icons {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            color: #dfa128;
+            font-size: 0.8125rem;
+            line-height: 1;
+        }
+
+        .star-row-legend {
+            font-size: 0.75rem;
+            line-height: 1.25;
+            color: #6b7280;
+            font-weight: 500;
+            white-space: nowrap;
+
+            .star-score {
+                color: $color-heading;
+                font-weight: 700;
+            }
+
+            .star-count {
+                color: #6b7280;
+                font-weight: 400;
+            }
+        }
 
         .star-icon {
-            color: $color-primary;
-            font-size: 1rem;
+            color: #dfa128;
+            font-size: 0.9375rem;
         }
 
         .star-score {
@@ -2003,6 +2099,7 @@
     0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
     }
@@ -2204,8 +2301,8 @@
             .option-item__price-total {
                 font-family: $font-heading;
                 font-size: 1.35rem;
-                font-weight: 700;
-                color: $color-primary;
+                // font-weight: 700;
+                // color: $color-primary;
                 margin-bottom: 0.45rem;
             }
 
@@ -2263,8 +2360,3 @@
         }
     }
 }
-
-
-
-
-

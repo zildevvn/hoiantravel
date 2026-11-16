@@ -677,6 +677,304 @@ import { CountUp } from 'countup.js';
         });
     };
 
+    /**
+     * Sticky In-Page Anchor Navigation Bar (ha-anchor-nav / single-tour-nav)
+     * Handles smooth scrolling with sticky header offset, active state updating (ScrollSpy),
+     * and horizontal scroll centering on mobile/tablet.
+     */
+    const initAnchorNav = () => {
+        const nav = document.getElementById('ha-anchor-nav') || document.querySelector('.single-tour-nav');
+        if (!nav) return;
+
+        const links = nav.querySelectorAll('.single-tour-nav__link');
+        if (!links.length) return;
+
+        // Collect valid section elements
+        const sectionMap = [];
+        links.forEach((link) => {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#') && href.length > 1) {
+                const target = document.querySelector(href);
+                if (target) {
+                    sectionMap.push({
+                        id: href.substring(1),
+                        element: target,
+                        link: link,
+                    });
+                }
+            }
+        });
+
+        if (!sectionMap.length) return;
+
+        let isClickScrolling = false;
+        let clickTimer = null;
+
+        const setActiveLink = (activeLink) => {
+            if (!activeLink) return;
+            links.forEach((l) => l.classList.remove('is-active'));
+            activeLink.classList.add('is-active');
+
+            // Scroll the horizontal nav container to keep active link centered on mobile
+            const parentItem = activeLink.closest('.single-tour-nav__item') || activeLink;
+            const list = nav.querySelector('.single-tour-nav__list');
+            if (list) {
+                const itemLeft = parentItem.offsetLeft;
+                const itemWidth = parentItem.offsetWidth;
+                const listWidth = list.offsetWidth;
+                const targetScrollLeft = itemLeft - (listWidth / 2) + (itemWidth / 2);
+                list.scrollTo({ left: Math.max(0, targetScrollLeft), behavior: 'smooth' });
+            }
+        };
+
+        // Click handler for smooth scroll with proper offset
+        links.forEach((link) => {
+            link.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (!href || !href.startsWith('#')) return;
+
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    isClickScrolling = true;
+                    setActiveLink(this);
+
+                    const adminBar = document.getElementById('wpadminbar');
+                    const adminBarHeight = adminBar ? adminBar.offsetHeight : 0;
+                    const navHeight = nav.offsetHeight || 50;
+                    const extraPadding = 15;
+                    const totalOffset = adminBarHeight + navHeight + extraPadding;
+
+                    const elementTop = target.getBoundingClientRect().top + window.pageYOffset;
+                    const targetScrollTop = elementTop - totalOffset;
+
+                    window.scrollTo({
+                        top: Math.max(0, targetScrollTop),
+                        behavior: 'smooth',
+                    });
+
+                    // Update URL hash cleanly without sudden page jump
+                    if (window.history && window.history.pushState) {
+                        window.history.pushState(null, null, href);
+                    }
+
+                    clearTimeout(clickTimer);
+                    clickTimer = setTimeout(() => {
+                        isClickScrolling = false;
+                    }, 800);
+                }
+            });
+        });
+
+        // ScrollSpy observer / position checker
+        const updateScrollSpy = () => {
+            if (isClickScrolling) return;
+
+            const adminBar = document.getElementById('wpadminbar');
+            const adminBarHeight = adminBar ? adminBar.offsetHeight : 0;
+            const navHeight = nav.offsetHeight || 50;
+            const threshold = adminBarHeight + navHeight + 80;
+
+            let currentActive = null;
+
+            for (let i = 0; i < sectionMap.length; i++) {
+                const sec = sectionMap[i];
+                const rect = sec.element.getBoundingClientRect();
+                // If section top has reached or passed threshold
+                if (rect.top <= threshold) {
+                    currentActive = sec;
+                }
+            }
+
+            // Fallback to first section if scrolled near the top of the container
+            if (!currentActive && sectionMap.length > 0) {
+                const firstRect = sectionMap[0].element.getBoundingClientRect();
+                if (firstRect.top <= window.innerHeight * 0.5) {
+                    currentActive = sectionMap[0];
+                }
+            }
+
+            if (currentActive) {
+                setActiveLink(currentActive.link);
+            }
+        };
+
+        let ticking = false;
+        window.addEventListener(
+            'scroll',
+            () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        updateScrollSpy();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            },
+            { passive: true }
+        );
+
+        // Run once on initial load
+        setTimeout(updateScrollSpy, 150);
+    };
+
+    const vmTableOfContent = () => {
+        const tocContainer = document.getElementById('vm-table-of-content');
+        if (!tocContainer) return;
+
+        // Query inside the post content to avoid sidebars
+        const contentContainer = tocContainer.closest('.main-section-left__content') ||
+            tocContainer.closest('.entry-content') ||
+            document.querySelector('.main-section-left__content') ||
+            document.querySelector('.entry-content') ||
+            document.body;
+
+        if (!contentContainer) {
+            tocContainer.style.display = 'none';
+            return;
+        }
+
+        const headings = contentContainer.querySelectorAll('h2, h3, h4');
+        if (headings.length === 0) {
+            tocContainer.style.display = 'none';
+            return;
+        }
+
+        // Build HTML
+        let tocHTML = `
+            <div class="toc-header d-flex align-items-center justify-content-between">
+                <span>Contents</span>
+                <button class="toc-toggle-btn d-flex align-items-center gap-2" aria-expanded="false" aria-label="Expand Table of Contents">
+                    <svg class="toc-toggle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+            </div>
+            <div class="toc-body" style="display: none;">
+                <ul class="toc-list">
+        `;
+        let currentLevel = 1; // 1 = h2, 2 = h3
+
+        headings.forEach((heading, index) => {
+            // Generate ID if missing
+            if (!heading.id) {
+                const text = heading.innerText || heading.textContent;
+                heading.id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') + '-' + index;
+            }
+
+            let level;
+            if (heading.tagName.toLowerCase() === 'h2') level = 1;
+            else if (heading.tagName.toLowerCase() === 'h3') level = 2;
+            else return;
+
+            const headingId = heading.id;
+            const headingText = heading.innerText || heading.textContent;
+
+            if (index > 0) {
+                if (level === currentLevel) {
+                    tocHTML += '</li>';
+                } else if (level > currentLevel) {
+                    while (currentLevel < level) {
+                        tocHTML += '<ul class="toc-nested-list">';
+                        currentLevel++;
+                    }
+                } else if (level < currentLevel) {
+                    while (currentLevel > level) {
+                        tocHTML += '</li></ul>';
+                        currentLevel--;
+                    }
+                    tocHTML += '</li>';
+                }
+            }
+
+            tocHTML += `<li class="toc-item toc-h${level + 1}"><a href="#${headingId}">${headingText}</a>`;
+            currentLevel = level;
+        });
+
+        while (currentLevel > 1) {
+            tocHTML += '</li></ul>';
+            currentLevel--;
+        }
+        if (headings.length > 0) {
+            tocHTML += '</li>';
+        }
+        tocHTML += '</ul></div>';
+
+        tocContainer.innerHTML = tocHTML;
+        tocContainer.style.display = 'block';
+
+        // Toggle logic
+        const tocHeader = tocContainer.querySelector('.toc-header');
+        const toggleBtn = tocContainer.querySelector('.toc-toggle-btn');
+        const tocBody = tocContainer.querySelector('.toc-body');
+        const toggleIcon = tocContainer.querySelector('.toc-toggle-icon');
+
+        if (tocHeader && toggleBtn && tocBody) {
+            tocHeader.addEventListener('click', function () {
+                const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+                if (isExpanded) {
+                    // Collapse
+                    $(tocBody).slideUp(300);
+                    toggleBtn.setAttribute('aria-expanded', 'false');
+                    toggleIcon.style.transform = 'rotate(0deg)';
+                } else {
+                    // Expand
+                    $(tocBody).slideDown(300);
+                    toggleBtn.setAttribute('aria-expanded', 'true');
+                    toggleIcon.style.transform = 'rotate(180deg)';
+                }
+            });
+        }
+
+        // Smooth scroll
+        const tocLinks = tocContainer.querySelectorAll('a');
+        tocLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetEl = document.getElementById(targetId);
+                if (targetEl) {
+                    // Accounting for fixed header
+                    const offset = 100;
+                    const bodyRect = document.body.getBoundingClientRect().top;
+                    const elementRect = targetEl.getBoundingClientRect().top;
+                    const elementPosition = elementRect - bodyRect;
+                    const offsetPosition = elementPosition - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for highlighting
+        const observerOptions = {
+            root: null,
+            rootMargin: '-100px 0px -70% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    const activeLink = tocContainer.querySelector(`a[href="#${id}"]`);
+
+                    if (activeLink) {
+                        // Remove active class from all
+                        tocLinks.forEach(link => link.classList.remove('is-active'));
+                        // Add active class
+                        activeLink.classList.add('is-active');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        headings.forEach(heading => observer.observe(heading));
+    };
+
     $(document).ready(function () {
         modalSearch();
         heroSlider();
@@ -684,5 +982,7 @@ import { CountUp } from 'countup.js';
         tourSwiper();
         initFaqAccordion();
         initTourGalleryLightbox();
+        initAnchorNav();
+        vmTableOfContent()
     });
 })(jQuery);

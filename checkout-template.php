@@ -27,27 +27,53 @@ if (!$booking_data || !is_array($booking_data)) {
     $tour = get_post($tour_id);
 
     if (!$tour) {
-        $error_msg = 'The selected tour is no longer available.';
+        $error_msg = 'The selected tour or vehicle is no longer available.';
     } else {
-        $tour_options = get_field('tour_options', $tour_id);
+        $is_car = (isset($booking_data['booking_type']) && $booking_data['booking_type'] === 'cars') || ($tour->post_type === 'cars');
 
-        if (empty($tour_options) || !isset($tour_options[$option_id])) {
-            $error_msg = 'The selected tour option is no longer available.';
+        $adults = isset($booking_data['adults']) ? max(1, intval($booking_data['adults'])) : 2;
+        $children = isset($booking_data['children']) ? max(0, intval($booking_data['children'])) : 0;
+        $total_pax = $adults + $children;
+
+        if ($is_car) {
+            $car_options = get_field('option_car', $tour_id);
+
+            if (empty($car_options) || !isset($car_options[$option_id])) {
+                $error_msg = 'The selected vehicle option is no longer available.';
+            } else {
+                $selected_option = $car_options[$option_id];
+                $capacity = isset($selected_option['type']) ? intval($selected_option['type']) : 0;
+
+                if ($total_pax > $capacity) {
+                    $error_msg = sprintf(
+                        'Total passengers (%d) exceed vehicle capacity (%d). Please return to select a larger vehicle.',
+                        $total_pax,
+                        $capacity
+                    );
+                } else {
+                    $pricing = ha_calculate_car_price($selected_option, $adults, $children, $tour_id);
+                    $price_per_person = $pricing['price'];
+                    $total_price = $pricing['total_price'];
+                    $is_price_available = $pricing['is_price_available'];
+                }
+            }
         } else {
-            $selected_option = $tour_options[$option_id];
+            $tour_options = get_field('tour_options', $tour_id);
 
-            // Recalculate price server-side
-            $adults = isset($booking_data['adults']) ? max(1, intval($booking_data['adults'])) : 2;
-            $children = isset($booking_data['children']) ? max(0, intval($booking_data['children'])) : 0;
-            $total_pax = $adults + $children;
+            if (empty($tour_options) || !isset($tour_options[$option_id])) {
+                $error_msg = 'The selected tour option is no longer available.';
+            } else {
+                $selected_option = $tour_options[$option_id];
 
-            $pricing = ha_calculate_tour_price($selected_option, $adults, $children, $tour_id);
-            $price_per_person = $pricing['price_per_person'];
-            $total_price = $pricing['total_price'];
-            $is_price_available = $pricing['is_price_available'];
+                $pricing = ha_calculate_tour_price($selected_option, $adults, $children, $tour_id);
+                $price_per_person = $pricing['price_per_person'];
+                $total_price = $pricing['total_price'];
+                $is_price_available = $pricing['is_price_available'];
+            }
         }
     }
 }
+$is_car_booking = isset($is_car) && $is_car;
 ?>
 <main id="primary" class="site-main ha-checkout-page">
     <div class="container" style="padding: 60px 0;">
@@ -55,7 +81,11 @@ if (!$booking_data || !is_array($booking_data)) {
             <div class="ha-checkout-error"
                 style="background: #fff3f3; border: 1px solid #ffcaca; padding: 20px; border-radius: 8px; text-align: center; color: #d63031;">
                 <p style="margin-bottom: 15px;"><?= esc_html($error_msg) ?></p>
-                <a href="<?= site_url('/tours') ?>" class="btn">Return to Tours</a>
+                <?php if ($is_car_booking): ?>
+                    <a href="<?= esc_url(home_url('/hoi-an-car-rental/')) ?>" class="btn">Return to Car Rentals</a>
+                <?php else: ?>
+                    <a href="<?= site_url('/tours') ?>" class="btn">Return to Tours</a>
+                <?php endif; ?>
             </div>
         <?php else: ?>
             <div class="ha-checkout-wrap">
@@ -98,9 +128,15 @@ if (!$booking_data || !is_array($booking_data)) {
 
 
                                 <div style="margin-top: 32px;">
-                                    <a href="<?php echo esc_url(site_url('/tours')); ?>" class="ha-button">
-                                        <span><?php esc_html_e('Browse More Tours', 'ha'); ?></span>
-                                    </a>
+                                    <?php if ($is_car_booking): ?>
+                                        <a href="<?php echo esc_url(home_url('/hoi-an-car-rental/')); ?>" class="ha-button">
+                                            <span><?php esc_html_e('Browse More Cars', 'ha'); ?></span>
+                                        </a>
+                                    <?php else: ?>
+                                        <a href="<?php echo esc_url(site_url('/tours')); ?>" class="ha-button">
+                                            <span><?php esc_html_e('Browse More Tours', 'ha'); ?></span>
+                                        </a>
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
@@ -213,22 +249,22 @@ if (!$booking_data || !is_array($booking_data)) {
                                     <li>
                                         <?= ha_svg_icon('map-pin-alt'); ?>
                                         <div>
-                                            <span>Tour Option</span>
-                                            <strong><?= esc_html($selected_option['name']) ?></strong>
+                                            <span><?= $is_car_booking ? 'Vehicle Option' : 'Tour Option'; ?></span>
+                                            <strong><?= esc_html($selected_option['name'] ?? '') ?></strong>
                                         </div>
                                     </li>
                                     <li>
                                         <?= ha_svg_icon('calendar'); ?>
                                         <div>
                                             <span>Date & Time</span>
-                                            <strong><?= esc_html($booking_data['date']) ?><?= !empty($selected_option['starting_time']) ? ' - ' . esc_html($selected_option['starting_time']) : '' ?></strong>
+                                            <strong><?= esc_html($booking_data['date']) ?><?= (!$is_car_booking && !empty($selected_option['starting_time'])) ? ' - ' . esc_html($selected_option['starting_time']) : '' ?></strong>
                                         </div>
                                     </li>
                                     <li>
                                         <?= ha_svg_icon('users'); ?>
                                         <div>
-                                            <span>Participants</span>
-                                            <strong><?= esc_html($total_pax) ?> (<?= esc_html($booking_data['adults']) ?>
+                                            <span>Passengers</span>
+                                            <strong><?= esc_html($total_pax) ?> Passengers (<?= esc_html($booking_data['adults']) ?>
                                                 Adults, <?= esc_html($booking_data['children']) ?> Children)</strong>
                                         </div>
                                     </li>
@@ -242,12 +278,20 @@ if (!$booking_data || !is_array($booking_data)) {
                                     <?php if (!$is_price_available): ?>
                                         <div class="price-contact-alert">
                                             <?= ha_svg_icon('alert-triangle'); ?>
-                                            <p><strong>Note:</strong> Pricing for this tour requires direct contact. Please
+                                            <p><strong>Note:</strong> Pricing for this service requires direct contact. Please
                                                 leave your details and we will quote you shortly.</p>
                                         </div>
                                     <?php else: ?>
                                         <ul class="price-list">
-                                            <?php if (!empty($pricing['is_car_tour'])): ?>
+                                            <?php if ($is_car_booking): ?>
+                                                <li>
+                                                    Vehicle Total (<?= esc_html(ha_get_car_type_label($selected_option['type'] ?? 0)); ?>)
+                                                    <strong><?= esc_html(ha_format_price($total_price, $currency)); ?></strong>
+                                                </li>
+                                                <li style="font-size: 13px; color: #22c55e;">
+                                                    Tolls, Fuel & Private Driver Included
+                                                </li>
+                                            <?php elseif (!empty($pricing['is_car_tour'])): ?>
                                                 <li>
                                                     Vehicle Price
                                                     <strong><?= esc_html(ha_format_price($price_per_person, $currency)); ?></strong>

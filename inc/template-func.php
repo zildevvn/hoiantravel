@@ -212,6 +212,7 @@ function ha_item_car()
     $pick_up = get_field('pick_up_car');
     $currency = get_field('currency', 'option');
     $route_display = !empty($location) ? preg_replace('/\s*[-–—]\s*/u', ' ➔ ', $location) : '';
+
     ?>
     <a href="<?= the_permalink(); ?>" class="car-card" aria-label="read more <?php the_title() ?>">
 
@@ -366,3 +367,9 @@ if (!function_exists('ha_post_item')) {
         ha_item_post($post_id);
     }
 }
+
+function vm_table_of_content_shortcode()
+{
+    return '<div id="vm-table-of-content"></div>';
+}
+add_shortcode('vm_table_of_content', 'vm_table_of_content_shortcode');

@@ -2,7 +2,7 @@
 $image = get_the_post_thumbnail_url();
 $form = get_field('form_support_blog', 'option');
 ?>
-<section class="vm-section main-section">
+<section class="ha-section main-section">
     <div class="container">
         <div class="main-section-inner d-flex justify-content-between">
             <div class="main-section-left">

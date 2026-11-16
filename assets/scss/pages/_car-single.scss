@@ -1,0 +1,574 @@
+// ==========================================================================
+// Single Car Page Styles
+// Project: Hoi An Travel
+// ==========================================================================
+
+.single-car-page {
+    background-color: #faf8f5;
+
+    // Hero Section Synchronization with Shared System
+    .hero-section-shared--single-car {
+        .hero-car-badge {
+            svg {
+                width: 14px;
+                height: 14px;
+            }
+        }
+    }
+
+    // Main Content Section
+    .single-car-content-section {
+        padding: 2.5rem 0 3.5rem;
+
+        @include media-breakpoint-up(md) {
+            padding: 3.5rem 0 5rem;
+        }
+    }
+
+    // In-Page Sticky Anchor Navigation Bar (Car Accent Theme)
+    .single-tour-nav {
+        &__link {
+            &:hover {
+                color: #00656D;
+                background: rgba(0, 101, 109, 0.06);
+                border-color: rgba(0, 101, 109, 0.18);
+            }
+
+            &.is-active {
+                background: rgba(0, 101, 109, 0.1);
+                color: #00656D;
+                border-color: rgba(0, 101, 109, 0.32);
+                box-shadow: 0 2px 8px rgba(0, 101, 109, 0.08);
+            }
+        }
+    }
+
+    // Highlights Block (Single Car Accent Theme)
+    .car-highlights-block {
+        border-left-color: #00656D;
+
+        .tour-heritage-highlights__icon {
+            background: rgba(0, 101, 109, 0.1);
+            color: #00656D;
+        }
+
+        .tour-heritage-highlights__content {
+            ul li::before {
+                background: #00656D;
+                box-shadow: 0 0 0 3px rgba(0, 101, 109, 0.2);
+            }
+        }
+    }
+
+    // Booking Concierge Header (Single Car)
+    .ha-form-booking--car {
+        .ha-form-booking__header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1.25rem;
+        }
+
+        .ha-form-booking__price-wrap {
+            white-space: nowrap;
+        }
+
+        .ha-form-booking__price-val {
+            font-size: 1.75rem;
+            color: $color-heading;
+        }
+
+        .ha-form-booking__rating-box {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            text-align: right;
+        }
+    }
+
+    // Fleet Specifications in Main Column
+    .car-fleet-cards {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        margin-top: 1.25rem;
+
+        @include media-breakpoint-up(md) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .car-fleet-card {
+            background: #fff;
+            border-radius: 0.875rem;
+            border: 1px solid rgba(25, 35, 43, 0.08);
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 12px rgba(25, 35, 43, 0.03);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(25, 35, 43, 0.07);
+            }
+
+            &__icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 54px;
+                height: 38px;
+                color: #00656D;
+                margin-bottom: 0.75rem;
+
+                svg {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            &__content {
+                h3 {
+                    font-size: 1.0625rem;
+                    font-weight: 700;
+                    color: $color-heading;
+                }
+            }
+
+            &__specs {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: 0.8125rem;
+                color: $color-body;
+
+                li {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 0.4rem;
+                    margin-bottom: 0.4rem;
+                    line-height: 1.35;
+
+                    svg {
+                        width: 0.875rem;
+                        height: 0.875rem;
+                        color: #00656D;
+                        flex-shrink: 0;
+                        margin-top: 2px;
+                    }
+                }
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // Inclusions & Exclusions Comparison Board
+    // ----------------------------------------------------------------------
+    #car-inclusions,
+    .tour-heritage-inclusions {
+        .tour-package-comparison {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+
+            @include media-breakpoint-up(md) {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1.5rem;
+            }
+
+            @include media-breakpoint-up(xl) {
+                gap: 1.75rem;
+            }
+
+            // Balanced layout when only Included or only Excluded exists
+            .tour-package-column:only-child {
+                grid-column: 1 / -1;
+            }
+        }
+
+        .tour-package-column {
+            min-width: 0;
+            border-radius: 1.125rem;
+            padding: 1.5rem 1.65rem;
+            background-color: #fff;
+            border: 1px solid rgba(25, 35, 43, 0.08);
+            box-shadow: 0 4px 16px rgba(25, 35, 43, 0.03);
+            transition: box-shadow 0.25s ease, transform 0.25s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+            &:hover {
+                box-shadow: 0 8px 24px rgba(25, 35, 43, 0.06);
+            }
+
+            &--included {
+                border-top: 3px solid #2E7D32;
+            }
+
+            &--excluded {
+                border-top: 3px solid #6B7280;
+                background-color: #FAFAFA;
+            }
+
+            &__header,
+            &__head {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                margin-bottom: 1.15rem;
+                padding-bottom: 0.85rem;
+                border-bottom: 1px solid rgba(25, 35, 43, 0.06);
+            }
+
+            &__icon {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+
+                .tour-package-column--included & {
+                    background: rgba(46, 125, 50, 0.1);
+                    color: #2E7D32;
+                }
+
+                .tour-package-column--excluded & {
+                    background: rgba(107, 114, 128, 0.12);
+                    color: #4B5563;
+                }
+
+                svg {
+                    width: 16px;
+                    height: 16px;
+                    stroke-width: 2.2;
+                }
+            }
+
+            &__title {
+                font-family: $font-heading;
+                font-size: 1.0625rem;
+                font-weight: 700;
+                color: $color-heading;
+                margin: 0;
+                line-height: 1.35;
+            }
+
+            &__list {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                flex: 1;
+            }
+
+            &__item {
+                display: flex;
+                align-items: flex-start;
+                gap: 0.75rem;
+                padding: 0.65rem 0;
+                border-bottom: 1px dashed rgba(25, 35, 43, 0.06);
+                font-family: $font-second;
+                font-size: 0.90625rem;
+                line-height: 1.5;
+                color: #4b5563;
+                word-break: break-word;
+
+                &:last-child {
+                    border-bottom: none;
+                    padding-bottom: 0;
+                }
+
+                &:first-child {
+                    padding-top: 0;
+                }
+            }
+
+            &__bullet {
+                flex-shrink: 0;
+                margin-top: 2px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+
+                svg {
+                    width: 15px;
+                    height: 15px;
+                    stroke-width: 2.2;
+                }
+
+                .tour-package-column--included & {
+                    color: #2E7D32;
+                }
+
+                .tour-package-column--excluded & {
+                    color: #6B7280;
+                }
+            }
+
+            &__text {
+                flex: 1;
+                min-width: 0;
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // Related Cars Grid Section
+    // ----------------------------------------------------------------------
+    .single-car-related-section {
+        background: rgb(251, 249, 245);
+
+        border-top: 1px solid rgba(25, 35, 43, 0.08);
+
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+
+            @include media-breakpoint-up(md) {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1.75rem;
+            }
+
+            @include media-breakpoint-up(lg) {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 2rem;
+            }
+        }
+
+        .car-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-width: 0; // Prevent content blowout in CSS Grid
+
+            &__media {
+                position: relative;
+                width: 100%;
+                height: 200px;
+                overflow: hidden;
+                border-radius: 0.875rem;
+                background-color: #f3f4f6;
+                margin-bottom: 1rem;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    display: block;
+                    transition: transform 0.4s ease;
+                }
+            }
+
+            &:hover &__media img {
+                transform: scale(1.05);
+            }
+
+            &__title {
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                min-height: 2.7em;
+            }
+
+            &__specs {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 0.35rem;
+                margin-bottom: 1.25rem;
+                padding-bottom: 0.85rem;
+                border-bottom: 1px solid rgba(25, 35, 43, 0.06);
+
+                @include media-breakpoint-up(sm) {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+
+            &__spec-item {
+                display: flex;
+                align-items: center;
+                gap: 0.4rem;
+                font-size: 0.78125rem;
+                color: #6b7280;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+                svg {
+                    width: 14px;
+                    height: 14px;
+                    color: #00656D;
+                    flex-shrink: 0;
+                }
+
+                span {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+
+            &__footer {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 0.75rem;
+                margin-top: auto;
+                padding-top: 0.5rem;
+            }
+
+            &__price-box {
+                display: flex;
+                flex-direction: column;
+                line-height: 1.2;
+            }
+
+            &__price-label {
+                font-size: 0.75rem;
+                color: #6b7280;
+            }
+
+            &__price-val {
+                font-family: $font-heading;
+                font-size: 1.1875rem;
+                font-weight: 700;
+                color: $color-primary;
+            }
+        }
+    }
+
+
+}
+
+body.single-cars {
+    #ha-review-form {
+        .ha-reviews__form-row {
+            &:nth-child(2) {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+    }
+}
+
+// Car Options Grid & AJAX Container
+.ha-car-options {
+    background: #fff;
+    border-top: 1px solid rgba(25, 35, 43, 0.08);
+    border-bottom: 1px solid rgba(25, 35, 43, 0.08);
+
+    .car-option-item {
+        position: relative;
+        background: #fff;
+        border: 2px solid rgba(25, 35, 43, 0.08);
+        border-radius: 1.125rem;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        cursor: pointer;
+
+        &__icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #00656D;
+
+            svg {
+                width: 32px;
+                height: 24px;
+            }
+        }
+
+        &:hover:not(.is-disabled) {
+            border-color: rgba(0, 101, 109, 0.4);
+            box-shadow: 0 10px 24px rgba(25, 35, 43, 0.08);
+            transform: translateY(-2px);
+        }
+
+        &.is-selected {
+            border-color: #00656D;
+            background-color: #f7faf9;
+            box-shadow: 0 12px 28px rgba(0, 101, 109, 0.12);
+
+            .option-item__radio {
+                border-color: #00656D;
+            }
+
+            .option-item__radio-inner {
+                background-color: #00656D;
+                transform: scale(1);
+            }
+
+            .btn-select-car {
+                background-color: #00656D;
+                color: #fff;
+                border-color: #00656D;
+
+                &:hover {
+                    border-color: $color-accent;
+                }
+
+            }
+        }
+
+        // Unfit state when passengers exceed capacity: completely hidden from UI
+        &.is-unfit {
+            display: none !important;
+        }
+
+        &.is-disabled {
+            opacity: 0.68;
+            background-color: #fafaf9;
+            border-color: #e7e5e4;
+            cursor: not-allowed;
+
+            &:hover {
+                transform: none;
+                box-shadow: none;
+                border-color: #e7e5e4;
+            }
+
+            .option-item__radio {
+                opacity: 0.4;
+            }
+        }
+
+        .badge-capacity {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.625rem;
+            border-radius: 1rem;
+            line-height: 1.2;
+
+            &--ok {
+                background: #ecfdf5;
+                color: #065f46;
+                border: 1px solid #a7f3d0;
+            }
+
+            &--unfit {
+                background: #fff7ed;
+                color: #c2410c;
+                border: 1px solid #fed7aa;
+            }
+        }
+
+        .btn-select--disabled {
+            background-color: #f3f4f6 !important;
+            color: #9ca3af !important;
+            border-color: #e5e7eb !important;
+            cursor: not-allowed !important;
+            box-shadow: none !important;
+        }
+    }
+}

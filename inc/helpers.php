@@ -232,6 +232,65 @@ if (!function_exists('ha_calculate_tour_price')) {
 	}
 }
 
+if (!function_exists('ha_get_car_type_label')) {
+	/**
+	 * Get human readable car vehicle type from option type value
+	 *
+	 * @param string|int $type
+	 * @return string
+	 */
+	function ha_get_car_type_label($type)
+	{
+		$type_val = intval($type);
+		$labels = [
+			4  => __('Sedan (Up to 4 passengers)', 'hoiantravel'),
+			7  => __('SUV (Up to 7 passengers)', 'hoiantravel'),
+			16 => __('Van (Up to 16 passengers)', 'hoiantravel'),
+		];
+		return isset($labels[$type_val]) ? $labels[$type_val] : sprintf(__('Vehicle (%d passengers)', 'hoiantravel'), $type_val);
+	}
+}
+
+if (!function_exists('ha_calculate_car_price')) {
+	/**
+	 * Calculate car pricing and check passenger capacity against vehicle type.
+	 *
+	 * Business Rules:
+	 * 1. Total passengers = Adults + Children (no distinction for seating capacity).
+	 * 2. Capacity is determined strictly by $option['type'] (4 => Sedan, 7 => SUV, 16 => Van).
+	 * 3. Price is charged strictly per vehicle/option ($total_price = $option['price']),
+	 *    NEVER multiplied by passenger count.
+	 *
+	 * @param array $option
+	 * @param int   $adults
+	 * @param int   $children
+	 * @param int   $car_id
+	 * @return array
+	 */
+	function ha_calculate_car_price($option, $adults = 2, $children = 0, $car_id = 0)
+	{
+		$adults = max(0, intval($adults));
+		$children = max(0, intval($children));
+		$total_pax = $adults + $children;
+
+		$capacity = isset($option['type']) ? intval($option['type']) : 0;
+		$price = !empty($option['price']) ? floatval(str_replace(',', '', (string) $option['price'])) : 0;
+
+		$is_fit = ($total_pax > 0 && $capacity > 0 && $total_pax <= $capacity);
+		$is_price_available = ($price > 0);
+
+		return [
+			'capacity'           => $capacity,
+			'vehicle_type'       => ha_get_car_type_label($capacity),
+			'is_fit'             => $is_fit,
+			'price'              => $price,
+			'total_price'        => $price,
+			'is_price_available' => $is_price_available,
+			'total_pax'          => $total_pax,
+		];
+	}
+}
+
 if (!function_exists('vm_calculate_tour_price')) {
 	function vm_calculate_tour_price($option, $adults = 2, $children = 0, $tour_id = 0)
 	{
