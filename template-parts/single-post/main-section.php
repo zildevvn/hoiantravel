@@ -12,32 +12,19 @@ $form = get_field('form_support_blog', 'option');
 
                 <div class="main-section-left__info post-meta d-flex flex-wrap align-items-center gap-4">
                     <div class="post-meta__item d-flex align-items-center gap-2">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
+                        <?= ha_svg_icon('user'); ?>
                         <span>By <a
                                 href="<?php echo esc_url(get_author_posts_url(get_the_author_meta('ID'))); ?>"><?php echo esc_html(get_the_author()); ?></a></span>
                     </div>
 
                     <div class="post-meta__item d-flex align-items-center gap-2">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="16" y1="2" x2="16" y2="6"></line>
-                            <line x1="8" y1="2" x2="8" y2="6"></line>
-                            <line x1="3" y1="10" x2="21" y2="10"></line>
-                        </svg>
+                        <?= ha_svg_icon('calendar'); ?>
                         <span><?php echo esc_html(get_the_date()); ?></span>
                     </div>
 
                     <?php if (comments_open()): ?>
                         <div class="post-meta__item d-flex align-items-center gap-2">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                            </svg>
+                            <?= ha_svg_icon('message-square'); ?>
                             <span>
                                 <?php
                                 $comments_number = get_comments_number();
@@ -72,11 +59,7 @@ $form = get_field('form_support_blog', 'option');
                             <input type="search" class="search-field form-control" placeholder="Search..."
                                 value="<?php echo get_search_query(); ?>" name="s" title="Search for:" />
                             <button type="submit" class="search-submit" aria-label="Submit search">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                </svg>
+                                <?= ha_svg_icon('search-icon'); ?>
                             </button>
                         </div>
                     </form>
@@ -114,13 +97,7 @@ $form = get_field('form_support_blog', 'option');
                                             <a href="<?php the_permalink(); ?>"><?php echo esc_html(get_the_title()); ?></a>
                                         </h4>
                                         <div class="recent-post-item__date d-flex align-items-center gap-2">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                                            </svg>
+                                            <?= ha_svg_icon('calendar'); ?>
                                             <span><?php echo esc_html(get_the_date()); ?></span>
                                         </div>
                                     </div>

@@ -219,23 +219,28 @@
             const $thisBtn = $(this);
             const $item = $thisBtn.closest('.option-item');
 
-            // If this card is not active yet, activate it first
-            if (!$thisBtn.hasClass('btn-select--active')) {
-                $container.find('.option-item').removeClass('is-selected');
-                $container.find('.btn-select').removeClass('btn-select--active').text('Select');
-                $item.addClass('is-selected');
-                $thisBtn.addClass('btn-select--active').text('Continue');
+            // Visually highlight active selection
+            $container.find('.option-item').removeClass('is-selected');
+            $container.find('.btn-select').removeClass('btn-select--active').text('Select');
+            $item.addClass('is-selected');
+            $thisBtn.addClass('btn-select--active').text('Processing...');
+
+            const dateVal = ($form.find('#ha-date-visit').val() || '').trim();
+            if (!dateVal) {
+                const $error = $form.find('.ha-form-error');
+                $error.text('Please select a tour date first.').stop(true, true).slideDown(200);
+                $('html, body').animate({ scrollTop: $form.offset().top - 120 }, 400);
+                $thisBtn.removeClass('btn-select--active').text('Select');
                 return;
             }
 
             if ($thisBtn.hasClass('is-loading')) return;
 
-            const originalText = $thisBtn.text();
+            const originalText = 'Select';
             $thisBtn.addClass('is-loading').prop('disabled', true).text('Processing...');
 
             const optionId = ($thisBtn.data('option-id') !== undefined) ? $thisBtn.data('option-id') : $item.data('key');
             const postId = $thisBtn.data('tour-id') || $container.data('post-id');
-            const dateVal = ($form.find('#ha-date-visit').val() || '').trim();
             const adults = parseInt($form.find('#ha-adults').val(), 10) || 2;
             const children = parseInt($form.find('#ha-children').val(), 10) || 0;
             const ajaxUrl = (window.php_data && window.php_data.ajax_url) ? window.php_data.ajax_url : '/wp-admin/admin-ajax.php';

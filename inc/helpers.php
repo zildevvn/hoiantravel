@@ -21,14 +21,36 @@ function dump($data)
 if (!function_exists('ha_svg_icon')) {
 
 	/**
-	 * @param $icon
+	 * Retrieve an SVG icon markup by key from inc/svg.php.
+	 * Supports optional CSS class injection without breaking existing calls.
 	 *
-	 * @return mixed|string
+	 * @param string $icon  Icon identifier key.
+	 * @param string $class Optional CSS classes to append or set on the SVG element.
+	 *
+	 * @return string Safe SVG markup or empty string if not found.
 	 */
-	function ha_svg_icon($icon)
+	function ha_svg_icon($icon, $class = '')
 	{
-		$icons = require(__DIR__ . '/svg.php');
-		return isset($icons[$icon]) ? $icons[$icon] : '';
+		static $icons = null;
+		if ($icons === null) {
+			$icons = require(__DIR__ . '/svg.php');
+		}
+
+		if (!isset($icons[$icon])) {
+			return '';
+		}
+
+		$svg = $icons[$icon];
+
+		if (!empty($class)) {
+			if (strpos($svg, 'class="') !== false) {
+				$svg = preg_replace('/class="([^"]*)"/', 'class="$1 ' . esc_attr(trim($class)) . '"', $svg, 1);
+			} else {
+				$svg = preg_replace('/<svg\b/', '<svg class="' . esc_attr(trim($class)) . '"', $svg, 1);
+			}
+		}
+
+		return $svg;
 	}
 }
 

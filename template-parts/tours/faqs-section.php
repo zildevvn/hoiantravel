@@ -50,7 +50,7 @@ $faqs = get_field('faqs_list_tpl_t');
                                     </h3>
 
                                     <span class="faq-item__icon" aria-hidden="true">
-                                        <?php echo function_exists('ha_svg_icon') && ha_svg_icon('chevron-down') ? ha_svg_icon('chevron-down') : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>'; ?>
+                                        <?= ha_svg_icon('chevron-down'); ?>
                                     </span>
                                 </button>
                                 <div class="faq-item__answer">

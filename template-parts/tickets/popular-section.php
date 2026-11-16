@@ -28,11 +28,11 @@ $phone = get_field('phone', 'option');
                 <?php
                 // SVGs for tickets
                 $svgs = [
-                    'adult' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>',
-                    'child' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a3 3 0 0 0-3-3H10a3 3 0 0 0-3 3v2"></path><circle cx="12" cy="11" r="3"></circle></svg>',
-                    'senior' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="10" cy="7" r="4"></circle><path d="M20 10a2 2 0 0 0-2-2h-1c-1.1 0-2 .9-2 2v11"></path></svg>',
-                    'pin' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>',
-                    'info' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>'
+                    'adult' => ha_svg_icon('user'),
+                    'child' => ha_svg_icon('user-small'),
+                    'senior' => ha_svg_icon('user-child'),
+                    'pin' => ha_svg_icon('map-pin'),
+                    'info' => ha_svg_icon('info-circle')
                 ];
 
                 $currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('currency', 'option');
@@ -164,11 +164,7 @@ $phone = get_field('phone', 'option');
                     rel="noopener noreferrer">
                     Contact Now
 
-                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        color="#000000">
-                        <path d="M12 21L12 3M12 3L20.5 11.5M12 3L3.5 11.5" stroke="#000000" stroke-width="1.5"
-                            stroke-linecap="round" stroke-linejoin="round"></path>
-                    </svg>
+                    <?= ha_svg_icon('arrow-up-right'); ?>
                 </a>
             <?php endif; ?>
 

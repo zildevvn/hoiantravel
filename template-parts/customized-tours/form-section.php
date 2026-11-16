@@ -50,15 +50,7 @@ $open_time = get_field('open_time', 'option');
                         <?php if (!empty($address)): ?>
                             <div class="contact-info d-flex address">
                                 <div class="contact-info__icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        class="lucide lucide-map-pin-check-icon lucide-map-pin-check">
-                                        <path
-                                            d="M19.43 12.935c.357-.967.57-1.955.57-2.935a8 8 0 0 0-16 0c0 4.993 5.539 10.193 7.399 11.799a1 1 0 0 0 1.202 0 32.197 32.197 0 0 0 .813-.728" />
-                                        <circle cx="12" cy="10" r="3" />
-                                        <path d="m16 18 2 2 4-4" />
-                                    </svg>
+                                    <?= ha_svg_icon('map-pin-check'); ?>
                                 </div>
                                 <div class="contact-info__content">
                                     <h3 class="h5">Address</h3>
@@ -73,13 +65,7 @@ $open_time = get_field('open_time', 'option');
                             <a href="https://wa.me/<?= esc_attr($whatsapp_phone) ?>" aria-label="WhatsApp"
                                 class="contact-info d-flex" target="_blank" rel="noopener noreferrer">
                                 <div class="contact-info__icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path
-                                            d="M21 11.5a8.38 8.38 0 0 1-9 8.5 8.5 8.5 0 0 1-4.4-1.2L3 20l1.2-4.5A8.5 8.5 0 1 1 21 11.5Z" />
-                                        <path d="M8 10.5c.5 2 2 3.5 4 4" />
-                                    </svg>
+                                    <?= ha_svg_icon('whatsapp-chat'); ?>
                                 </div>
 
                                 <div class="contact-info__content">
@@ -95,13 +81,7 @@ $open_time = get_field('open_time', 'option');
                         <?php if (!empty($email)): ?>
                             <a href="mailto:<?= $email ?>" aria-label="Send us email" class="contact-info d-flex">
                                 <div class="contact-info__icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="lucide lucide-mail-check-icon lucide-mail-check">
-                                        <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h8" />
-                                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                                        <path d="m16 19 2 2 4-4" />
-                                    </svg>
+                                    <?= ha_svg_icon('mail-check'); ?>
                                 </div>
                                 <div class="contact-info__content">
                                     <h3 class="h5">Email Us</h3>

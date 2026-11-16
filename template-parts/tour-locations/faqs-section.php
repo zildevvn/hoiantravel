@@ -35,16 +35,7 @@ $faqs = get_field('faqs_list_location', $term);
                             <img src="<?= $img ?>" alt="image for <?= $heading ?>" />
                             <?php if (!empty($hd_img)): ?>
                                 <p class="mb-0 h5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="lucide lucide-quote-icon lucide-quote">
-                                        <path
-                                            d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
-                                        </path>
-                                        <path
-                                            d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z">
-                                        </path>
-                                    </svg>
+                                    <?= ha_svg_icon('quote', 'lucide lucide-quote-icon lucide-quote'); ?>
                                     <?= $hd_img ?>
                                 </p>
                             <?php endif; ?>
@@ -62,11 +53,7 @@ $faqs = get_field('faqs_list_location', $term);
                                         0<?= $key + 1 ?> - <?= $item['question'] ?>
                                     </h3>
 
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="lucide lucide-chevron-down-icon lucide-chevron-down">
-                                        <path d="m6 9 6 6 6-6" />
-                                    </svg>
+                                    <?= ha_svg_icon('chevron-down'); ?>
                                 </div>
                                 <div class="faq-item__answer">
                                     <?= $item['answer'] ?>

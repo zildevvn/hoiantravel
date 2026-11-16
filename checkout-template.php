@@ -66,11 +66,7 @@ if (!$booking_data || !is_array($booking_data)) {
 
                             <div id="ha-booking-success" style="display: none;">
                                 <div class="success-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                                    </svg>
+                                    <?= ha_svg_icon('check-circle'); ?>
                                 </div>
                                 <h2>Your order was submitted successfully !</h2>
                                 <p class="booking-email-notice">Booking details have been sent to: <b
@@ -102,19 +98,15 @@ if (!$booking_data || !is_array($booking_data)) {
 
 
                                 <div style="margin-top: 32px;">
-                                    <?php
-                                    ha_load_button(site_url('/tours'), 'Browse More Tours')
-                                        ?>
+                                    <a href="<?php echo esc_url(site_url('/tours')); ?>" class="ha-button">
+                                        <span><?php esc_html_e('Browse More Tours', 'ha'); ?></span>
+                                    </a>
                                 </div>
                             </div>
 
                             <div class="checkout-form-box" id="ha-checkout-form-wrapper">
                                 <h2>
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="12" cy="7" r="4"></circle>
-                                    </svg>
+                                    <?= ha_svg_icon('user-details'); ?>
                                     Customer Details
                                 </h2>
 
@@ -166,11 +158,7 @@ if (!$booking_data || !is_array($booking_data)) {
                                     </div>
 
                                     <h2 style="margin-top: 40px;">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-                                            <line x1="2" y1="10" x2="22" y2="10"></line>
-                                        </svg>
+                                        <?= ha_svg_icon('credit-card'); ?>
                                         Payment Method
                                     </h2>
 
@@ -179,13 +167,13 @@ if (!$booking_data || !is_array($booking_data)) {
                                             <label
                                                 style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 16px; border: 1px solid #e0e0e0; border-radius: 12px; flex: 1; min-width: 200px;">
                                                 <input type="radio" name="payment_method" value="pay_on_arrival" checked
-                                                    style="width: 20px; height: 20px; margin: 0; accent-color: #0C2C7A;">
+                                                    style="width: 20px; height: 20px; margin: 0; accent-color: #C24A2D;">
                                                 <strong style="font-weight: 600; color: #19232B;">Pay on Arrival</strong>
                                             </label>
                                             <label
                                                 style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 16px; border: 1px solid #e0e0e0; border-radius: 12px; flex: 1; min-width: 200px;">
                                                 <input type="radio" name="payment_method" value="bank_transfer"
-                                                    style="width: 20px; height: 20px; margin: 0; accent-color: #0C2C7A;">
+                                                    style="width: 20px; height: 20px; margin: 0; accent-color: #C24A2D;">
                                                 <strong style="font-weight: 600; color: #19232B;">Bank Transfer</strong>
                                             </label>
                                         </div>
@@ -196,7 +184,7 @@ if (!$booking_data || !is_array($booking_data)) {
                                         <label
                                             style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-weight: 400;">
                                             <input type="checkbox" name="terms_conditions"
-                                                style="width: 20px; height: 20px; margin-top: 2px; accent-color: #0C2C7A; flex-shrink: 0;">
+                                                style="width: 20px; height: 20px; margin-top: 2px; accent-color: #C24A2D; flex-shrink: 0;">
                                             <span>I have read and accept the terms and conditions. <span
                                                     style="color:red;">*</span></span>
                                         </label>
@@ -205,11 +193,7 @@ if (!$booking_data || !is_array($booking_data)) {
 
                                     <button type="submit" class="btn-submit-booking ha-button btn-view-license">
                                         CONFIRM BOOKING
-                                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg" color="#000000">
-                                            <path d="M12 21L12 3M12 3L20.5 11.5M12 3L3.5 11.5" stroke="#000000"
-                                                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
+                                        <?= ha_svg_icon('arrow-up-right'); ?>
                                     </button>
                                 </form>
                             </div>
@@ -227,46 +211,21 @@ if (!$booking_data || !is_array($booking_data)) {
 
                                 <ul class="summary-details">
                                     <li>
-                                        <svg viewBox="0 0 24 24" fill="none">
-                                            <path
-                                                d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <circle cx="12" cy="10" r="3" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
+                                        <?= ha_svg_icon('map-pin-alt'); ?>
                                         <div>
                                             <span>Tour Option</span>
                                             <strong><?= esc_html($selected_option['name']) ?></strong>
                                         </div>
                                     </li>
                                     <li>
-                                        <svg viewBox="0 0 24 24" fill="none">
-                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round" />
-                                            <line x1="16" y1="2" x2="16" y2="6" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <line x1="8" y1="2" x2="8" y2="6" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <line x1="3" y1="10" x2="21" y2="10" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
+                                        <?= ha_svg_icon('calendar'); ?>
                                         <div>
                                             <span>Date & Time</span>
-                                            <strong><?= esc_html($booking_data['date']) ?> -
-                                                <?= esc_html($selected_option['starting_time']) ?></strong>
+                                            <strong><?= esc_html($booking_data['date']) ?><?= !empty($selected_option['starting_time']) ? ' - ' . esc_html($selected_option['starting_time']) : '' ?></strong>
                                         </div>
                                     </li>
                                     <li>
-                                        <svg viewBox="0 0 24 24" fill="none">
-                                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round" />
-                                            <circle cx="9" cy="7" r="4" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
+                                        <?= ha_svg_icon('users'); ?>
                                         <div>
                                             <span>Participants</span>
                                             <strong><?= esc_html($total_pax) ?> (<?= esc_html($booking_data['adults']) ?>
@@ -282,15 +241,7 @@ if (!$booking_data || !is_array($booking_data)) {
 
                                     <?php if (!$is_price_available): ?>
                                         <div class="price-contact-alert">
-                                            <svg viewBox="0 0 24 24" fill="none">
-                                                <path
-                                                    d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                                <line x1="12" y1="9" x2="12" y2="13" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <line x1="12" y1="17" x2="12.01" y2="17" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                            </svg>
+                                            <?= ha_svg_icon('alert-triangle'); ?>
                                             <p><strong>Note:</strong> Pricing for this tour requires direct contact. Please
                                                 leave your details and we will quote you shortly.</p>
                                         </div>

@@ -28,11 +28,7 @@ $cta_group = [
                 <form role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>"
                     class="modern-search-form">
                     <div class="input-group">
-                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
+                        <?= ha_svg_icon('search-icon', 'search-icon'); ?>
                         <input type="search" name="s" placeholder="Search for tours, cars, or articles..." required />
                         <button type="submit" class="ha-button ha-button--primary search-submit">Search</button>
                     </div>
@@ -40,11 +36,7 @@ $cta_group = [
             </div>
 
             <a href="<?php echo esc_url(home_url('/')); ?>" class="ha-button ha-button--primary back-home-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
+                <?= ha_svg_icon('arrow-left'); ?>
                 Back to Home
             </a>
         </div>

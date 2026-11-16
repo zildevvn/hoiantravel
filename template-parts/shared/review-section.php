@@ -171,12 +171,7 @@ $empty_message = ($post_type === 'cars') ? 'Be the first to leave a review for t
                             </div>
                             <?php if ($review->comment_approved == '0'): ?>
                                 <div class="vm-reviews__card-pending">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <circle cx="12" cy="12" r="10" />
-                                        <line x1="12" y1="8" x2="12" y2="12" />
-                                        <line x1="12" y1="16" x2="12.01" y2="16" />
-                                    </svg>
+                                    <?= ha_svg_icon('info-circle'); ?>
                                     <em>
                                         <?php esc_html_e('Your review is awaiting moderation.', 'vm'); ?>
                                     </em>
@@ -207,10 +202,7 @@ $empty_message = ($post_type === 'cars') ? 'Be the first to leave a review for t
         </div>
     <?php else: ?>
         <div class="vm-reviews__empty">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-            </svg>
+            <?= ha_svg_icon('message-square'); ?>
             <p>
                 <?php echo esc_html($empty_message); ?>
             </p>
@@ -226,19 +218,12 @@ $empty_message = ($post_type === 'cars') ? 'Be the first to leave a review for t
 
             <?php if (isset($_GET['unapproved'])): ?>
                 <div class="vm-reviews__notice vm-reviews__notice--pending">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10" />
-                        <line x1="12" y1="8" x2="12" y2="12" />
-                        <line x1="12" y1="16" x2="12.01" y2="16" />
-                    </svg>
+                    <?= ha_svg_icon('info-circle'); ?>
                     <?php esc_html_e('Your review has been submitted and is awaiting moderation. Thank you!', 'vm'); ?>
                 </div>
             <?php elseif (isset($_GET['approved'])): ?>
                 <div class="vm-reviews__notice vm-reviews__notice--success">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                        <polyline points="22 4 12 14.01 9 11.01" />
-                    </svg>
+                    <?= ha_svg_icon('check-circle'); ?>
                     <?php esc_html_e('Your review has been published. Thank you!', 'vm'); ?>
                 </div>
             <?php endif; ?>
@@ -258,10 +243,7 @@ $empty_message = ($post_type === 'cars') ? 'Be the first to leave a review for t
                                 title="<?php printf(esc_attr__('%d star%s', 'vm'), $s, $s > 1 ? 's' : ''); ?>">
                                 <input type="radio" class="star-picker__input" name="vm_tour_rating"
                                     id="star-<?php echo esc_attr($s); ?>" value="<?php echo esc_attr($s); ?>" required>
-                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                </svg>
+                                <?= ha_svg_icon('star-fill'); ?>
                             </label>
                         <?php endfor; ?>
                         <span class="star-picker__text" id="star-picker-text" aria-live="polite">
@@ -292,10 +274,7 @@ $empty_message = ($post_type === 'cars') ? 'Be the first to leave a review for t
                                         title="<?php printf(esc_attr__('%d star%s', 'vm'), $s, $s > 1 ? 's' : ''); ?>">
                                         <input type="radio" class="star-picker__input" name="vm_tour_rating_<?php echo esc_attr($key); ?>"
                                             id="star-<?php echo esc_attr($key . '-' . $s); ?>" value="<?php echo esc_attr($s); ?>" required>
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
+                                        <?= ha_svg_icon('star-fill'); ?>
                                     </label>
                                 <?php endfor; ?>
                                 <span class="star-picker__text" aria-live="polite">
@@ -345,11 +324,7 @@ $empty_message = ($post_type === 'cars') ? 'Be the first to leave a review for t
 
                 <button type="submit" class="vm-button vm-reviews__submit">
                     <?php esc_html_e('Submit Review', 'vm'); ?>
-                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        color="#000000">
-                        <path d="M12 21L12 3M12 3L20.5 11.5M12 3L3.5 11.5" stroke="currentColor" stroke-width="1.5"
-                            stroke-linecap="round" stroke-linejoin="round"></path>
-                    </svg>
+                    <?= ha_svg_icon('arrow-up-right'); ?>
                 </button>
             </form>
         </div>

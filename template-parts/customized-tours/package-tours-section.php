@@ -45,18 +45,10 @@ $query = new WP_Query($args);
                 <div class="swiper-action d-flex justify-content-center align-items-center">
                     <!-- If we need navigation buttons -->
                     <div class="swiper-button-prev">
-                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                            color="#000000">
-                            <path d="M21 12L3 12M3 12L11.5 3.5M3 12L11.5 20.5" stroke="#000000" stroke-width="1.5"
-                                stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
+                        <?= ha_svg_icon('arrow-left-long'); ?>
                     </div>
                     <div class="swiper-button-next">
-                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                            color="#000000">
-                            <path d="M3 12L21 12M21 12L12.5 3.5M21 12L12.5 20.5" stroke="#000000" stroke-width="1.5"
-                                stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
+                        <?= ha_svg_icon('arrow-right-long'); ?>
                     </div>
                 </div>
             </div>

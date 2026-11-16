@@ -51,14 +51,10 @@ get_header();
             <div class="flex items-center gap-3">
                 <button aria-label="Previous Slide"
                     class="w-[44px] h-[44px] border border-white/30 text-white rounded-full flex items-center justify-center hover:bg-[#C24A2D] cursor-pointer transition-colors backdrop-blur-sm bg-white/5"
-                    type="button"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                        </path>
-                    </svg></button>
+                    type="button"><?= ha_svg_icon('chevron-left', 'w-5 h-5'); ?></button>
                 <button aria-label="Next Slide"
                     class="w-[44px] h-[44px] border border-white/30 text-white rounded-full flex items-center justify-center hover:bg-[#C24A2D] cursor-pointer transition-colors backdrop-blur-sm bg-white/5"
-                    type="button"><svg class="w-9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2"></svg></button>
+                    type="button"><?= ha_svg_icon('chevron-right', 'w-5 h-5'); ?></button>
             </div>
         </div>
     </section>
@@ -67,23 +63,11 @@ get_header();
         <div
             class="max-w-[1240px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/70">
             <div class="flex items-center gap-6">
-                <span class="flex items-center gap-2"><svg class="w-4 h-4 text-[#DFA128]" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                    </svg> Licensed Local Guides</span>
+                <span class="flex items-center gap-2"><?= ha_svg_icon('check-simple', 'w-4 h-4 text-[#DFA128]'); ?> Licensed Local Guides</span>
                 <span class="hidden md:inline-block text-white/25">•</span>
-                <span class="hidden md:flex items-center gap-2"><svg class="w-4 h-4 text-[#DFA128]" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
-                            stroke-linejoin="round" stroke-width="2"></path>
-                    </svg> 24/7 Dedicated Concierge</span>
+                <span class="hidden md:flex items-center gap-2"><?= ha_svg_icon('clock-history', 'w-4 h-4 text-[#DFA128]'); ?> 24/7 Dedicated Concierge</span>
                 <span class="hidden md:inline-block text-white/25">•</span>
-                <span class="hidden md:flex items-center gap-2"><svg class="w-4 h-4 text-[#DFA128]" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                    </svg> Best Rate &amp; Authenticity Guaranteed</span>
+                <span class="hidden md:flex items-center gap-2"><?= ha_svg_icon('shield-check-alt', 'w-4 h-4 text-[#DFA128]'); ?> Best Rate &amp; Authenticity Guaranteed</span>
             </div>
             <div class="flex items-center gap-2 text-white/60">
                 <span class="">Thu Bon River Dusk Experience</span>
@@ -373,11 +357,7 @@ get_header();
                     class="absolute -bottom-6 -right-3 sm:-bottom-8 sm:right-6 bg-white border border-[#DFA128]/30 rounded-2xl p-4 shadow-2xl flex items-center gap-3.5 max-w-xs z-20">
                     <div
                         class="w-11 h-11 rounded-full bg-[#DFA128]/15 border border-[#DFA128]/40 flex items-center justify-center shrink-0 text-[#DFA128]">
-                        <svg class="w-6 h-6 stroke-[1.8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2l7 4v6c0 5.25-3.5 10-7 12-3.5-2-7-6.75-7-12V6l7-4z" stroke-linecap="round"
-                                stroke-linejoin="round"></path>
-                            <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
+                        <?= ha_svg_icon('shield-check', 'w-6 h-6 stroke-[1.8]'); ?>
                     </div>
                     <div>
                         <h4 class="font-bold text-xs text-[#241C1A]">Licensed International Tour Operator</h4>
@@ -633,28 +613,17 @@ get_header();
                 <div class="flex flex-wrap items-center gap-3 shrink-0">
                     <span
                         class="inline-flex items-center gap-1.5 bg-white text-[#1E4D48] text-xs font-bold px-4 py-2 rounded-full border border-[#1E4D48]/20 shadow-xs">
-                        <svg class="w-3.5 h-3.5 text-[#DFA128]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2">
-                            </path>
-                        </svg>
+                        <?= ha_svg_icon('check-simple', 'w-3.5 h-3.5 text-[#DFA128]'); ?>
                         Best Price Guaranteed
                     </span>
                     <span
                         class="inline-flex items-center gap-1.5 bg-white text-[#1E4D48] text-xs font-bold px-4 py-2 rounded-full border border-[#1E4D48]/20 shadow-xs">
-                        <svg class="w-3.5 h-3.5 text-[#DFA128]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="9" stroke-width="2"></circle>
-                            <path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                            </path>
-                        </svg>
+                        <?= ha_svg_icon('clock-circle', 'w-3.5 h-3.5 text-[#DFA128]'); ?>
                         Free 60-min Airport Wait
                     </span>
                     <span
                         class="inline-flex items-center gap-1.5 bg-white text-[#1E4D48] text-xs font-bold px-4 py-2 rounded-full border border-[#1E4D48]/20 shadow-xs">
-                        <svg class="w-3.5 h-3.5 text-[#DFA128]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <rect height="12" rx="2" stroke-width="2" width="18" x="3" y="6"></rect>
-                            <circle cx="7.5" cy="18.5" r="1.5"></circle>
-                            <circle cx="16.5" cy="18.5" r="1.5"></circle>
-                        </svg>
+                        <?= ha_svg_icon('car-simple', 'w-3.5 h-3.5 text-[#DFA128]'); ?>
                         Modern Sedans, SUVs &amp; Vans
                     </span>
                 </div>

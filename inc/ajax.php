@@ -462,3 +462,226 @@ function ha_ajax_process_booking_handler()
     ));
 }
 
+/**
+ * AJAX: Submit Tour Checkout Booking
+ */
+add_action('wp_ajax_ha_ajax_submit_checkout', 'ha_ajax_submit_checkout_handler');
+add_action('wp_ajax_nopriv_ha_ajax_submit_checkout', 'ha_ajax_submit_checkout_handler');
+function ha_ajax_submit_checkout_handler()
+{
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tour_options_nonce')) {
+        wp_send_json_error(array('message' => __('Security check failed. Please refresh the page and try again.', 'ha')));
+    }
+
+    $token = isset($_POST['booking_token']) ? sanitize_text_field(wp_unslash($_POST['booking_token'])) : '';
+    if (empty($token) && isset($_COOKIE['ha_booking_token'])) {
+        $token = sanitize_text_field(wp_unslash($_COOKIE['ha_booking_token']));
+    }
+
+    if (empty($token)) {
+        wp_send_json_error(array('message' => __('Invalid booking session. Please return to the tour page and select your option again.', 'ha')));
+    }
+
+    $booking_data = get_transient('ha_booking_' . $token);
+    if (!$booking_data || !is_array($booking_data)) {
+        wp_send_json_error(array('message' => __('Your booking session has expired or is invalid. Please return to the tour page and try again.', 'ha')));
+    }
+
+    // Extract and sanitize customer info
+    $customer_name     = isset($_POST['customer_name']) ? sanitize_text_field(wp_unslash($_POST['customer_name'])) : '';
+    $customer_email    = isset($_POST['customer_email']) ? sanitize_email(wp_unslash($_POST['customer_email'])) : '';
+    $customer_phone    = isset($_POST['customer_phone']) ? sanitize_text_field(wp_unslash($_POST['customer_phone'])) : '';
+    $customer_pickup   = isset($_POST['customer_pickup']) ? sanitize_text_field(wp_unslash($_POST['customer_pickup'])) : '';
+    $customer_dropoff  = isset($_POST['customer_dropoff']) ? sanitize_text_field(wp_unslash($_POST['customer_dropoff'])) : '';
+    $customer_country  = isset($_POST['customer_country']) ? sanitize_text_field(wp_unslash($_POST['customer_country'])) : '';
+    $customer_messages = isset($_POST['customer_messages']) ? sanitize_textarea_field(wp_unslash($_POST['customer_messages'])) : '';
+    $payment_method    = isset($_POST['payment_method']) ? sanitize_text_field(wp_unslash($_POST['payment_method'])) : 'pay_on_arrival';
+
+    if (empty($customer_name) || empty($customer_email) || empty($customer_phone) || empty($customer_pickup) || empty($customer_dropoff)) {
+        wp_send_json_error(array('message' => __('Please fill in all required fields.', 'ha')));
+    }
+
+    if (!is_email($customer_email)) {
+        wp_send_json_error(array('message' => __('Please enter a valid email address.', 'ha')));
+    }
+
+    // Re-validate tour & option details from DB
+    $tour_id   = isset($booking_data['tour_id']) ? intval($booking_data['tour_id']) : 0;
+    $option_id = isset($booking_data['option_id']) ? intval($booking_data['option_id']) : 0;
+    $tour      = get_post($tour_id);
+
+    if (!$tour) {
+        wp_send_json_error(array('message' => __('The selected tour is no longer available.', 'ha')));
+    }
+
+    $tour_options = get_field('tour_options', $tour_id);
+    if (empty($tour_options) || !isset($tour_options[$option_id])) {
+        wp_send_json_error(array('message' => __('The selected tour option is no longer available.', 'ha')));
+    }
+
+    $selected_option = $tour_options[$option_id];
+
+    // Recalculate price server-side
+    $adults    = isset($booking_data['adults']) ? max(1, intval($booking_data['adults'])) : 2;
+    $children  = isset($booking_data['children']) ? max(0, intval($booking_data['children'])) : 0;
+    $total_pax = $adults + $children;
+
+    $pricing            = ha_calculate_tour_price($selected_option, $adults, $children, $tour_id);
+    $price_per_person   = $pricing['price_per_person'];
+    $total_price        = $pricing['total_price'];
+    $is_price_available = $pricing['is_price_available'];
+
+    // Prevent duplicate booking submission server-side
+    $existing_booking = get_posts(array(
+        'post_type'      => 'tour_booking',
+        'meta_key'       => 'booking_token',
+        'meta_value'     => $token,
+        'post_status'    => 'any',
+        'fields'         => 'ids',
+        'posts_per_page' => 1,
+    ));
+
+    if (!empty($existing_booking)) {
+        delete_transient('ha_booking_' . $token);
+        wp_send_json_error(array('message' => __('This booking has already been processed successfully.', 'ha')));
+    }
+
+    // Generate Booking Reference
+    $booking_ref = 'HA-' . strtoupper(substr(uniqid(), -6));
+
+    // Save Booking to Database (Custom Post Type)
+    $booking_post_id = wp_insert_post(array(
+        'post_title'  => $booking_ref,
+        'post_status' => 'publish',
+        'post_type'   => 'tour_booking',
+    ), true);
+
+    if (is_wp_error($booking_post_id) || empty($booking_post_id)) {
+        wp_send_json_error(array('message' => __('Failed to save booking. Please try again or contact support.', 'ha')));
+    }
+
+    // Customer Info Meta
+    update_post_meta($booking_post_id, 'customer_name', $customer_name);
+    update_post_meta($booking_post_id, 'customer_email', $customer_email);
+    update_post_meta($booking_post_id, 'customer_phone', $customer_phone);
+    update_post_meta($booking_post_id, 'customer_pickup', $customer_pickup);
+    update_post_meta($booking_post_id, 'customer_dropoff', $customer_dropoff);
+    update_post_meta($booking_post_id, 'customer_country', $customer_country);
+    update_post_meta($booking_post_id, 'customer_address', $customer_country);
+    update_post_meta($booking_post_id, 'customer_messages', $customer_messages);
+    update_post_meta($booking_post_id, 'payment_method', $payment_method);
+
+    // Tour Info Meta
+    $booking_type = get_post_type($tour_id) ?: 'tours';
+    update_post_meta($booking_post_id, 'booking_type', $booking_type);
+    update_post_meta($booking_post_id, 'tour_id', $tour_id);
+    update_post_meta($booking_post_id, 'booking_token', $token);
+    update_post_meta($booking_post_id, 'option_name', $selected_option['name'] ?? '');
+    update_post_meta($booking_post_id, 'date', $booking_data['date']);
+    update_post_meta($booking_post_id, 'starting_time', $selected_option['starting_time'] ?? '');
+    update_post_meta($booking_post_id, 'adults', $adults);
+    update_post_meta($booking_post_id, 'children', $children);
+    update_post_meta($booking_post_id, 'total_pax', $total_pax);
+    update_post_meta($booking_post_id, 'price_per_person', $price_per_person);
+    update_post_meta($booking_post_id, 'total_price', $total_price);
+
+    $payment_method_label = $payment_method === 'bank_transfer' ? 'Bank Transfer' : 'Pay on Arrival';
+    $formatted_date       = date('F j, Y', strtotime($booking_data['date']));
+    $formatted_price      = ha_format_price($total_price);
+
+    // HTML Email Styling
+    $table_style = 'width: 100%; max-width: 600px; border-collapse: collapse; margin-bottom: 20px; font-family: Arial, sans-serif; font-size: 14px;';
+    $th_style    = 'padding: 12px; border: 1px solid #e7e5e4; background-color: #FAF8F5; text-align: left; font-weight: bold; width: 35%; color: #19232B;';
+    $td_style    = 'padding: 12px; border: 1px solid #e7e5e4; color: #555; text-align: left;';
+    $h2_style    = 'color: #C24A2D; font-family: Arial, sans-serif; font-size: 24px; border-bottom: 2px solid #DFA128; padding-bottom: 10px; margin-bottom: 20px;';
+    $h3_style    = 'color: #19232B; font-family: Arial, sans-serif; font-size: 18px; margin-top: 30px; margin-bottom: 15px;';
+
+    // 1. Admin Email
+    $admin_email   = get_field('booking_notification_email', 'option') ?: get_option('admin_email');
+    $subject_admin = 'New Booking Request: ' . $booking_ref;
+
+    $message_admin  = "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;'>";
+    $message_admin .= "<h2 style='{$h2_style}'>New Booking Request: {$booking_ref}</h2>";
+    $message_admin .= "<h3 style='{$h3_style}'>Customer Information</h3>";
+    $message_admin .= "<table style='{$table_style}'>";
+    $message_admin .= "<tr><th style='{$th_style}'>Name</th><td style='{$td_style}'>" . esc_html($customer_name) . "</td></tr>";
+    $message_admin .= "<tr><th style='{$th_style}'>Email</th><td style='{$td_style}'><a href='mailto:" . esc_attr($customer_email) . "'>" . esc_html($customer_email) . "</a></td></tr>";
+    $message_admin .= "<tr><th style='{$th_style}'>Phone</th><td style='{$td_style}'>" . esc_html($customer_phone) . "</td></tr>";
+    $message_admin .= "<tr><th style='{$th_style}'>Pick-up</th><td style='{$td_style}'>" . esc_html($customer_pickup) . "</td></tr>";
+    $message_admin .= "<tr><th style='{$th_style}'>Drop-off</th><td style='{$td_style}'>" . esc_html($customer_dropoff) . "</td></tr>";
+    if (!empty($customer_country)) {
+        $message_admin .= "<tr><th style='{$th_style}'>Country</th><td style='{$td_style}'>" . esc_html($customer_country) . "</td></tr>";
+    }
+    if (!empty($customer_messages)) {
+        $message_admin .= "<tr><th style='{$th_style}'>Messages</th><td style='{$td_style}'>" . nl2br(esc_html($customer_messages)) . "</td></tr>";
+    }
+    $message_admin .= "<tr><th style='{$th_style}'>Payment Method</th><td style='{$td_style}'>" . esc_html($payment_method_label) . "</td></tr>";
+    $message_admin .= "</table>";
+
+    $message_admin .= "<h3 style='{$h3_style}'>Booking Information</h3>";
+    $message_admin .= "<table style='{$table_style}'>";
+    $message_admin .= "<tr><th style='{$th_style}'>Tour</th><td style='{$td_style}'><strong>" . esc_html($tour->post_title) . "</strong></td></tr>";
+    $message_admin .= "<tr><th style='{$th_style}'>Option</th><td style='{$td_style}'>" . esc_html($selected_option['name'] ?? '') . "</td></tr>";
+    $message_admin .= "<tr><th style='{$th_style}'>Date</th><td style='{$td_style}'>" . esc_html($formatted_date) . "</td></tr>";
+    if (!empty($selected_option['starting_time'])) {
+        $message_admin .= "<tr><th style='{$th_style}'>Starting Time</th><td style='{$td_style}'>" . esc_html($selected_option['starting_time']) . "</td></tr>";
+    }
+    $message_admin .= "<tr><th style='{$th_style}'>Participants</th><td style='{$td_style}'>{$total_pax} ({$adults} Adults, {$children} Children)</td></tr>";
+    $message_admin .= "<tr><th style='{$th_style}'>Total Price</th><td style='{$td_style}'><strong style='color: #C24A2D; font-size: 16px;'>" . esc_html($formatted_price) . "</strong></td></tr>";
+    $message_admin .= "</table>";
+    $message_admin .= "</div>";
+
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+    wp_mail($admin_email, $subject_admin, $message_admin, $headers);
+
+    // 2. Customer Confirmation Email
+    if (is_email($customer_email)) {
+        $subject_customer = 'Booking Confirmation: ' . $booking_ref . ' - Hoi An Travel';
+
+        $message_customer  = "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;'>";
+        $message_customer .= "<h2 style='{$h2_style}'>Booking Confirmation: {$booking_ref}</h2>";
+        $message_customer .= "<p style='font-size: 15px; line-height: 1.6; color: #555;'>Dear <strong>" . esc_html($customer_name) . "</strong>,</p>";
+        $message_customer .= "<p style='font-size: 15px; line-height: 1.6; color: #555;'>Thank you for your booking request! We have received your booking details and our team will contact you shortly to confirm your reservation.</p>";
+
+        $message_customer .= "<h3 style='{$h3_style}'>Your Booking Summary</h3>";
+        $message_customer .= "<table style='{$table_style}'>";
+        $message_customer .= "<tr><th style='{$th_style}'>Tour</th><td style='{$td_style}'><strong>" . esc_html($tour->post_title) . "</strong></td></tr>";
+        $message_customer .= "<tr><th style='{$th_style}'>Option</th><td style='{$td_style}'>" . esc_html($selected_option['name'] ?? '') . "</td></tr>";
+        $message_customer .= "<tr><th style='{$th_style}'>Date</th><td style='{$td_style}'>" . esc_html($formatted_date) . "</td></tr>";
+        if (!empty($selected_option['starting_time'])) {
+            $message_customer .= "<tr><th style='{$th_style}'>Starting Time</th><td style='{$td_style}'>" . esc_html($selected_option['starting_time']) . "</td></tr>";
+        }
+        $message_customer .= "<tr><th style='{$th_style}'>Participants</th><td style='{$td_style}'>{$total_pax} ({$adults} Adults, {$children} Children)</td></tr>";
+        $message_customer .= "<tr><th style='{$th_style}'>Pick-up Location</th><td style='{$td_style}'>" . esc_html($customer_pickup) . "</td></tr>";
+        $message_customer .= "<tr><th style='{$th_style}'>Drop-off Location</th><td style='{$td_style}'>" . esc_html($customer_dropoff) . "</td></tr>";
+        if (!empty($customer_country)) {
+            $message_customer .= "<tr><th style='{$th_style}'>Country</th><td style='{$td_style}'>" . esc_html($customer_country) . "</td></tr>";
+        }
+        $message_customer .= "<tr><th style='{$th_style}'>Total Price</th><td style='{$td_style}'><strong style='color: #C24A2D; font-size: 16px;'>" . esc_html($formatted_price) . "</strong></td></tr>";
+        $message_customer .= "<tr><th style='{$th_style}'>Payment Method</th><td style='{$td_style}'>" . esc_html($payment_method_label) . "</td></tr>";
+        $message_customer .= "</table>";
+
+        $message_customer .= "<p style='font-size: 14px; color: #888; margin-top: 30px; border-top: 1px solid #eee; padding-top: 15px;'>If you have any questions or wish to make changes, please reply directly to this email or reach us via WhatsApp.</p>";
+        $message_customer .= "</div>";
+
+        wp_mail($customer_email, $subject_customer, $message_customer, $headers);
+    }
+
+    // Clean up session transient & cookie
+    delete_transient('ha_booking_' . $token);
+    if (!headers_sent()) {
+        $cookie_path = defined('COOKIEPATH') && COOKIEPATH ? COOKIEPATH : '/';
+        $cookie_domain = defined('COOKIE_DOMAIN') ? COOKIE_DOMAIN : '';
+        setcookie('ha_booking_token', '', time() - 3600, $cookie_path, $cookie_domain, is_ssl(), false);
+    }
+
+    wp_send_json_success(array(
+        'message'        => __('Booking submitted successfully.', 'ha'),
+        'reference'      => $booking_ref,
+        'date'           => $formatted_date,
+        'payment_method' => $payment_method_label,
+        'status'         => __('Pending Confirmation', 'ha'),
+        'country'        => $customer_country,
+    ));
+}
+

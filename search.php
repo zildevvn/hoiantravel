@@ -47,11 +47,7 @@ $bg_banner = get_field('bg_banner', 'option');
 				<form role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>"
 					class="modern-search-form">
 					<div class="input-group">
-						<svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-							stroke-linecap="round" stroke-linejoin="round">
-							<circle cx="11" cy="11" r="8"></circle>
-							<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-						</svg>
+						<?= ha_svg_icon('search-icon', 'search-icon'); ?>
 						<input type="search" name="s" placeholder="What are you looking for?"
 							value="<?php echo esc_attr($search_query); ?>" required />
 						<button type="submit" class="ha-button ha-button--primary search-submit">Search</button>
@@ -135,50 +131,30 @@ $bg_banner = get_field('bg_banner', 'option');
 
 							<div class="search-empty-state__actions">
 								<a href="<?php echo esc_url(home_url('/hue-experience-all-tour/')); ?>" class="ha-button">
-									<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-										stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-										<circle cx="12" cy="12" r="10"></circle>
-										<polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-									</svg>
+									<?= ha_svg_icon('feature-compass'); ?>
 									Explore Tours
 								</a>
 								<a href="<?php echo esc_url(home_url('/')); ?>" class="ha-button ha-button--outline">
-									<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-										stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-										<line x1="19" y1="12" x2="5" y2="12"></line>
-										<polyline points="12 19 5 12 12 5"></polyline>
-									</svg>
+									<?= ha_svg_icon('arrow-left'); ?>
 									Back Home
 								</a>
 							</div>
 
 							<div class="search-empty-state__tips">
 								<div class="search-empty-state__tip-card">
-									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-										stroke-linecap="round" stroke-linejoin="round">
-										<polyline points="20 6 9 17 4 12"></polyline>
-									</svg>
+									<?= ha_svg_icon('check-simple'); ?>
 									<span>Check your spelling</span>
 								</div>
 								<div class="search-empty-state__tip-card">
-									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-										stroke-linecap="round" stroke-linejoin="round">
-										<polyline points="20 6 9 17 4 12"></polyline>
-									</svg>
+									<?= ha_svg_icon('check-simple'); ?>
 									<span>Try shorter keywords</span>
 								</div>
 								<div class="search-empty-state__tip-card">
-									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-										stroke-linecap="round" stroke-linejoin="round">
-										<polyline points="20 6 9 17 4 12"></polyline>
-									</svg>
+									<?= ha_svg_icon('check-simple'); ?>
 									<span>Search destinations</span>
 								</div>
 								<div class="search-empty-state__tip-card">
-									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-										stroke-linecap="round" stroke-linejoin="round">
-										<polyline points="20 6 9 17 4 12"></polyline>
-									</svg>
+									<?= ha_svg_icon('check-simple'); ?>
 									<span>Search tour names</span>
 								</div>
 							</div>
