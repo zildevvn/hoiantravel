@@ -19,3 +19,6 @@ logs
 !.env.example
 .npmrc
 .npmrc*
+
+# ai
+.agents

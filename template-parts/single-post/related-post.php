@@ -17,7 +17,7 @@ $the_query = new WP_Query($args);
 <?php if ($the_query->have_posts()): ?>
     <section class="vm-section related-post-section">
         <div class="container">
-            <?php vm_icon_heading() ?>
+
 
             <h2 class="vm-heading">
                 Related <span>articles</span>
@@ -32,7 +32,7 @@ $the_query = new WP_Query($args);
                         $the_query->the_post();
                         ?>
                         <div class="swiper-slide">
-                            <?php vm_post_item(); ?>
+
                         </div>
                         <?php
                     endwhile;

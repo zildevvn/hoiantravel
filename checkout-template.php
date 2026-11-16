@@ -4,7 +4,10 @@
  */
 get_header();
 
-$token = isset($_GET['token']) ? sanitize_text_field($_GET['token']) : '';
+$token = isset($_GET['token']) ? sanitize_text_field(wp_unslash($_GET['token'])) : '';
+if (empty($token) && isset($_COOKIE['ha_booking_token'])) {
+    $token = sanitize_text_field(wp_unslash($_COOKIE['ha_booking_token']));
+}
 $booking_data = $token ? get_transient('ha_booking_' . $token) : false;
 
 $error_msg = '';
@@ -15,12 +18,12 @@ $price_per_person = 0;
 $total_pax = 0;
 $currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('currency', 'option');
 
-if (!$booking_data) {
+if (!$booking_data || !is_array($booking_data)) {
     $error_msg = 'Your booking session has expired or is invalid. Please return to the tours page and try again.';
 } else {
     // Validate again and recalculate
-    $tour_id = $booking_data['tour_id'];
-    $option_id = $booking_data['option_id'];
+    $tour_id = isset($booking_data['tour_id']) ? intval($booking_data['tour_id']) : 0;
+    $option_id = isset($booking_data['option_id']) ? intval($booking_data['option_id']) : 0;
     $tour = get_post($tour_id);
 
     if (!$tour) {
@@ -33,19 +36,15 @@ if (!$booking_data) {
         } else {
             $selected_option = $tour_options[$option_id];
 
-            if (isset($booking_data['option_name']) && $booking_data['option_name'] !== ($selected_option['name'] ?? '')) {
-                $error_msg = 'Tour option đã thay đổi, vui lòng chọn lại.';
-            } else {
-                // Recalculate price server-side
-                $adults = intval($booking_data['adults']);
-                $children = intval($booking_data['children']);
-                $total_pax = $adults + $children;
+            // Recalculate price server-side
+            $adults = isset($booking_data['adults']) ? max(1, intval($booking_data['adults'])) : 2;
+            $children = isset($booking_data['children']) ? max(0, intval($booking_data['children'])) : 0;
+            $total_pax = $adults + $children;
 
-                $pricing = ha_calculate_tour_price($selected_option, $adults, $children, $tour_id);
-                $price_per_person = $pricing['price_per_person'];
-                $total_price = $pricing['total_price'];
-                $is_price_available = $pricing['is_price_available'];
-            }
+            $pricing = ha_calculate_tour_price($selected_option, $adults, $children, $tour_id);
+            $price_per_person = $pricing['price_per_person'];
+            $total_price = $pricing['total_price'];
+            $is_price_available = $pricing['is_price_available'];
         }
     }
 }
@@ -104,7 +103,7 @@ if (!$booking_data) {
 
                                 <div style="margin-top: 32px;">
                                     <?php
-                                    ha_load_button(site_url('/phu-quoc-tours'), 'Browse More Tours')
+                                    ha_load_button(site_url('/tours'), 'Browse More Tours')
                                         ?>
                                 </div>
                             </div>

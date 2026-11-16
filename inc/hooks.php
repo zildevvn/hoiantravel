@@ -207,3 +207,24 @@ function override_kk_star_ratings_meta($value, $object_id, $meta_key, $single)
 	// Quan trọng: Trả về null để WordPress tiếp tục lấy dữ liệu từ DB cho các post meta khác
 	return null;
 }
+
+/**
+ * Ensure Checkout Page Template is loaded for /checkout or checkout page
+ */
+add_filter('template_include', function ($template) {
+	global $wp_query;
+	$request_uri = $_SERVER['REQUEST_URI'] ?? '';
+	$path = trim(parse_url($request_uri, PHP_URL_PATH), '/');
+
+	if ($path === 'checkout' || is_page('checkout')) {
+		$checkout_tpl = locate_template('checkout-template.php');
+		if ($checkout_tpl) {
+			if ($wp_query && $wp_query->is_404) {
+				$wp_query->is_404 = false;
+				status_header(200);
+			}
+			return $checkout_tpl;
+		}
+	}
+	return $template;
+});

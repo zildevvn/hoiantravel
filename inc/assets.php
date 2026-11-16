@@ -34,6 +34,7 @@ add_action('wp_enqueue_scripts', function () {
 		'site_url' => site_url(),
 		'rest_url' => get_rest_url(),
 		'currency' => function_exists('ha_get_currency') ? ha_get_currency() : '₫',
+		'tour_options_nonce' => wp_create_nonce('tour_options_nonce'),
 	]);
 
 	wp_localize_script('theme-scripts', 'themeData', [

@@ -5,7 +5,7 @@ $badge = get_field('badge_list_tours') ?? '';
 $currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('currency', 'option');
 $args = array(
     'post_type' => 'tours',
-    'posts_per_page' => 2,
+    'posts_per_page' => 9,
     'post_status' => 'publish',
 );
 
@@ -141,8 +141,10 @@ $paged = get_query_var('paged') ? get_query_var('paged') : 1;
                                     <span><?= esc_html(ha_format_price(500, $currency)); ?></span>
                                 </div>
                             </div>
-                            <input type="hidden" id="ha-tours-price-min" value="0" min="0" max="500" step="10" data-default="0">
-                            <input type="hidden" id="ha-tours-price-max" value="500" min="0" max="500" step="10" data-default="500">
+                            <input type="hidden" id="ha-tours-price-min" value="0" min="0" max="500" step="10"
+                                data-default="0">
+                            <input type="hidden" id="ha-tours-price-max" value="500" min="0" max="500" step="10"
+                                data-default="500">
                         </div>
                     </div>
 

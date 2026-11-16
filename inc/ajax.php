@@ -310,3 +310,155 @@ function ha_ajax_filter_posts_handler()
     ));
 }
 
+/**
+ * AJAX: Check Tour Options Availability
+ */
+add_action('wp_ajax_ha_ajax_check_availability', 'ha_ajax_check_availability_handler');
+add_action('wp_ajax_nopriv_ha_ajax_check_availability', 'ha_ajax_check_availability_handler');
+function ha_ajax_check_availability_handler()
+{
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tour_options_nonce')) {
+        wp_send_json_error(array('message' => __('Security check failed. Please refresh the page and try again.', 'ha')));
+    }
+
+    $post_id  = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+    $date     = isset($_POST['date']) ? sanitize_text_field(wp_unslash($_POST['date'])) : '';
+    $adults   = isset($_POST['adults']) ? intval($_POST['adults']) : 2;
+    $children = isset($_POST['children']) ? intval($_POST['children']) : 0;
+
+    if (!$post_id) {
+        wp_send_json_error(array('message' => __('Invalid tour.', 'ha')));
+    }
+
+    if (!empty($date) && strtotime($date) < strtotime(current_time('Y-m-d'))) {
+        wp_send_json_error(array('message' => __('Please select today or a future date.', 'ha')));
+    }
+
+    if ($adults < 0 || $children < 0) {
+        wp_send_json_error(array('message' => __('Invalid participant count.', 'ha')));
+    }
+
+    $total_pax = $adults + $children;
+    if ($total_pax < 1 || $total_pax > 50) {
+        wp_send_json_error(array('message' => __('Total number of guests must be between 1 and 50.', 'ha')));
+    }
+
+    global $post;
+    $post = get_post($post_id);
+    if (!$post) {
+        wp_send_json_error(array('message' => __('Tour not found.', 'ha')));
+    }
+    setup_postdata($post);
+
+    $tour_options = get_field('tour_options', $post_id);
+
+    if (empty($tour_options)) {
+        wp_reset_postdata();
+        wp_send_json_success(array(
+            'html'  => '',
+            'count' => 0,
+        ));
+    }
+
+    ob_start();
+    get_template_part('template-parts/single-tour/tour-options');
+    $html = ob_get_clean();
+
+    wp_reset_postdata();
+
+    wp_send_json_success(array(
+        'html'  => $html,
+        'count' => count($tour_options),
+    ));
+}
+
+/**
+ * AJAX: Process Tour Booking Session
+ */
+add_action('wp_ajax_ha_ajax_process_booking', 'ha_ajax_process_booking_handler');
+add_action('wp_ajax_nopriv_ha_ajax_process_booking', 'ha_ajax_process_booking_handler');
+function ha_ajax_process_booking_handler()
+{
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'tour_options_nonce')) {
+        wp_send_json_error(array('message' => __('Security check failed. Please refresh the page and try again.', 'ha')));
+    }
+
+    $post_id   = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+    $option_id = isset($_POST['option_id']) ? intval($_POST['option_id']) : -1;
+    $date      = isset($_POST['date']) ? sanitize_text_field(wp_unslash($_POST['date'])) : '';
+    $adults    = isset($_POST['adults']) ? intval($_POST['adults']) : 2;
+    $children  = isset($_POST['children']) ? intval($_POST['children']) : 0;
+
+    if (!$post_id || $option_id < 0 || empty($date)) {
+        wp_send_json_error(array('message' => __('Invalid booking details.', 'ha')));
+    }
+
+    if (strtotime($date) < strtotime(current_time('Y-m-d'))) {
+        wp_send_json_error(array('message' => __('Please select today or a future date.', 'ha')));
+    }
+
+    if ($adults < 0 || $children < 0) {
+        wp_send_json_error(array('message' => __('Invalid participant count.', 'ha')));
+    }
+
+    $total_pax = $adults + $children;
+    if ($total_pax < 1 || $total_pax > 50) {
+        wp_send_json_error(array('message' => __('Total number of guests must be between 1 and 50.', 'ha')));
+    }
+
+    $post = get_post($post_id);
+    if (!$post) {
+        wp_send_json_error(array('message' => __('Tour not found.', 'ha')));
+    }
+
+    $tour_options = get_field('tour_options', $post_id);
+    if (empty($tour_options) || !isset($tour_options[$option_id])) {
+        wp_send_json_error(array('message' => __('Selected tour option is not available.', 'ha')));
+    }
+
+    $selected_option = $tour_options[$option_id];
+    $token = bin2hex(random_bytes(16));
+    $booking_data = array(
+        'tour_id'     => $post_id,
+        'option_id'   => $option_id,
+        'option_name' => $selected_option['name'] ?? '',
+        'date'        => $date,
+        'date_visit'  => $date,
+        'adults'      => $adults,
+        'children'    => $children,
+        'created_at'  => current_time('mysql'),
+    );
+
+    set_transient('ha_booking_' . $token, $booking_data, HOUR_IN_SECONDS);
+
+    // Backup token in cookie for resilient recovery
+    if (!headers_sent()) {
+        $cookie_path = defined('COOKIEPATH') && COOKIEPATH ? COOKIEPATH : '/';
+        $cookie_domain = defined('COOKIE_DOMAIN') ? COOKIE_DOMAIN : '';
+        setcookie('ha_booking_token', $token, time() + HOUR_IN_SECONDS, $cookie_path, $cookie_domain, is_ssl(), false);
+    }
+
+    $checkout_url = home_url('/checkout/');
+    $checkout_pages = get_pages(array(
+        'meta_key'   => '_wp_page_template',
+        'meta_value' => 'checkout-template.php',
+        'number'     => 1,
+    ));
+    if (empty($checkout_pages)) {
+        $page_by_path = get_page_by_path('checkout');
+        if ($page_by_path) {
+            $checkout_pages = array($page_by_path);
+        }
+    }
+    if (!empty($checkout_pages)) {
+        $checkout_url = get_permalink($checkout_pages[0]->ID);
+    }
+
+    $checkout_url = trailingslashit($checkout_url);
+
+    wp_send_json_success(array(
+        'redirect_url' => add_query_arg('token', $token, $checkout_url),
+        'token'        => $token,
+    ));
+}
+

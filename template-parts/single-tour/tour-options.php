@@ -142,7 +142,10 @@ $currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('
 
                         <!-- CTA -->
                         <div class="option-item__cta">
-                            <button type="button" class="btn btn-select <?= ($key === 0) ? 'btn-select--active' : '' ?>">
+                            <button type="button"
+                                class="btn btn-select <?= ($key === 0) ? 'btn-select--active' : '' ?>"
+                                data-option-id="<?= esc_attr($key) ?>"
+                                data-tour-id="<?= get_the_ID(); ?>">
                                 <?= ($key === 0) ? 'Continue' : 'Select' ?>
                             </button>
                         </div>
