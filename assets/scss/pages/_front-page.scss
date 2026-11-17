@@ -418,7 +418,15 @@ body.home {
             // }
         }
     }
+}
 
+// ==========================================
+// DESTINATION HUB SECTION
+// Shared across Front Page & Port Template
+// ==========================================
+body.page-template-front-page,
+body.home,
+body.page-template-port-template {
     .destination-section {
         position: relative;
         background: radial-gradient(circle at 50% 30%, rgb(248, 243, 235) 0%, rgb(243, 235, 221) 65%, rgb(233, 222, 206) 100%);
@@ -963,7 +971,10 @@ body.home {
             // }
         }
     }
+}
 
+body.page-template-front-page,
+body.home {
     // ==========================================
     // ABOUT SECTION
     // ==========================================
