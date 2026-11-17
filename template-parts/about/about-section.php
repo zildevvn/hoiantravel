@@ -4,11 +4,8 @@ $sub_hd = get_field('sub_hd_ab_tpl');
 $desc = get_field('desc_ab_tpl');
 $image_ab = get_field('image_ab_tpl');
 $media = get_field('media_list');
-$operator_license = get_field('operator_license', 'option');
-$license_image = $operator_license['image'];
-$license_desc = $operator_license['description'];
 ?>
-<section class="ha-section about-section">
+<section class="ha-section about-section ha-section--bg">
     <div class="container">
         <?php if (!empty($heading)): ?>
             <h2 class="ha-heading">

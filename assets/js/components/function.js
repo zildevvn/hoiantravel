@@ -975,6 +975,95 @@ import { CountUp } from 'countup.js';
         headings.forEach(heading => observer.observe(heading));
     };
 
+    /**
+     * Operator License Modal interaction
+     */
+    const initLicenseModal = () => {
+        const modal = document.getElementById('licenseModal');
+        if (!modal) return;
+
+        const openBtns = document.querySelectorAll('.js-open-license-modal');
+        const closeBtns = modal.querySelectorAll('.js-close-license-modal');
+
+        const openModal = (e) => {
+            if (e) e.preventDefault();
+            modal.classList.add('is-active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeModal = (e) => {
+            if (e) e.preventDefault();
+            modal.classList.remove('is-active');
+            document.body.style.overflow = '';
+        };
+
+        openBtns.forEach(btn => btn.addEventListener('click', openModal));
+        closeBtns.forEach(btn => btn.addEventListener('click', closeModal));
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('is-active')) {
+                closeModal();
+            }
+        });
+    };
+
+    /**
+     * Counter Animation using CountUp.js and IntersectionObserver
+     */
+    const initCounters = () => {
+        const counterItems = document.querySelectorAll('.ha-counter-item__number');
+        if (!counterItems.length) return;
+
+        // Respect user's motion preferences
+        const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return;
+
+        const animateCounter = (el) => {
+            const rawTarget = el.getAttribute('data-counter-target');
+            if (rawTarget === null || rawTarget === '') return;
+
+            const targetVal = parseFloat(rawTarget);
+            if (isNaN(targetVal)) return;
+
+            const decimals = parseInt(el.getAttribute('data-counter-decimal'), 10) || 0;
+            const duration = 2.2;
+
+            const countUp = new CountUp(el, targetVal, {
+                startVal: 0,
+                decimalPlaces: decimals,
+                duration: duration,
+                useEasing: true,
+                useGrouping: true,
+                separator: ',',
+                decimal: '.'
+            });
+
+            if (!countUp.error) {
+                countUp.start();
+            }
+        };
+
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        animateCounter(target);
+                        obs.unobserve(target);
+                    }
+                });
+            }, {
+                threshold: 0.25,
+                rootMargin: '0px 0px -40px 0px'
+            });
+
+            counterItems.forEach(item => observer.observe(item));
+        } else {
+            // Fallback if IntersectionObserver is not available
+            counterItems.forEach(item => animateCounter(item));
+        }
+    };
+
     $(document).ready(function () {
         modalSearch();
         heroSlider();
@@ -984,5 +1073,7 @@ import { CountUp } from 'countup.js';
         initTourGalleryLightbox();
         initAnchorNav();
         vmTableOfContent();
+        initLicenseModal();
+        initCounters();
     });
 })(jQuery);
