@@ -20,8 +20,8 @@ $query = new WP_Query($args);
                 <div class="cars-section__header-content">
                     <?php if (!empty($badge)): ?>
                         <div class="ha-badge">
-                            <?php echo ha_svg_icon('badge'); ?>
-                            <?= $badge ?>
+                            <span class="ha-badge__icon" aria-hidden="true"><?php echo ha_svg_icon('car-simple'); ?></span>
+                            <span class="ha-badge__text"><?= $badge ?></span>
                         </div>
                     <?php endif; ?>
 

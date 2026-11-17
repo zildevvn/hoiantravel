@@ -12,8 +12,8 @@ $faqs = get_field('faqs_list_tpl_c');
                 <div class="faqs-section__sidebar">
                     <?php if (!empty($badge)): ?>
                         <div class="ha-badge">
-                            <?php echo ha_svg_icon('badge'); ?>
-                            <?= esc_html($badge); ?>
+                            <span class="ha-badge__icon" aria-hidden="true"><?php echo ha_svg_icon('info-circle'); ?></span>
+                            <span class="ha-badge__text"><?= esc_html($badge); ?></span>
                         </div>
                     <?php endif; ?>
 

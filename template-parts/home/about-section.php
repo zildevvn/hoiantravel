@@ -50,11 +50,11 @@ $hd_img = get_field('hd_image_ab_home');
             </div>
             <!-- RIGHT COLUMN (6 Columns - Brand Narrative & Core Services) -->
             <div class="about-section__content">
-                <!-- Pill Badge -->
+                <!-- Editorial Eyebrow Badge -->
                 <?php if (!empty($badge)): ?>
                     <div class="ha-badge">
-                        <?php echo ha_svg_icon('badge'); ?>
-                        <?= $badge ?>
+                        <span class="ha-badge__icon" aria-hidden="true"><?php echo ha_svg_icon('feature-lantern'); ?></span>
+                        <span class="ha-badge__text"><?= $badge ?></span>
                     </div>
                 <?php endif; ?>
 

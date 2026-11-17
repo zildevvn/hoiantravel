@@ -9,8 +9,8 @@ $cards = get_field('list_cards_trust_proof');
     <div class="container">
         <?php if (!empty($badge)): ?>
             <p class="ha-badge mb-0">
-                <?php echo ha_svg_icon('badge'); ?>
-                <?= $badge ?>
+                <span class="ha-badge__icon" aria-hidden="true"><?php echo ha_svg_icon('shield-check'); ?></span>
+                <span class="ha-badge__text"><?= $badge ?></span>
             </p>
         <?php endif; ?>
 

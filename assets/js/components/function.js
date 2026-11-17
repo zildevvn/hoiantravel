@@ -593,6 +593,42 @@ import { CountUp } from 'countup.js';
     };
 
     /**
+     * HA Media Section & Lightbox Integration
+     * Matches Blog About Section layout with full Fancybox 5.0 lightbox capability.
+     */
+    const haMediaCarousel = () => {
+        // Initialize Fancybox for media gallery lightbox if available
+        if (typeof window.Fancybox !== 'undefined' && typeof window.Fancybox.bind === 'function') {
+            window.Fancybox.bind('[data-fancybox="ha-media-gallery"]', {
+                dragToClose: true,
+                closeButton: 'top',
+                Images: {
+                    zoom: true,
+                },
+                Toolbar: {
+                    display: {
+                        left: ['infobar'],
+                        middle: [],
+                        right: ['iterateZoom', 'slideshow', 'fullscreen', 'close'],
+                    },
+                },
+                Thumbs: false,
+                keyboard: {
+                    Escape: 'close',
+                    Delete: 'close',
+                    Backspace: 'close',
+                    PageUp: 'next',
+                    PageDown: 'prev',
+                    ArrowUp: 'next',
+                    ArrowDown: 'prev',
+                    ArrowRight: 'next',
+                    ArrowLeft: 'prev',
+                },
+            });
+        }
+    };
+
+    /**
      * FAQ Accordion Interaction Module
      * Handles accessible toggling, keyboard navigation, and smooth accordion animation
      * for all .faqs-list and .faq-item elements across the site.
@@ -1069,6 +1105,7 @@ import { CountUp } from 'countup.js';
         heroSlider();
         destinationPreview();
         tourSwiper();
+        haMediaCarousel();
         initFaqAccordion();
         initTourGalleryLightbox();
         initAnchorNav();

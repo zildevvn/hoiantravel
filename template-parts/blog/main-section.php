@@ -67,8 +67,8 @@ $desc    = get_field('desc_blog_tpl') ?: get_field('desc_cars_home');
             <div class="posts-list-intro text-center">
                 <?php if (!empty($badge)): ?>
                     <div class="ha-badge">
-                        <?= ha_svg_icon('badge'); ?>
-                        <span><?= esc_html($badge); ?></span>
+                        <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('tag'); ?></span>
+                        <span class="ha-badge__text"><?= esc_html($badge); ?></span>
                     </div>
                 <?php endif; ?>
 

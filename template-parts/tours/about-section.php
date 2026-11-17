@@ -93,8 +93,8 @@ $display_heading = !empty($heading) ? $heading : 'Explore Hoi An: Ancient Soul, 
             <div class="hoi-an-intro__content">
                 <?php if (!empty($display_eyebrow)): ?>
                     <div class="ha-badge">
-                        <?php echo ha_svg_icon('badge'); ?>
-                        <?= esc_html($display_eyebrow); ?>
+                        <span class="ha-badge__icon" aria-hidden="true"><?php echo ha_svg_icon('feature-compass'); ?></span>
+                        <span class="ha-badge__text"><?= esc_html($display_eyebrow); ?></span>
                     </div>
                 <?php endif; ?>
 

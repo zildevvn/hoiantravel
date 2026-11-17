@@ -1,0 +1,449 @@
+// ==========================================================================
+// Page: Customized Tours (`_customized-tours.scss`)
+// Styles for Customized Tours Template & Concierge Booking Form
+// Strictly adheres to Hoi An Travel Design System tokens & conventions.
+// ==========================================================================
+
+.form-section {
+    position: relative;
+    padding: 90px 0 100px;
+    background-color: $color-bg;
+    overflow: hidden;
+
+    @include media-breakpoint-down(lg) {
+        padding: 70px 0 80px;
+    }
+
+    @include media-breakpoint-down(md) {
+        padding: 55px 0 65px;
+    }
+
+    // Subtle atmospheric decorative ambient background
+    &::before {
+        content: "";
+        position: absolute;
+        top: -120px;
+        right: -100px;
+        width: 480px;
+        height: 480px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba($color-primary, 0.05) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: -100px;
+        left: -80px;
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba($color-accent, 0.04) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .container {
+        position: relative;
+        z-index: 1;
+    }
+
+    // ----------------------------------------------------------------------
+    // 1. Section Header Zone
+    // ----------------------------------------------------------------------
+    &__header {
+        max-width: 720px;
+        margin-bottom: 48px;
+
+        @include media-breakpoint-down(md) {
+            margin-bottom: 36px;
+        }
+    }
+
+    &__badge-wrap {
+        margin-bottom: 14px;
+
+        .ha-badge {
+            margin-bottom: 0;
+        }
+    }
+
+    &__title {
+        font-family: $font-heading, var(--font-heading, sans-serif);
+        font-size: clamp(1.85rem, 3.2vw, 2.5rem);
+        font-weight: 700;
+        color: $color-heading;
+        line-height: 1.25;
+        letter-spacing: -0.02em;
+        margin-bottom: 14px;
+    }
+
+    &__divider {
+        width: 44px;
+        height: 3px;
+        background: $color-accent;
+        border-radius: 2px;
+        margin: 0 auto 16px;
+    }
+
+    &__subtitle {
+        font-family: $font-body, var(--font-body, sans-serif);
+        font-size: 1.025rem;
+        line-height: 1.65;
+        color: rgba($color-body, 0.75);
+        margin: 0;
+
+        @include media-breakpoint-down(sm) {
+            font-size: 0.95rem;
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 2. Main 2-Column Responsive Composition
+    // ----------------------------------------------------------------------
+    &__wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+
+        @include media-breakpoint-up(lg) {
+            display: grid;
+            grid-template-columns: minmax(0, 4.2fr) minmax(0, 5.8fr);
+            gap: 40px;
+            align-items: start;
+        }
+
+        @include media-breakpoint-up(xl) {
+            gap: 48px;
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 3. Left Column: Concierge Information & Visual Trust Signals (42%)
+    // ----------------------------------------------------------------------
+    &__left {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        width: 100%;
+        min-width: 0;
+    }
+
+    // Featured Visual Card
+    &__visual-card {
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(223, 161, 40, 0.22);
+        box-shadow: 0 10px 28px -8px rgba(25, 35, 43, 0.08);
+        background: #ffffff;
+    }
+
+    &__visual-frame {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        overflow: hidden;
+        background-color: rgba(25, 35, 43, 0.04);
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        &:hover img {
+            transform: scale(1.04);
+        }
+    }
+
+    &__visual-overlay {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(180deg,
+                rgba(25, 35, 43, 0) 60%,
+                rgba(25, 35, 43, 0.3) 100%);
+    }
+
+    // Concierge Contact Channels Card
+    &__contact-card {
+        background: #ffffff;
+        border: 1px solid rgba(25, 35, 43, 0.08);
+        border-radius: 24px;
+        padding: 1.75rem 2rem;
+        box-shadow: 0 8px 24px -6px rgba(25, 35, 43, 0.05);
+
+        @include media-breakpoint-down(sm) {
+            padding: 1.25rem;
+            border-radius: 18px;
+        }
+    }
+
+    &__contact-title {
+        font-family: $font-heading, var(--font-heading, sans-serif);
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: $color-heading;
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid rgba(25, 35, 43, 0.08);
+    }
+
+    &__contact-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .form-contact-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: $color-bg;
+        border: 1px solid rgba(25, 35, 43, 0.05);
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+
+        &:not(.form-contact-item--static):hover {
+            transform: translateX(4px);
+            background-color: #ffffff;
+            border-color: rgba($color-primary, 0.4);
+            box-shadow: 0 4px 14px rgba(223, 161, 40, 0.12);
+        }
+
+        &__icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+
+            svg {
+                width: 20px;
+                height: 20px;
+                stroke: currentColor;
+                fill: none;
+                stroke-width: 2;
+            }
+
+            &--whatsapp {
+                background: rgba(37, 211, 102, 0.12);
+                color: #25D366;
+            }
+
+            &--phone {
+                background: rgba($color-primary, 0.12);
+                color: darken($color-primary, 10%);
+            }
+
+            &--email {
+                background: rgba($color-accent, 0.1);
+                color: $color-accent;
+            }
+
+            &--address,
+            &--time {
+                background: rgba(25, 35, 43, 0.08);
+                color: $color-heading;
+            }
+        }
+
+        &__content {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        &__label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: rgba($color-body, 0.65);
+            margin-bottom: 2px;
+        }
+
+        &__value {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: $color-heading;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+    }
+
+    // TripAdvisor Trust Card
+    &__trust-card {
+        background: #ffffff;
+        border: 1px solid rgba(25, 35, 43, 0.08);
+        border-radius: 20px;
+        padding: 1.25rem 1.5rem;
+        box-shadow: 0 6px 20px -4px rgba(25, 35, 43, 0.04);
+        text-align: center;
+        transition: transform 0.3s ease, border-color 0.3s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            border-color: rgba($color-primary, 0.35);
+        }
+
+        .form-section__trust-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: $color-heading;
+
+            img {
+                max-width: 170px;
+                height: auto;
+                object-fit: contain;
+                margin-bottom: 8px;
+            }
+
+            span {
+                color: $color-heading;
+            }
+        }
+
+        .form-section__trust-caption {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: $color-primary;
+            margin-top: 4px;
+
+            svg {
+                width: 14px;
+                height: 14px;
+                stroke: currentColor;
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 4. Right Column: Customized Form Card (58%)
+    // ----------------------------------------------------------------------
+    &__right {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .customized-form-card {
+        background: #ffffff;
+        border: 1px solid rgba(25, 35, 43, 0.08);
+        padding: 20px 16px;
+        border-radius: 10px;
+        box-shadow: 0 16px 40px -10px rgba(25, 35, 43, 0.07);
+    }
+
+    // ----------------------------------------------------------------------
+    // 5. Scoped Form Enhancements inside #form-customize-tour
+    // ----------------------------------------------------------------------
+    #form-customize-tour {
+        width: 100%;
+
+
+        .gform_footer {
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        // Gravity Forms specific card spacing
+        .gform_wrapper {
+            margin: 0;
+
+            .gform_heading {
+                display: none; // Managed cleanly by card header
+            }
+
+            input[type="text"],
+            input[type="email"],
+            select {
+                height: 44px !important;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+
+            .gform_fields {
+                gap: 1.125rem !important;
+
+                @include media-breakpoint-down(sm) {
+                    gap: 0.875rem !important;
+                }
+            }
+
+            .gform_footer {
+                margin-top: 1.25rem;
+                padding-top: 0;
+            }
+
+            .gfield--type-multi_choice {
+                >.ginput_container_checkbox {
+                    .gfield_checkbox {
+                        display: grid;
+                        grid-template-columns: repeat(3, minmax(0, 1fr));
+                        gap: 12px;
+
+                        @include media-breakpoint-down(md) {
+                            grid-template-columns: repeat(2, minmax(0, 1fr));
+                        }
+                    }
+
+                    .gform-field-label {
+                        font-size: 14px;
+                    }
+                }
+            }
+
+            .gfield--type-address {
+                .ginput_container_address span {
+                    flex: 0 0 100%;
+                }
+
+                .address_country {
+                    .gform-field-label--type-sub {
+                        display: none;
+                    }
+                }
+            }
+
+            textarea {
+                height: 120px !important;
+            }
+
+        }
+
+        // Ninja Forms specific card spacing
+        .nf-form-cont {
+            .nf-form-content {
+                padding: 0 !important;
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 6. Accessibility: prefers-reduced-motion
+    // ----------------------------------------------------------------------
+    @media (prefers-reduced-motion: reduce) {
+
+        .form-section__visual-frame img,
+        .form-contact-item,
+        .form-section__trust-card {
+            transition: none !important;
+            transform: none !important;
+        }
+    }
+}

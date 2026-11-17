@@ -52,8 +52,8 @@ if (empty($form_contact)) {
         <!-- Section Header -->
         <div class="contact-main__header text-center mx-auto">
             <span class="ha-badge mb-3">
-                <?= ha_svg_icon('badge'); ?>
-                <span><?php esc_html_e('Direct Support & Booking', 'hoiantravel'); ?></span>
+                <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('message-circle'); ?></span>
+                <span class="ha-badge__text"><?php esc_html_e('Direct Support & Booking', 'hoiantravel'); ?></span>
             </span>
             <h2 class="contact-main__heading">
                 <?= esc_html($heading); ?>
@@ -200,7 +200,7 @@ if (empty($form_contact)) {
                 <div class="contact-form-card">
                     <div class="contact-form-card__header">
                         <span class="contact-form-card__badge">
-                            <?= ha_svg_icon('badge'); ?>
+                            <?= ha_svg_icon('message-circle'); ?>
                             <span><?php esc_html_e('Hoi An Tours & Inquiries', 'hoiantravel'); ?></span>
                         </span>
                         <h3 class="contact-form-card__title">

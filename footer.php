@@ -8,6 +8,7 @@
  */
 
 do_action('ha_hook_footer');
+get_template_part('template-parts/shared/back-to-top');
 wp_footer();
 ?>
 </body>

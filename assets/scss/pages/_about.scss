@@ -9,19 +9,8 @@
 .intro-section {
     position: relative;
     overflow: hidden;
-    padding-top: 80px;
-    padding-bottom: 90px;
     background-color: #fff;
 
-    @include media-breakpoint-up(md) {
-        padding-top: 100px;
-        padding-bottom: 110px;
-    }
-
-    @include media-breakpoint-down(sm) {
-        padding-top: 60px;
-        padding-bottom: 70px;
-    }
 
     // Atmospheric Indochine Watermark Graphic
     &__watermark {
@@ -90,13 +79,6 @@
 
         .ha-badge {
             margin-bottom: 0;
-            background: rgba($color-primary, 0.08);
-            border-color: rgba($color-primary, 0.3);
-            color: darken($color-primary, 10%);
-
-            svg {
-                color: $color-accent;
-            }
         }
     }
 
@@ -876,16 +858,6 @@
 
         .ha-badge {
             margin-bottom: 0;
-            background: rgba($color-primary, 0.08);
-            border-color: rgba($color-primary, 0.35);
-            color: darken($color-primary, 12%);
-            gap: 6px;
-
-            svg {
-                color: $color-accent;
-                width: 14px;
-                height: 14px;
-            }
         }
     }
 
@@ -978,13 +950,11 @@
             left: calc(50% + 44px);
             width: calc(100% - 88px + 32px); // Standard 3-column connector
             height: 2px;
-            background: repeating-linear-gradient(
-                90deg,
-                rgba(223, 161, 40, 0.55) 0,
-                rgba(223, 161, 40, 0.55) 6px,
-                transparent 6px,
-                transparent 12px
-            );
+            background: repeating-linear-gradient(90deg,
+                    rgba(223, 161, 40, 0.55) 0,
+                    rgba(223, 161, 40, 0.55) 6px,
+                    transparent 6px,
+                    transparent 12px);
             z-index: 1;
             pointer-events: none;
         }
@@ -1016,9 +986,9 @@
         align-items: center;
         justify-content: center;
         position: relative;
-        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                    border-color 0.3s ease, 
-                    box-shadow 0.3s ease;
+        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+            border-color 0.3s ease,
+            box-shadow 0.3s ease;
     }
 
     &:hover &__icon-box {
@@ -1125,13 +1095,11 @@
             top: 74px;
             bottom: -22px;
             width: 2px;
-            background: repeating-linear-gradient(
-                180deg,
-                rgba(223, 161, 40, 0.45) 0,
-                rgba(223, 161, 40, 0.45) 5px,
-                transparent 5px,
-                transparent 10px
-            );
+            background: repeating-linear-gradient(180deg,
+                    rgba(223, 161, 40, 0.45) 0,
+                    rgba(223, 161, 40, 0.45) 5px,
+                    transparent 5px,
+                    transparent 10px);
             z-index: 0;
             pointer-events: none;
         }
@@ -1190,17 +1158,10 @@
 // --------------------------------------------------------------------------
 .our-team-section {
     position: relative;
-    padding: 90px 0 100px;
     background-color: $color-bg;
     overflow: hidden;
 
-    @include media-breakpoint-down(lg) {
-        padding: 70px 0 85px;
-    }
 
-    @include media-breakpoint-down(md) {
-        padding: 55px 0 65px;
-    }
 
     &__header {
         max-width: 680px;
@@ -1216,16 +1177,6 @@
 
         .ha-badge {
             margin-bottom: 0;
-            background: rgba($color-primary, 0.08);
-            border-color: rgba($color-primary, 0.35);
-            color: darken($color-primary, 12%);
-            gap: 6px;
-
-            svg {
-                color: $color-accent;
-                width: 14px;
-                height: 14px;
-            }
         }
     }
 
@@ -1324,9 +1275,9 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), 
-                box-shadow 0.35s ease, 
-                border-color 0.3s ease;
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+        box-shadow 0.35s ease,
+        border-color 0.3s ease;
 
     &:hover {
         transform: translateY(-8px);
@@ -1461,11 +1412,11 @@
             border: 1px solid rgba(223, 161, 40, 0.28);
             color: #4B5563;
             text-decoration: none;
-            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                        background-color 0.25s ease, 
-                        border-color 0.25s ease, 
-                        color 0.25s ease, 
-                        box-shadow 0.25s ease;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                background-color 0.25s ease,
+                border-color 0.25s ease,
+                color 0.25s ease,
+                box-shadow 0.25s ease;
 
             svg {
                 width: 16px;
@@ -1488,4 +1439,3 @@
         }
     }
 }
-

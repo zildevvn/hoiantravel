@@ -46,8 +46,8 @@ if (empty($image_alt)) {
                 <?php if (!empty($sub_hd)): ?>
                     <div class="intro-section__badge-wrap">
                         <span class="ha-badge intro-section__badge">
-                            <?= ha_svg_icon('badge'); ?>
-                            <span><?= esc_html($sub_hd); ?></span>
+                            <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('feature-lantern'); ?></span>
+                            <span class="ha-badge__text"><?= esc_html($sub_hd); ?></span>
                         </span>
                     </div>
                 <?php endif; ?>

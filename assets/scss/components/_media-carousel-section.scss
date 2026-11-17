@@ -1,0 +1,374 @@
+// ==========================================================================
+// Component: HA Media Section / About Section (`ha-media-carousel-section`)
+// Matched directly to Blog About Section layout (4-Image Clover Collage + Story)
+// Fully synchronized with Hoi An Travel Design System.
+// ==========================================================================
+
+.ha-media-carousel-section {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: $color-white;
+    position: relative;
+
+    @include media-breakpoint-up(md) {
+        padding-top: 70px;
+        padding-bottom: 70px;
+    }
+
+    @include media-breakpoint-up(lg) {
+        padding-top: 90px;
+        padding-bottom: 90px;
+    }
+
+    // ----------------------------------------------------------------------
+    // 1. Optional Counters Row (e.g. Category Tours)
+    // ----------------------------------------------------------------------
+    &__counters {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 20px;
+
+        .counter-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 22px;
+            background-color: $color-bg;
+            border-radius: 16px;
+            border: 1px solid rgba(25, 35, 43, 0.06);
+            box-shadow: 0 4px 16px rgba(25, 35, 43, 0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px rgba(25, 35, 43, 0.08);
+            }
+
+            &__icon {
+                flex-shrink: 0;
+                width: 48px;
+                height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: rgba($color-primary, 0.1);
+                border-radius: 12px;
+
+                img {
+                    width: 28px;
+                    height: 28px;
+                    object-fit: contain;
+                }
+            }
+
+            &-content {
+                min-width: 0;
+
+                .counter-item__label,
+                h3,
+                .h6 {
+                    font-size: 0.85rem;
+                    font-weight: 500;
+                    color: $color-body;
+                    margin-bottom: 2px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+
+                .ha-counter {
+                    font-family: $font-heading, var(--font-heading, sans-serif);
+                    font-size: 1.65rem;
+                    font-weight: 700;
+                    color: $color-heading;
+                    line-height: 1.1;
+                }
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 2. 2-Column Wrap (Exact layout matching blog-about-section__wrap)
+    // ----------------------------------------------------------------------
+    &__wrap,
+    .blog-about-section__wrap {
+        display: grid;
+        align-items: center;
+        grid-template-columns: 1fr;
+        gap: 28px;
+
+        // Tablet (768px - 1023px): Stack vertically (1fr), gap: 36px
+        @media (min-width: 768px) and (max-width: 1023.98px) {
+            grid-template-columns: 1fr;
+            gap: 36px;
+        }
+
+        // Desktop (>= 1024px): 50% left, 50% right, gap: 48px - 60px
+        @media (min-width: 1024px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 48px;
+        }
+
+        @media (min-width: 1200px) {
+            gap: 60px;
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 3. Left Column: 4-Image Clover/Petal Grid + Center Badge
+    // ----------------------------------------------------------------------
+    &__media,
+    .blog-about-section__media {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .blog-about-collage {
+        position: relative;
+        width: 100%;
+        margin: 0 auto;
+
+        &__grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+        }
+
+        &__item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+
+            a,
+            .blog-about-collage__link {
+                display: block;
+                width: 100%;
+                height: 100%;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                transition: transform 0.45s ease;
+            }
+
+            &:hover img {
+                transform: scale(1.05);
+            }
+
+            // Top-Left Item: border-radius: 0 80px 0 80px;
+            &--1,
+            &:nth-child(1) {
+                border-radius: 0 80px 0 80px;
+
+                @media (min-width: 768px) and (max-width: 1023.98px) {
+                    border-radius: 0 60px 0 60px;
+                }
+
+                @media (max-width: 767.98px) {
+                    border-radius: 0 45px 0 45px;
+                }
+            }
+
+            // Top-Right Item: border-radius: 80px 0 80px 0;
+            &--2,
+            &:nth-child(2) {
+                border-radius: 80px 0 80px 0;
+
+                @media (min-width: 768px) and (max-width: 1023.98px) {
+                    border-radius: 60px 0 60px 0;
+                }
+
+                @media (max-width: 767.98px) {
+                    border-radius: 45px 0 45px 0;
+                }
+            }
+
+            // Bottom-Left Item: border-radius: 80px 0 80px 0;
+            &--3,
+            &:nth-child(3) {
+                border-radius: 80px 0 80px 0px;
+
+                @media (min-width: 768px) and (max-width: 1023.98px) {
+                    border-radius: 60px 0 60px 0px;
+                }
+
+                @media (max-width: 767.98px) {
+                    border-radius: 45px 0 45px 0px;
+                }
+            }
+
+            // Bottom-Right Item: border-radius: 0 80px 0 80px;
+            &--4,
+            &:nth-child(4) {
+                border-radius: 0 80px 0 80px;
+
+                @media (min-width: 768px) and (max-width: 1023.98px) {
+                    border-radius: 0 60px 0 60px;
+                }
+
+                @media (max-width: 767.98px) {
+                    border-radius: 0 45px 0 45px;
+                }
+            }
+        }
+
+        // Center Floating Badge
+        &__badge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background-color: $color-primary;
+            color: $color-white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0.75rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+            pointer-events: none;
+
+            @media (min-width: 768px) and (max-width: 1023.98px) {
+                width: 115px;
+                height: 115px;
+            }
+
+            @media (max-width: 767.98px) {
+                width: 100px;
+                height: 100px;
+                padding: 0.5rem;
+            }
+
+            &-icon {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 0.25rem;
+
+                svg {
+                    width: 22px;
+                    height: 22px;
+                    stroke: currentColor;
+                    fill: none;
+
+                    @media (max-width: 767.98px) {
+                        width: 18px;
+                        height: 18px;
+                    }
+                }
+            }
+
+            &-title {
+                display: block;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                font-weight: 700;
+                font-size: 0.85rem;
+
+                @media (max-width: 767.98px) {
+                    font-size: 0.75rem;
+                }
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 4. Right Column: Text Content
+    // ----------------------------------------------------------------------
+    &__content,
+    .blog-about-section__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .ha-badge {
+            align-self: flex-start;
+            margin-bottom: 0.875rem;
+        }
+
+        .ha-heading,
+        h2,
+        .h3 {
+            margin-top: 0;
+            margin-bottom: 1.25rem;
+            font-family: $font-heading, var(--font-heading, sans-serif);
+            font-weight: 700;
+            color: $color-heading;
+            font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+            line-height: 1.25;
+            letter-spacing: -0.015em;
+        }
+
+        .blog-about-section__desc,
+        .ha-media-carousel-section__desc {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: rgba($color-body, 0.85);
+
+            p:first-of-type {
+                font-size: 1.075rem;
+                line-height: 1.7;
+                color: $color-heading;
+                font-weight: 450;
+            }
+
+            p {
+                margin-bottom: 1.25rem;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+
+            ul {
+                list-style: none;
+                padding-left: 0;
+                margin: 1.25rem 0;
+
+                li {
+                    position: relative;
+                    padding-left: 24px;
+                    margin-bottom: 0.65rem;
+                    line-height: 1.6;
+
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        left: 4px;
+                        top: 9px;
+                        width: 7px;
+                        height: 7px;
+                        border-radius: 50%;
+                        background-color: $color-primary;
+                    }
+                }
+            }
+        }
+    }
+
+    &__append {
+        margin-top: 20px;
+    }
+
+    // ----------------------------------------------------------------------
+    // 5. Accessibility: prefers-reduced-motion
+    // ----------------------------------------------------------------------
+    @media (prefers-reduced-motion: reduce) {
+        .blog-about-collage__item img,
+        .counter-item {
+            transition: none !important;
+            transform: none !important;
+        }
+    }
+}

@@ -16,8 +16,8 @@ $default_fallback_image = 'https://lh3.googleusercontent.com/aida/AEtjO1XOa-2n3k
             <div class="destinations-list-intro text-center">
                 <?php if ($badge): ?>
                     <span class="ha-badge">
-                        <?= ha_svg_icon('badge'); ?>
-                        <?= esc_html($badge); ?>
+                        <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('location'); ?></span>
+                        <span class="ha-badge__text"><?= esc_html($badge); ?></span>
                     </span>
                 <?php endif; ?>
                 <?php if ($heading): ?>

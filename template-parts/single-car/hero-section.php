@@ -80,8 +80,8 @@ $car_highlights = [
             <!-- Car Service / Category Badge -->
             <div class="hero-section-shared__badge-wrap">
                 <span class="ha-badge hero-tour-badge hero-car-badge">
-                    <?= ha_svg_icon('car'); ?>
-                    <span><?= esc_html($car_type_name); ?></span>
+                    <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('car-simple'); ?></span>
+                    <span class="ha-badge__text"><?= esc_html($car_type_name); ?></span>
                 </span>
             </div>
 

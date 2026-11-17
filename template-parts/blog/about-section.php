@@ -48,7 +48,7 @@ if (!empty($gallerys) && is_array($gallerys)) {
                     <!-- Center Floating Badge -->
                     <div class="blog-about-collage__badge" aria-hidden="true">
                         <div class="blog-about-collage__badge-icon">
-                            <?= ha_svg_icon('badge'); ?>
+                            <?= ha_svg_icon('feature-lantern'); ?>
                         </div>
                         <span class="blog-about-collage__badge-title"> Hoi An Travel </span>
                     </div>
@@ -59,8 +59,8 @@ if (!empty($gallerys) && is_array($gallerys)) {
             <div class="blog-about-section__content">
                 <?php if (!empty($sub_heading)): ?>
                     <span class="ha-badge">
-                        <?= ha_svg_icon('badge'); ?>
-                        <?= $sub_heading ?>
+                        <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('feature-lantern'); ?></span>
+                        <span class="ha-badge__text"><?= $sub_heading ?></span>
                     </span>
                 <?php endif; ?>
 

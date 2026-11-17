@@ -64,8 +64,8 @@ $reading_time = max(1, (int) ceil($word_count / 200));
             <?php if ($category): ?>
                 <div class="hero-section-shared__badge-wrap">
                     <a href="<?= esc_url(get_category_link($category->term_id)); ?>" class="ha-badge hero-tour-badge hero-post-badge">
-                        <?= ha_svg_icon('badge'); ?>
-                        <span><?= esc_html($category->name); ?></span>
+                        <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('tag'); ?></span>
+                        <span class="ha-badge__text"><?= esc_html($category->name); ?></span>
                     </a>
                 </div>
             <?php endif; ?>

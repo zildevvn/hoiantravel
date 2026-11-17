@@ -25,8 +25,8 @@ if (empty($image_alt)) {
             <div class="ha-media__content">
                 <?php if ($badge): ?>
                     <span class="ha-badge">
-                        <?= ha_svg_icon('badge'); ?>
-                        <?= esc_html($badge); ?>
+                        <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('location'); ?></span>
+                        <span class="ha-badge__text"><?= esc_html($badge); ?></span>
                     </span>
                 <?php endif; ?>
 
