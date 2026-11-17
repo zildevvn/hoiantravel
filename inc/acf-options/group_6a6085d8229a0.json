@@ -3,45 +3,6 @@
     "title": "Template for About",
     "fields": [
         {
-            "key": "field_6a8524a937aec",
-            "label": "Hero Section",
-            "name": "",
-            "aria-label": "",
-            "type": "tab",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "placement": "left",
-            "endpoint": 0,
-            "selected": 0
-        },
-        {
-            "key": "field_6a8524c337aed",
-            "label": "Description",
-            "name": "desc_hero_ab_tpl",
-            "aria-label": "",
-            "type": "textarea",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "maxlength": "",
-            "allow_in_bindings": 0,
-            "rows": "",
-            "placeholder": "",
-            "new_lines": ""
-        },
-        {
             "key": "field_6aaa6ab896bca",
             "label": "Intro Section",
             "name": "",
@@ -798,7 +759,7 @@
             {
                 "param": "post_template",
                 "operator": "==",
-                "value": "about-section.php"
+                "value": "about-template.php"
             }
         ]
     ],
@@ -814,5 +775,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1789614947
+    "modified": 1794823163
 }

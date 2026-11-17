@@ -983,6 +983,6 @@ import { CountUp } from 'countup.js';
         initFaqAccordion();
         initTourGalleryLightbox();
         initAnchorNav();
-        vmTableOfContent()
+        vmTableOfContent();
     });
 })(jQuery);
