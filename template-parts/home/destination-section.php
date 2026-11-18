@@ -157,6 +157,10 @@ $action = get_field('action_destination_home');
                                 <?= esc_html($first_term->name) ?>
                             </h3>
 
+                            <p class="destination-preview-card__desc" id="preview-desc"<?= empty($first_term->description) ? ' style="display: none;"' : '' ?>>
+                                <?= esc_html($first_term->description) ?>
+                            </p>
+
                             <a class="destination-preview-card__cta" href="<?= esc_url($first_term_link) ?>"
                                 id="preview-cta">
                                 <?= esc_html($first_cta_text) ?>

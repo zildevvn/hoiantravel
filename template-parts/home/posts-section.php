@@ -100,7 +100,8 @@ $query = new WP_Query($args);
                             </div>
                             <div class="featured-post-card__footer">
                                 <a class="featured-post-card__link" href="<?php the_permalink(); ?>">
-                                    Read Full Guide →
+                                    <span><?php esc_html_e('Read Full Guide', 'hoiantravel'); ?></span>
+                                    <span class="featured-post-card__link-icon" aria-hidden="true"><?php echo ha_svg_icon('arrow_next'); ?></span>
                                 </a>
                                 <span class="featured-post-card__location"><?= esc_html($location_label); ?></span>
                             </div>
@@ -138,8 +139,8 @@ $query = new WP_Query($args);
                                         <?php the_title(); ?>
                                     </h4>
                                 </div>
-                                <div class="compact-post-card__arrow">
-                                    ➔
+                                <div class="compact-post-card__arrow" aria-hidden="true">
+                                    <?php echo ha_svg_icon('arrow_next'); ?>
                                 </div>
                             </a>
                         <?php endforeach; ?>

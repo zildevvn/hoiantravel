@@ -2,34 +2,61 @@
 
 $sliders = get_field('sliders_hero_home');
 ?>
-<?php if (!empty($sliders)): ?>
+<?php if (!empty($sliders) && is_array($sliders)): ?>
     <?php
     $slider_count = count($sliders);
     ?>
-    <section class="ha-section hero-section">
+    <section class="ha-section hero-section" aria-label="<?php esc_attr_e('Featured Highlights', 'hoiantravel'); ?>">
         <div class="hero-section__sliders swiper">
             <div class="swiper-wrapper">
-                <?php foreach ($sliders as $slider): ?>
-                    <div class="swiper-slide hero-slider-item" data-title="<?= esc_attr($slider['title'] ?? '') ?>">
+                <?php foreach ($sliders as $index => $slider): ?>
+                    <?php
+                    $slide_title   = $slider['title'] ?? '';
+                    $slide_heading = $slider['heading'] ?? '';
+                    $slide_desc    = $slider['desc'] ?? '';
+                    $slide_img_url = $slider['image']['url'] ?? '';
+                    $slide_img_alt = !empty($slider['image']['alt']) ? $slider['image']['alt'] : $slide_heading;
+                    $slide_btn     = $slider['button'] ?? null;
+                    $heading_tag   = ($index === 0) ? 'h1' : 'h2';
+                    ?>
+                    <div class="swiper-slide hero-slider-item" data-title="<?= esc_attr($slide_title) ?>">
                         <div class="hero-slider-item__bg">
-                            <img src="<?= $slider['image']['url'] ?>" alt="<?= $slider['image']['alt'] ?>" />
+                            <?php if (!empty($slide_img_url)): ?>
+                                <img src="<?= esc_url($slide_img_url) ?>" alt="<?= esc_attr($slide_img_alt) ?>" <?= $index === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"' ?> />
+                            <?php endif; ?>
                         </div>
                         <div class="container">
                             <div class="hero-slider-item__content">
-                                <h1><?= $slider['heading'] ?></h1>
-                                <p><?= $slider['desc'] ?></p>
+                                <?php if (!empty($slide_title)): ?>
+                                    <div class="hero-slider-item__badge-wrap">
+                                        <span class="ha-badge ha-badge--on-dark">
+                                            <span class="ha-badge__icon" aria-hidden="true"><?php echo ha_svg_icon('feature-lantern'); ?></span>
+                                            <span class="ha-badge__text"><?= esc_html($slide_title) ?></span>
+                                        </span>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if (!empty($slide_heading)): ?>
+                                    <<?= $heading_tag ?> class="hero-slider-item__heading h1"><?= esc_html($slide_heading) ?></<?= $heading_tag ?>>
+                                <?php endif; ?>
+
+                                <?php if (!empty($slide_desc)): ?>
+                                    <p class="hero-slider-item__desc"><?= esc_html($slide_desc) ?></p>
+                                <?php endif; ?>
+
                                 <div class="hero-slider-item__action d-flex align-items-center gap-3 flex-wrap">
-                                    <?php if (!empty($slider['button'])): ?>
-                                        <a href="<?= $slider['button']['url'] ?>" target="<?= $slider['button']['target'] ?>"
+                                    <?php if (!empty($slide_btn) && !empty($slide_btn['url'])): ?>
+                                        <a href="<?= esc_url($slide_btn['url']) ?>"
+                                            target="<?= esc_attr(!empty($slide_btn['target']) ? $slide_btn['target'] : '_self') ?>"
                                             class="ha-button">
-                                            <?= $slider['button']['title'] ?>
+                                            <?= esc_html(!empty($slide_btn['title']) ? $slide_btn['title'] : __('Explore Now', 'hoiantravel')) ?>
                                             <?php echo ha_svg_icon('arrow_next'); ?>
                                         </a>
                                     <?php endif; ?>
 
-                                    <a href="<?php echo home_url('/hoi-an-holiday-packages/') ?>"
+                                    <a href="<?php echo esc_url(home_url('/hoi-an-holiday-packages/')) ?>"
                                         class="ha-button ha-button--outline">
-                                        Plan Custom Trip
+                                        <?php esc_html_e('Plan Custom Trip', 'hoiantravel'); ?>
                                         <?php echo ha_svg_icon('arrow_next'); ?>
                                     </a>
                                 </div>

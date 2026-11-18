@@ -126,12 +126,14 @@ function ha_item_tour()
     $loc_name = (!empty($tour_locs) && !is_wp_error($tour_locs)) ? implode(', ', wp_list_pluck($tour_locs, 'name')) : '';
     $price = get_field('price_tour');
     $currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('currency', 'option');
+    $has_valid_price = !empty($price) && (!is_numeric($price) || (float) $price > 0);
+    $formatted_price = $has_valid_price ? ha_format_price($price, $currency) : ha_format_price('', $currency);
 
     ?>
     <a href="<?= the_permalink(); ?>" class="tour-card" aria-label="read more <?php the_title() ?>">
 
         <div class="tour-card__media">
-            <img src="<?= get_the_post_thumbnail_url(); ?>" alt="image for <?= the_title(); ?>" width="380" height="260" />
+            <img src="<?= get_the_post_thumbnail_url(); ?>" alt="image for <?= the_title(); ?>" class="tour-card__img" width="380" height="260" loading="lazy" />
 
             <?php if (!empty($cat_name)): ?>
                 <div class="tour-card__duration"><?= esc_html($cat_name); ?></div>
@@ -183,8 +185,10 @@ function ha_item_tour()
 
             <div class="tour-card__footer">
                 <div class="tour-card__price-box">
-                    <span class="tour-card__price-label">From</span>
-                    <span class="tour-card__price-val"><?= esc_html(ha_format_price($price, $currency)); ?></span>
+                    <?php if ($has_valid_price): ?>
+                        <span class="tour-card__price-label">From</span>
+                    <?php endif; ?>
+                    <span class="tour-card__price-val"><?= esc_html($formatted_price); ?></span>
                 </div>
                 <button class="ha-button" type="button">
                     Book Tour
@@ -210,20 +214,37 @@ function ha_item_car()
     $time = get_field('time_car');
     $price = get_field('price_car');
     $pick_up = get_field('pick_up_car');
-    $currency = get_field('currency', 'option');
+    $currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('currency', 'option');
     $route_display = !empty($location) ? preg_replace('/\s*[-–—]\s*/u', ' ➔ ', $location) : '';
+
+    if (empty($price) || (is_numeric($price) && (float) $price <= 0)) {
+        $options = get_field('option_car');
+        if (!empty($options) && is_array($options)) {
+            $prices = array_filter(array_map(function ($opt) {
+                $clean = str_replace(',', '', (string) ($opt['price'] ?? ''));
+                return is_numeric($clean) ? floatval($clean) : 0;
+            }, $options));
+            if (!empty($prices)) {
+                $price = min($prices);
+            }
+        }
+    }
+    $has_valid_price = !empty($price) && (!is_numeric($price) || (float) $price > 0);
+    $formatted_price = $has_valid_price ? ha_format_price($price, $currency) : ha_format_price('', $currency);
 
     ?>
     <a href="<?= the_permalink(); ?>" class="car-card" aria-label="read more <?php the_title() ?>">
 
         <div>
             <div class="car-card__media">
-                <img src="<?= get_the_post_thumbnail_url(); ?>" alt="image for <?= the_title(); ?>" width="380"
-                    height="260" />
+                <img src="<?= get_the_post_thumbnail_url(); ?>" alt="image for <?= the_title(); ?>" class="car-card__image" width="380"
+                    height="260" loading="lazy" />
 
-                <div class="car-card__duration">
-                    <?= $time; ?>
-                </div>
+                <?php if (!empty($time)): ?>
+                    <div class="car-card__duration">
+                        <?= $time; ?>
+                    </div>
+                <?php endif; ?>
             </div>
 
             <?php if (!empty($route_display)): ?>
@@ -259,9 +280,11 @@ function ha_item_car()
 
         <div class="car-card__footer">
             <div class="car-card__price-box">
-                <span class="car-card__price-label">From</span>
+                <?php if ($has_valid_price): ?>
+                    <span class="car-card__price-label">From</span>
+                <?php endif; ?>
                 <span class="car-card__price-val">
-                    <?= esc_html(ha_format_price($price, $currency)); ?>
+                    <?= esc_html($formatted_price); ?>
                 </span>
             </div>
             <button class="ha-button" type="button">
