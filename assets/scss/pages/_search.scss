@@ -1,0 +1,693 @@
+// ==========================================================================
+// Page: Search Results (`_search.scss`)
+// Design Direction: Heritage Editorial + Modern Travel Discovery
+// Strictly scoped to Search Page selectors and Hoiantravel Design Tokens.
+// ==========================================================================
+
+// --------------------------------------------------------------------------
+// 1. SEARCH HERO / EDITORIAL HEADER
+// --------------------------------------------------------------------------
+.search-hero-section {
+    min-height: 360px;
+    padding: 132px 0 84px;
+
+    @include media-breakpoint-up(md) {
+        min-height: 410px;
+        padding: 148px 0 110px;
+    }
+
+    @include media-breakpoint-up(lg) {
+        min-height: 440px;
+        padding: 172px 0 132px;
+    }
+
+    &__box {
+        max-width: 780px;
+        width: 100%;
+    }
+
+    &__badge-wrap {
+        margin-bottom: 0.75rem;
+
+        .ha-badge {
+            margin-bottom: 0;
+        }
+    }
+
+    .search-title {
+        font-family: $font-heading;
+        font-size: clamp(1.85rem, 3.6vw, 2.85rem);
+        font-weight: 700;
+        line-height: 1.24;
+        color: $color-white;
+        margin-bottom: 0.75rem;
+        word-break: break-word;
+
+        span {
+            color: $color-primary;
+        }
+    }
+
+    .search-subtitle {
+        font-family: $font-body;
+        font-size: 1rem;
+        line-height: 1.65;
+        color: rgba($color-white, 0.86);
+        max-width: 640px;
+        margin: 0 auto 1.85rem;
+
+        @include media-breakpoint-down(sm) {
+            font-size: 0.9375rem;
+            margin-bottom: 1.5rem;
+        }
+
+        strong {
+            color: $color-primary;
+            font-weight: 700;
+        }
+    }
+
+    // Elevated Editorial Search Bar in Hero
+    .search-form-wrapper {
+        width: 100%;
+        max-width: 680px;
+        margin: 0 auto;
+    }
+}
+
+// --------------------------------------------------------------------------
+// 2. REUSABLE SEARCH FORM (Hero & Empty State)
+// --------------------------------------------------------------------------
+.search-page-main {
+    .modern-search-form {
+        width: 100%;
+        margin: 0 auto;
+
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            background-color: #ffffff;
+            border: 1.5px solid rgba($color-primary, 0.42);
+            border-radius: 9999px;
+            padding: 6px 6px 6px 20px;
+            box-shadow: 0 16px 38px rgba(16, 24, 32, 0.24), 0 4px 12px rgba($color-primary, 0.08);
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+
+            &:focus-within {
+                border-color: $color-primary;
+                box-shadow: 0 18px 42px rgba(16, 24, 32, 0.28), 0 0 0 4px rgba($color-primary, 0.22);
+            }
+
+            @include media-breakpoint-down(sm) {
+                padding: 5px 5px 5px 14px;
+            }
+        }
+
+        .search-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: $color-primary;
+            margin-right: 12px;
+            flex-shrink: 0;
+            pointer-events: none;
+
+            svg {
+                width: 20px;
+                height: 20px;
+                stroke: currentColor;
+                display: block;
+            }
+
+            @include media-breakpoint-down(sm) {
+                margin-right: 8px;
+
+                svg {
+                    width: 18px;
+                    height: 18px;
+                }
+            }
+        }
+
+        input[type="search"] {
+            flex: 1 1 auto;
+            min-width: 0;
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-family: $font-body;
+            font-size: 0.96875rem;
+            font-weight: 500;
+            color: $color-heading;
+            padding: 10px 8px 10px 0;
+            line-height: 1.4;
+
+            &::placeholder {
+                color: rgba($color-heading, 0.46);
+                font-weight: 400;
+            }
+
+            &::-webkit-search-decoration,
+            &::-webkit-search-cancel-button,
+            &::-webkit-search-results-button,
+            &::-webkit-search-results-decoration {
+                display: none;
+                -webkit-appearance: none;
+            }
+
+            @include media-breakpoint-down(sm) {
+                font-size: 0.9rem;
+                padding: 8px 6px 8px 0;
+            }
+        }
+
+        .search-submit {
+            flex-shrink: 0;
+            border-radius: 9999px;
+            padding: 11px 24px;
+            font-family: $font-body;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            white-space: nowrap;
+            gap: 6px;
+
+            svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            @include media-breakpoint-down(sm) {
+                padding: 10px 16px;
+                font-size: 0.875rem;
+            }
+        }
+
+        // Light surface modifier (used inside Empty State Card)
+        &--light {
+            .input-group {
+                background-color: $color-bg;
+                border-color: rgba($color-heading, 0.14);
+                box-shadow: 0 4px 16px rgba($color-heading, 0.04);
+
+                &:focus-within {
+                    background-color: #ffffff;
+                    border-color: $color-primary;
+                    box-shadow: 0 8px 24px rgba($color-heading, 0.07), 0 0 0 3px rgba($color-primary, 0.16);
+                }
+            }
+        }
+    }
+}
+
+// --------------------------------------------------------------------------
+// 3. SEARCH RESULTS SECTION & DISCOVERY TOOLBAR
+// --------------------------------------------------------------------------
+.ha-results-search-section {
+    position: relative;
+    padding: 72px 0 96px;
+    background-color: $color-bg;
+    border-top: 1px solid rgba($color-primary, 0.2);
+    overflow: hidden;
+
+    @include media-breakpoint-down(lg) {
+        padding: 56px 0 76px;
+    }
+
+    @include media-breakpoint-down(md) {
+        padding: 44px 0 60px;
+    }
+
+    // Subtle atmospheric radial wash
+    &::before {
+        content: "";
+        position: absolute;
+        top: -120px;
+        right: -120px;
+        width: 440px;
+        height: 440px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba($color-primary, 0.05) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .container {
+        position: relative;
+        z-index: 1;
+    }
+
+    // Results Summary Header Toolbar
+    &__header {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 18px 24px;
+        margin-bottom: 36px;
+        background-color: #ffffff;
+        border: 1px solid rgba($color-heading, 0.08);
+        border-radius: 16px;
+        box-shadow: 0 4px 20px -4px rgba($color-heading, 0.04);
+
+        @include media-breakpoint-up(md) {
+            flex-direction: row;
+            align-items: center;
+            gap: 24px;
+        }
+
+        @include media-breakpoint-down(md) {
+            padding: 16px 18px;
+            margin-bottom: 28px;
+        }
+    }
+
+    &__summary {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+    }
+
+    &__indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: $color-primary;
+        box-shadow: 0 0 0 4px rgba($color-primary, 0.18);
+        flex-shrink: 0;
+    }
+
+    &__total {
+        font-family: $font-body;
+        font-size: 0.96875rem;
+        font-weight: 500;
+        line-height: 1.5;
+        color: rgba($color-body, 0.78);
+        margin: 0;
+
+        strong {
+            font-weight: 700;
+            color: $color-heading;
+        }
+    }
+
+    &__query {
+        font-family: $font-heading;
+        font-weight: 700;
+        color: $color-secondary;
+        word-break: break-word;
+    }
+
+    &__quick-links {
+        flex-shrink: 0;
+    }
+
+    &__browse-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: $font-body;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: $color-secondary;
+        text-decoration: none;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        background-color: rgba($color-secondary, 0.07);
+        border: 1px solid rgba($color-secondary, 0.16);
+        transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+
+        svg {
+            width: 15px;
+            height: 15px;
+            stroke: currentColor;
+            transition: transform 0.2s ease;
+        }
+
+        &:hover {
+            background-color: $color-secondary;
+            border-color: $color-secondary;
+            color: #ffffff;
+            text-decoration: none;
+
+            svg {
+                transform: translate(2px, -2px);
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 4. RESPONSIVE 3-COLUMN SEARCH RESULTS GRID
+    // Harmonizes .tour-card, .car-card, and .ha-post-card
+    // ----------------------------------------------------------------------
+    &__list {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+        align-items: stretch;
+
+        @include media-breakpoint-up(md) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        @include media-breakpoint-up(lg) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 28px;
+        }
+
+        // Uniform Card Height & Refined Presentation across all 3 Card Types
+        .tour-card,
+        .car-card,
+        .ha-post-card {
+            height: 100%;
+            min-width: 0;
+            background-color: #ffffff;
+            border: 1px solid rgba($color-heading, 0.08);
+            border-radius: 1.25rem;
+            box-shadow: 0 8px 24px -6px rgba($color-heading, 0.05);
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+
+            @media (hover: hover) {
+                &:hover {
+                    transform: translateY(-5px);
+                    border-color: rgba($color-primary, 0.45);
+                    box-shadow: 0 20px 36px -10px rgba($color-heading, 0.11);
+                }
+            }
+        }
+
+        // Harmonize Tour Card Media Ratio
+        .tour-card {
+            &__media {
+                height: auto;
+                aspect-ratio: 16 / 10;
+                background-color: #f0ede6;
+            }
+
+            &__duration {
+                top: 0.875rem;
+                right: 0.875rem;
+                background-color: rgba($color-heading, 0.82);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                color: #ffffff;
+                border: 1px solid rgba($color-primary, 0.4);
+                font-size: 0.75rem;
+                font-weight: 600;
+                padding: 0.25rem 0.75rem;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+
+            &__body {
+                padding: 1.375rem 1.375rem 1.5rem;
+            }
+
+            &__highlight-item {
+                background-color: $color-bg;
+                border-color: rgba($color-heading, 0.07);
+            }
+
+            &__footer {
+                margin-top: 1.25rem;
+                padding-top: 1rem;
+                border-top: 1px solid rgba($color-heading, 0.07);
+            }
+        }
+
+        // Harmonize Car Card Media Ratio
+        .car-card {
+            padding: 1.25rem;
+
+            &__media {
+                height: auto;
+                aspect-ratio: 16 / 10;
+                border-radius: 0.875rem;
+            }
+        }
+
+        // Harmonize Post Card Media Ratio
+        .ha-post-card {
+            &__media {
+                aspect-ratio: 16 / 10;
+            }
+
+            &__body {
+                padding: 1.5rem 1.375rem 1.375rem;
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // 5. PAGINATION WRAPPER
+    // ----------------------------------------------------------------------
+    &__pagination {
+        margin-top: 44px;
+
+        @include media-breakpoint-down(md) {
+            margin-top: 32px;
+        }
+
+        .ha-pagination {
+            margin-top: 0;
+
+            .page-numbers {
+                background-color: #ffffff;
+                border: 1px solid rgba($color-heading, 0.12);
+                box-shadow: 0 2px 6px rgba($color-heading, 0.04);
+
+                &:hover:not(.current):not(.dots) {
+                    background-color: $color-primary;
+                    border-color: $color-primary;
+                    color: $color-heading;
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 16px rgba($color-primary, 0.3);
+
+                    svg {
+                        color: $color-heading;
+                        stroke: $color-heading;
+                    }
+                }
+
+                &.current {
+                    background-color: $color-accent;
+                    border-color: $color-accent;
+                    color: #ffffff;
+                    box-shadow: 0 4px 14px rgba($color-accent, 0.32);
+                }
+            }
+        }
+    }
+}
+
+// --------------------------------------------------------------------------
+// 6. EMPTY SEARCH RESULTS STATE & RECOMMENDATIONS
+// --------------------------------------------------------------------------
+.search-empty-state {
+    &__card {
+        background-color: #ffffff;
+        border: 1px solid rgba($color-primary, 0.26);
+        border-radius: 1.5rem;
+        padding: 3.5rem 2.5rem;
+        max-width: 720px;
+        margin: 0 auto;
+        text-align: center;
+        box-shadow: 0 14px 36px -10px rgba($color-heading, 0.06);
+
+        @include media-breakpoint-down(md) {
+            padding: 2.5rem 1.5rem;
+            border-radius: 1.25rem;
+        }
+
+        @include media-breakpoint-down(sm) {
+            padding: 2rem 1.25rem;
+        }
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 4.25rem;
+        height: 4.25rem;
+        border-radius: 50%;
+        background-color: rgba($color-primary, 0.12);
+        border: 1px solid rgba($color-primary, 0.28);
+        color: $color-accent;
+        margin-bottom: 1.25rem;
+
+        svg {
+            width: 2rem;
+            height: 2rem;
+            stroke: currentColor;
+        }
+    }
+
+    &__title {
+        font-family: $font-heading;
+        font-size: clamp(1.45rem, 2.5vw, 1.85rem);
+        font-weight: 700;
+        color: $color-heading;
+        margin: 0 0 0.625rem;
+    }
+
+    &__desc {
+        font-family: $font-body;
+        font-size: 1rem;
+        line-height: 1.65;
+        color: rgba($color-body, 0.82);
+        max-width: 540px;
+        margin: 0 0 0.375rem;
+    }
+
+    &__keyword {
+        font-weight: 700;
+        color: $color-accent;
+        word-break: break-word;
+    }
+
+    &__subdesc {
+        font-family: $font-body;
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        color: rgba($color-body, 0.65);
+        max-width: 520px;
+        margin: 0 0 1.75rem;
+    }
+
+    // Inline Retry Search Form inside Empty Card
+    &__retry-form {
+        width: 100%;
+        max-width: 540px;
+        margin: 0 auto 1.75rem;
+    }
+
+    // Helpful Search Tips Grid
+    &__tips {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    &__tip-card {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        background-color: $color-bg;
+        border: 1px solid rgba($color-heading, 0.08);
+        font-family: $font-body;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: rgba($color-body, 0.8);
+
+        svg {
+            width: 14px;
+            height: 14px;
+            color: $color-secondary;
+            stroke: currentColor;
+            stroke-width: 2.2;
+            flex-shrink: 0;
+        }
+    }
+
+    // Action Buttons Row
+    &__actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        width: 100%;
+
+        @include media-breakpoint-down(sm) {
+            flex-direction: column;
+            align-items: stretch;
+
+            .ha-button {
+                width: 100%;
+            }
+        }
+    }
+
+    // High-contrast Secondary Button for light surfaces
+    &__btn-secondary {
+        background-color: transparent;
+        border: 1px solid rgba($color-heading, 0.2);
+        color: $color-heading;
+        box-shadow: none;
+
+        svg {
+            &[stroke],
+            path[stroke] {
+                stroke: currentColor;
+            }
+        }
+
+        &:hover {
+            background-color: $color-heading;
+            border-color: $color-heading;
+            color: #ffffff;
+            box-shadow: 0 10px 20px -4px rgba($color-heading, 0.22);
+
+            svg {
+                &[stroke],
+                path[stroke] {
+                    stroke: #ffffff;
+                }
+            }
+        }
+    }
+}
+
+// Curated Recommendations Section below Empty State
+.search-recommendations {
+    margin-top: 64px;
+    padding-top: 56px;
+    border-top: 1px solid rgba($color-primary, 0.22);
+
+    @include media-breakpoint-down(md) {
+        margin-top: 44px;
+        padding-top: 40px;
+    }
+
+    &__header {
+        text-align: center;
+        max-width: 620px;
+        margin: 0 auto 36px;
+
+        @include media-breakpoint-down(md) {
+            margin-bottom: 28px;
+        }
+
+        .ha-badge {
+            margin-bottom: 10px;
+        }
+    }
+
+    &__title {
+        font-family: $font-heading;
+        font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+        font-weight: 700;
+        color: $color-heading;
+        margin: 0;
+    }
+}
+
