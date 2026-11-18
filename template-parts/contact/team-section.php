@@ -90,8 +90,8 @@ $badge_desc = get_field('badge_desc_team_contact') ?: __('10+ Years Central Viet
             <!-- RIGHT COLUMN: Story, Value Cards & Call to Action -->
             <div class="contact-team__content">
                 <span class="ha-badge mb-3">
-                    <?= ha_svg_icon('users'); ?>
-                    <span><?= esc_html($badge); ?></span>
+                    <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('users'); ?></span>
+                    <span class="ha-badge__text"><?= esc_html($badge); ?></span>
                 </span>
 
                 <h2 class="contact-team__heading">

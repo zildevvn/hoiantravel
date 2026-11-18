@@ -42,9 +42,9 @@ if ($the_query->post_count < 3) {
     <section class="vm-section related-post-section">
         <div class="container">
             <div class="text-center mb-5">
-                <span class="vm-badge-sub mb-2 d-inline-flex align-items-center gap-1">
-                    <?= ha_svg_icon('indochine-ribbon'); ?>
-                    <span><?= esc_html__('Further Reading', 'hoiantravel'); ?></span>
+                <span class="ha-badge">
+                    <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('tag'); ?></span>
+                    <span class="ha-badge__text"><?= esc_html__('Further Reading', 'hoiantravel'); ?></span>
                 </span>
                 <h2 class="vm-heading">
                     <?= esc_html__('Related', 'hoiantravel'); ?> <span><?= esc_html__('Articles', 'hoiantravel'); ?></span>

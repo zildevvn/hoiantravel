@@ -25,8 +25,8 @@ if (!$query->have_posts()) {
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <span class="ha-badge mb-2">
-                    <?= ha_svg_icon('car'); ?>
-                    <span><?php esc_html_e('Explore More Routes', 'hoiantravel'); ?></span>
+                    <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('car'); ?></span>
+                    <span class="ha-badge__text"><?php esc_html_e('Explore More Routes', 'hoiantravel'); ?></span>
                 </span>
                 <h2 class="ha-heading h3 mb-0">
                     <?php esc_html_e('Other Popular Private Car Transfers', 'hoiantravel'); ?>

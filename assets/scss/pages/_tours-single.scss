@@ -22,41 +22,10 @@
     }
 
     // ----------------------------------------------------------------------
-    // Tour Category / Type Badge
+    // Tour Category / Type Badge (Uses global .ha-badge.ha-badge--on-dark)
     // ----------------------------------------------------------------------
     .hero-tour-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        background: rgba($color-white, 0.12);
-        border: 1px solid rgba($color-primary, 0.55);
-        color: lighten($color-primary, 10%);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        padding: 0.35rem 1.05rem;
-        font-family: $font-body;
-        font-size: 0.78125rem;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        border-radius: 9999px;
         margin-bottom: 1rem;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
-        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-
-        svg {
-            width: 13px;
-            height: 13px;
-            color: $color-primary;
-            flex-shrink: 0;
-        }
-
-        &:hover {
-            background: rgba($color-white, 0.2);
-            border-color: $color-primary;
-            color: $color-white;
-            transform: translateY(-1px);
-        }
     }
 
     // ----------------------------------------------------------------------

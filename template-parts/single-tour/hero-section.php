@@ -79,7 +79,7 @@ $tour_type_name = ($tour_types && !is_wp_error($tour_types)) ? $tour_types[0]->n
             <!-- Tour Type / Category Badge -->
             <?php if (!empty($tour_type_name)): ?>
                 <div class="hero-section-shared__badge-wrap">
-                    <span class="ha-badge hero-tour-badge">
+                    <span class="ha-badge ha-badge--on-dark hero-tour-badge">
                         <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('feature-compass'); ?></span>
                         <span class="ha-badge__text"><?= esc_html($tour_type_name); ?></span>
                     </span>

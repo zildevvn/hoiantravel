@@ -37,7 +37,7 @@ $whatsapp_url = !empty($clean_digits) ? 'https://wa.me/' . $clean_digits : '';
                 <div class="form-section__badge-wrap">
                     <span class="ha-badge">
                         <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('feature-compass'); ?></span>
-                        <span><?= esc_html($hd_intro); ?></span>
+                        <span class="ha-badge__text"><?= esc_html($hd_intro); ?></span>
                     </span>
                 </div>
             <?php endif; ?>

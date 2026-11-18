@@ -61,8 +61,8 @@ if (is_array($current_tour_cats) && !empty($current_tour_cats)) {
         <div class="container">
             <div class="related-tour-section__header text-center">
                 <span class="ha-badge">
-                    <?= ha_svg_icon('tour-package'); ?>
-                    <?php esc_html_e('Explore More', 'ha'); ?>
+                    <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('tour-package'); ?></span>
+                    <span class="ha-badge__text"><?php esc_html_e('Explore More', 'ha'); ?></span>
                 </span>
                 <h2 class="ha-heading related-tour-section__title">
                     <?php echo wp_kses_post($heading); ?>

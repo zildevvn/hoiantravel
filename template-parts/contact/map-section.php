@@ -60,8 +60,8 @@ $open_time = get_field('open_time', 'option') ?: '07:00 AM – 10:00 PM (Daily, 
             <!-- Section Header -->
             <div class="contact-map__header text-center mx-auto">
                 <span class="ha-badge mb-3">
-                    <?= ha_svg_icon('location'); ?>
-                    <span><?php esc_html_e('Our Locations & Directions', 'hoiantravel'); ?></span>
+                    <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('location'); ?></span>
+                    <span class="ha-badge__text"><?php esc_html_e('Our Locations & Directions', 'hoiantravel'); ?></span>
                 </span>
                 <h2 class="contact-map__heading">
                     <?= esc_html($heading); ?>

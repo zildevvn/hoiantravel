@@ -6,16 +6,6 @@
 .single-car-page {
     background-color: #faf8f5;
 
-    // Hero Section Synchronization with Shared System
-    .hero-section-shared--single-car {
-        .hero-car-badge {
-            svg {
-                width: 14px;
-                height: 14px;
-            }
-        }
-    }
-
     // Main Content Section
     .single-car-content-section {
         padding: 2.5rem 0 3.5rem;

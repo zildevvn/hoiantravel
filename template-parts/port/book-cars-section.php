@@ -46,7 +46,7 @@ if (!empty($upload_basedir) && file_exists($upload_basedir . $fleet_opt_rel)) {
             <div class="book-cars-section__badge-wrap">
                 <span class="ha-badge">
                     <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('car-simple'); ?></span>
-                    <span><?php esc_html_e('Port Transfers & Private Fleet', 'hoiantravel'); ?></span>
+                    <span class="ha-badge__text"><?php esc_html_e('Port Transfers & Private Fleet', 'hoiantravel'); ?></span>
                 </span>
             </div>
 

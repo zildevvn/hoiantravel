@@ -23,7 +23,7 @@ if (!empty($teams) && is_array($teams)):
                 <div class="our-team-section__badge-wrap">
                     <span class="ha-badge">
                         <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('users'); ?></span>
-                        <span><?php esc_html_e('The Faces Behind Your Journey', 'hoiantravel'); ?></span>
+                        <span class="ha-badge__text"><?php esc_html_e('The Faces Behind Your Journey', 'hoiantravel'); ?></span>
                     </span>
                 </div>
 

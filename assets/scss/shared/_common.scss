@@ -40,58 +40,109 @@ html {
 
 // ==========================================
 // GLOBAL HA-BADGE COMPONENT
-// Heritage Editorial Label Design System
+// Creative Concept: "Hoi An Editorial Insignia"
+// Two-Chamber Architectural Colophon & Heritage Rubric System
 // ==========================================
 .ha-badge {
     display: inline-flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
-    gap: 7px;
-    padding: 5px 14px;
-    border-radius: 6px;
-    background-color: rgba($color-primary, 0.08);
-    border: 1px solid rgba($color-primary, 0.28);
+    gap: 0;
+    padding: 0;
+    margin-bottom: 14px;
+    background-color: #F4EFE6;
+    border: 1px solid rgba($color-heading, 0.11);
+    border-left: 2.5px solid $color-accent;
+    border-radius: 2px 8px 8px 2px;
+    box-shadow: 0 2px 6px rgba($color-heading, 0.03);
     color: $color-heading;
-    font-family: $font-body;
-    font-size: 0.78125rem; // ~12.5px
+    font-family: $font-heading;
+    font-size: 0.75rem; // 12px
     font-weight: 600;
-    line-height: 1.25;
-    letter-spacing: 0.075em;
+    line-height: 1.35;
+    letter-spacing: 0.085em;
     text-transform: uppercase;
-    margin-bottom: 12px;
-    box-shadow: 0 1px 2px rgba($color-heading, 0.03);
     vertical-align: middle;
     text-decoration: none;
-    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+    overflow: hidden;
+    transition: border-color 0.25s ease, background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
 
-    // SVG icon styling (supports bare SVG, .ha-badge__icon, and preview-icon)
+    @include media-breakpoint-down(sm) {
+        font-size: 0.6875rem; // 11px
+        letter-spacing: 0.075em;
+    }
+
+    // Chamber 1: Heritage Insignia Seal (.ha-badge__icon)
+    &__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px 8px 5px 9px;
+        background-color: rgba($color-primary, 0.15);
+        border-right: 1px solid rgba($color-heading, 0.09);
+        line-height: 1;
+        flex-shrink: 0;
+        transition: background-color 0.25s ease, border-color 0.25s ease;
+
+        @include media-breakpoint-down(sm) {
+            padding: 4px 7px 4px 8px;
+        }
+    }
+
+    // SVG icon styling (supports bare SVG and .ha-badge__icon svg)
     svg,
     &__icon svg {
         display: inline-block;
-        width: 14px;
-        height: 14px;
+        width: 13.5px;
+        height: 13.5px;
         max-width: 14px;
         max-height: 14px;
         color: $color-accent;
         flex-shrink: 0;
         vertical-align: middle;
-        stroke-width: 1.8;
+        stroke-width: 1.85;
+        transition: color 0.25s ease, transform 0.25s ease;
     }
 
-    &__icon {
+    // Chamber 2: Editorial Rubric Text (.ha-badge__text)
+    &__text {
         display: inline-flex;
         align-items: center;
-        justify-content: center;
-        line-height: 1;
-        flex-shrink: 0;
+        gap: 8px;
+        padding: 5px 12px 5px 10px;
+        line-height: 1.35;
+
+        // Subtle 45-degree Indochine brass diamond colophon mark
+        &::after {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            background-color: $color-primary;
+            transform: rotate(45deg);
+            flex-shrink: 0;
+            opacity: 0.85;
+        }
+
+        @include media-breakpoint-down(sm) {
+            padding: 4px 10px 4px 8px;
+            gap: 6px;
+        }
     }
 
-    &__text {
-        display: inline-block;
-        line-height: inherit;
+    // Fallback when .ha-badge contains raw text or bare spans without .ha-badge__text
+    &:not(:has(.ha-badge__text)) {
+        align-items: center;
+        gap: 7px;
+        padding: 5px 12px;
+
+        .ha-badge__icon {
+            margin: -5px 2px -5px -12px;
+            align-self: stretch;
+        }
     }
 
-    // Link behavior
+    // Interactive / Link behavior
     &:hover {
         color: $color-heading;
         text-decoration: none;
@@ -99,79 +150,120 @@ html {
 
     a#{&} {
         text-decoration: none;
+        cursor: pointer;
 
         &:hover {
-            background-color: rgba($color-primary, 0.14);
-            border-color: rgba($color-primary, 0.45);
-            color: $color-heading;
+            background-color: #EFE8DC;
+            border-color: rgba($color-accent, 0.35);
+            border-left-color: $color-accent;
+            color: $color-accent;
+            transform: translateY(-1px);
+
+            .ha-badge__icon {
+                background-color: rgba($color-accent, 0.12);
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid $color-primary;
+            outline-offset: 3px;
         }
     }
 
     // ------------------------------------------
-    // MODIFIERS
+    // CONTEXTUAL VARIANTS
     // ------------------------------------------
 
-    // Pill variant: rounded-full for taxonomy tags & hero chips
-    &--pill {
-        border-radius: 9999px;
-        padding: 5px 16px;
-    }
-
-    // Light / On-Dark variant: frosted glass on photography or dark surfaces
+    // 1. On-Dark / Hero Variant: Architectural dark-obsidian insignia over photography or dark banners
     &--on-dark,
     &--light {
-        background-color: rgba($color-white, 0.12);
-        border-color: rgba($color-primary, 0.45);
-        color: lighten($color-primary, 10%);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+        background-color: rgba(18, 26, 34, 0.76);
+        border: 1px solid rgba($color-primary, 0.36);
+        border-left: 2.5px solid $color-primary;
+        color: #FAF6EE;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
+
+        .ha-badge__icon {
+            background-color: rgba($color-primary, 0.16);
+            border-right-color: rgba($color-primary, 0.26);
+        }
 
         svg,
         &__icon svg {
             color: $color-primary;
         }
 
+        .ha-badge__text::after {
+            background-color: $color-primary;
+            opacity: 1;
+        }
+
         &:hover,
         a#{&}:hover {
-            background-color: rgba($color-white, 0.2);
+            background-color: rgba(18, 26, 34, 0.9);
+            border-color: rgba($color-primary, 0.72);
+            border-left-color: $color-primary;
             color: $color-white;
-            border-color: lighten($color-primary, 15%);
+
+            .ha-badge__icon {
+                background-color: rgba($color-primary, 0.26);
+            }
         }
     }
 
-    // Accent variant: Terracotta wash for highlights & promotions
+    // 2. Subtle / Compact Metadata Variant: Natural-case heritage teal chip for inline service attributes
+    &--subtle,
+    &--compact {
+        background-color: rgba($color-secondary, 0.06);
+        border: 1px solid rgba($color-secondary, 0.18);
+        border-left: 2.5px solid $color-secondary;
+        border-radius: 2px 6px 6px 2px;
+        color: $color-secondary;
+        font-family: $font-body;
+        font-size: 0.78125rem; // 12.5px
+        font-weight: 600;
+        letter-spacing: 0.015em;
+        text-transform: none;
+        box-shadow: none;
+
+        .ha-badge__icon {
+            background-color: rgba($color-secondary, 0.09);
+            border-right-color: rgba($color-secondary, 0.15);
+            padding: 4px 7px;
+        }
+
+        svg,
+        &__icon svg {
+            width: 13px;
+            height: 13px;
+            color: $color-secondary;
+        }
+
+        .ha-badge__text {
+            padding: 4px 10px 4px 8px;
+
+            &::after {
+                display: none;
+            }
+        }
+    }
+
+    // 3. Accent Highlight Variant: Warm terracotta callout insignia
     &--accent {
-        background-color: rgba($color-accent, 0.08);
-        border-color: rgba($color-accent, 0.28);
+        background-color: rgba($color-accent, 0.06);
+        border-color: rgba($color-accent, 0.24);
+        border-left: 2.5px solid $color-accent;
         color: $color-accent;
 
-        svg,
-        &__icon svg {
-            color: $color-accent;
+        .ha-badge__icon {
+            background-color: rgba($color-accent, 0.11);
+            border-right-color: rgba($color-accent, 0.18);
         }
 
-        &:hover,
-        a#{&}:hover {
-            background-color: rgba($color-accent, 0.14);
-            border-color: rgba($color-accent, 0.45);
-            color: $color-accent;
-        }
-    }
-
-    // Compact variant: for table cells, filter pills, card meta
-    &--compact {
-        padding: 2px 8px;
-        font-size: 0.6875rem;
-        gap: 4px;
-        letter-spacing: 0.05em;
-
-        svg,
-        &__icon svg {
-            width: 12px;
-            height: 12px;
-            max-width: 12px;
-            max-height: 12px;
+        .ha-badge__text::after {
+            background-color: $color-accent;
         }
     }
 }

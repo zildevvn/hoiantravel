@@ -85,9 +85,9 @@ foreach ($car_options as $option) {
             </div>
 
             <div class="ha-car-options__badge" <?= ($suitable_count === 0) ? 'style="display: none;"' : ''; ?>>
-                <span class="ha-badge">
-                    <?= ha_svg_icon('check-circle'); ?>
-                    <?php esc_html_e('Private Door-to-Door', 'hoiantravel'); ?>
+                <span class="ha-badge ha-badge--subtle">
+                    <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('check-circle'); ?></span>
+                    <span class="ha-badge__text"><?php esc_html_e('Private Door-to-Door', 'hoiantravel'); ?></span>
                 </span>
             </div>
         </div>

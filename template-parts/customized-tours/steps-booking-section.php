@@ -31,7 +31,7 @@ if (!empty($steps) && is_array($steps)):
                 <div class="steps-booking-section__badge-wrap">
                     <span class="ha-badge">
                         <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('feature-compass'); ?></span>
-                        <span><?php esc_html_e('Easy Booking Flow', 'hoiantravel'); ?></span>
+                        <span class="ha-badge__text"><?php esc_html_e('Easy Booking Flow', 'hoiantravel'); ?></span>
                     </span>
                 </div>
 
