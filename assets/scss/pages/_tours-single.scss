@@ -807,10 +807,9 @@
 
 // Editorial Prose
 .single-tour-prose {
-    font-family: $font-second;
     font-size: 1rem;
     line-height: 1.75;
-    color: #4b5563;
+    // color: #4b5563;
 
     @include media-breakpoint-up(md) {
         font-size: 1.03125rem;
@@ -830,6 +829,10 @@
         font-weight: 600;
     }
 
+    a strong {
+        color: $color-primary;
+    }
+
     ul,
     ol {
         margin: 1rem 0 1.25rem;
@@ -841,10 +844,7 @@
     }
 
     h3 {
-        font-family: $font-heading;
         font-size: 1.2rem;
-        font-weight: 700;
-        color: $color-heading;
         margin-top: 1.75rem;
         margin-bottom: 0.75rem;
     }
@@ -2029,13 +2029,6 @@
 .related-tour-section {
     background: rgb(251, 249, 245);
     border-top: 1px solid rgba(25, 35, 43, 0.08);
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-
-    @include media-breakpoint-up(md) {
-        padding-top: 5rem;
-        padding-bottom: 5rem;
-    }
 
     &__header {
         max-width: 680px;
@@ -2044,30 +2037,17 @@
     }
 
     &__title {
-        font-family: $font-heading;
-        font-size: 1.85rem;
-        font-weight: 700;
-        color: $color-heading;
         margin-top: 0.5rem;
         margin-bottom: 0.75rem;
-        line-height: 1.25;
-
-        @include media-breakpoint-up(md) {
-            font-size: 2.25rem;
-        }
-
-        span {
-            color: $color-primary;
-        }
     }
 
-    &__subtitle {
-        color: rgba($color-body, 0.75);
-        font-family: $font-second;
-        font-size: 0.96875rem;
-        line-height: 1.6;
-        margin-bottom: 0;
-    }
+    // &__subtitle {
+    //     color: rgba($color-body, 0.75);
+    //     font-family: $font-second;
+    //     font-size: 0.96875rem;
+    //     line-height: 1.6;
+    //     margin-bottom: 0;
+    // }
 
     &__grid {
         display: grid;

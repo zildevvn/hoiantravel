@@ -26,6 +26,7 @@ $alt_text        = $args['alt_text'] ?? '';
 $append_content  = $args['append_content'] ?? '';
 $prepend_section = $args['prepend_section'] ?? '';
 $counters        = $args['counters'] ?? [];
+$badge_title     = !empty($args['badge_title']) ? $args['badge_title'] : 'Hoi An Travel';
 
 if (empty($alt_text)) {
     $alt_text = !empty($heading) ? strip_tags($heading) : __('Hoi An Travel Experience', 'hoiantravel');
@@ -136,7 +137,9 @@ if (!empty($gallery_all)) {
                         <div class="blog-about-collage__badge-icon">
                             <?= ha_svg_icon('feature-lantern'); ?>
                         </div>
-                        <span class="blog-about-collage__badge-title"> Hoi An Travel </span>
+                        <span class="blog-about-collage__badge-title">
+                            <?php echo esc_html($badge_title); ?>
+                        </span>
                     </div>
                 </div>
             </div>

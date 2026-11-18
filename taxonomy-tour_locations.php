@@ -13,7 +13,11 @@
 get_header();
 ?>
 <main id="primary" class="site-main">
-
-</main><!-- #main -->
+    <?php get_template_part('template-parts/tour-locations/hero-section'); ?>
+    <?php get_template_part('template-parts/tour-locations/about-section'); ?>
+    <?php get_template_part('template-parts/tour-locations/grid-tour-section'); ?>
+    <?php get_template_part('template-parts/tour-locations/best-time-section'); ?>
+    <?php get_template_part('template-parts/tour-locations/faqs-section'); ?>
+</main>
 <?php
 get_footer();

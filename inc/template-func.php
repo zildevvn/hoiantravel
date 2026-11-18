@@ -126,12 +126,25 @@ function ha_item_tour()
     $loc_name = (!empty($tour_locs) && !is_wp_error($tour_locs)) ? implode(', ', wp_list_pluck($tour_locs, 'name')) : '';
     $price = get_field('price_tour');
     $currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('currency', 'option');
+    $has_valid_price = !empty($price) && (!is_numeric($price) || (float) $price > 0);
+    $formatted_price = $has_valid_price ? ha_format_price($price, $currency) : ha_format_price('', $currency);
+
+    $thumb_url = get_the_post_thumbnail_url(get_the_ID(), 'large');
+    if (empty($thumb_url)) {
+        $upload_dir = wp_upload_dir();
+        $fallback_rel = '/2026/11/feature-hoi-an-tour-1024x683.webp';
+        if (!empty($upload_dir['basedir']) && file_exists($upload_dir['basedir'] . $fallback_rel)) {
+            $thumb_url = $upload_dir['baseurl'] . $fallback_rel;
+        }
+    }
 
     ?>
     <a href="<?= the_permalink(); ?>" class="tour-card" aria-label="read more <?php the_title() ?>">
 
         <div class="tour-card__media">
-            <img src="<?= get_the_post_thumbnail_url(); ?>" alt="image for <?= the_title(); ?>" width="380" height="260" />
+            <?php if (!empty($thumb_url)): ?>
+                <img src="<?= esc_url($thumb_url); ?>" alt="<?= esc_attr('image for ' . get_the_title()); ?>" class="tour-card__img" width="380" height="260" loading="lazy" />
+            <?php endif; ?>
 
             <?php if (!empty($cat_name)): ?>
                 <div class="tour-card__duration"><?= esc_html($cat_name); ?></div>
@@ -183,8 +196,10 @@ function ha_item_tour()
 
             <div class="tour-card__footer">
                 <div class="tour-card__price-box">
-                    <span class="tour-card__price-label">From</span>
-                    <span class="tour-card__price-val"><?= esc_html(ha_format_price($price, $currency)); ?></span>
+                    <?php if ($has_valid_price): ?>
+                        <span class="tour-card__price-label">From</span>
+                    <?php endif; ?>
+                    <span class="tour-card__price-val"><?= esc_html($formatted_price); ?></span>
                 </div>
                 <button class="ha-button" type="button">
                     Book Tour

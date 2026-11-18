@@ -31,6 +31,7 @@ $currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('
 
                     $pricing = ha_calculate_tour_price($option, $adults, $children, get_the_ID());
                     $price_per_person = $pricing['price_per_person'];
+                    $children_price = $pricing['child_price'];
                     $total_price = $pricing['total_price'];
                     $is_price_available = $pricing['is_price_available'];
                     ?>
@@ -110,7 +111,7 @@ $currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('
                                     <?php if ($children > 0): ?>
                                         <div class="option-item__price-calc">
                                             <span>Children × <?= esc_html($children) ?></span>
-                                            <span><?= esc_html(ha_format_price($pricing['child_price'], $currency)); ?></span>
+                                            <span><?= esc_html(ha_format_price($children_price, $currency)); ?></span>
                                         </div>
                                     <?php endif; ?>
                                 <?php endif; ?>

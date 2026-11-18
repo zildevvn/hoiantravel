@@ -196,20 +196,30 @@ if (!function_exists('ha_calculate_tour_price')) {
 			$is_price_available = ($total_price > 0);
 		} elseif ($private_tour) {
 			$key = ($total_pax === 1) ? '1_person' : ($total_pax . '_persons');
+			$adult_price = 0;
+
 			if (isset($price_private[$key]) && is_numeric(str_replace(',', '', (string) $price_private[$key]))) {
-				$total_price = floatval(str_replace(',', '', (string) $price_private[$key]));
-				$price_per_person = $total_pax > 0 ? ($total_price / $total_pax) : $total_price;
+				$adult_price = floatval(str_replace(',', '', (string) $price_private[$key]));
+			} elseif ($total_pax > 12 && isset($price_private['no_limited']) && is_numeric(str_replace(',', '', (string) $price_private['no_limited']))) {
+				$adult_price = floatval(str_replace(',', '', (string) $price_private['no_limited']));
 			} elseif (!empty($price_private)) {
 				$valid_prices = array_filter(array_map(function ($v) {
 					$clean = str_replace(',', '', (string) $v);
 					return is_numeric($clean) ? floatval($clean) : 0;
 				}, $price_private));
 				if (!empty($valid_prices)) {
-					$total_price = end($valid_prices);
-					$price_per_person = $total_pax > 0 ? ($total_price / $total_pax) : $total_price;
+					$adult_price = end($valid_prices);
 				} else {
 					$is_price_available = false;
 				}
+			} else {
+				$is_price_available = false;
+			}
+
+			if ($is_price_available && $adult_price > 0) {
+				$price_per_person = $adult_price;
+				$child_price = $adult_price * 0.75;
+				$total_price = ($adults * $price_per_person) + ($children * $child_price);
 			} else {
 				$is_price_available = false;
 			}

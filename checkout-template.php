@@ -296,11 +296,6 @@ $is_car_booking = isset($is_car) && $is_car;
                                                     Vehicle Price
                                                     <strong><?= esc_html(ha_format_price($price_per_person, $currency)); ?></strong>
                                                 </li>
-                                            <?php elseif (!empty($pricing['is_private_tour'])): ?>
-                                                <li>
-                                                    Private Tour Package
-                                                    <strong><?= esc_html(ha_format_price($price_per_person, $currency)); ?></strong>
-                                                </li>
                                             <?php else: ?>
                                                 <?php if ($adults > 0): ?>
                                                     <li>

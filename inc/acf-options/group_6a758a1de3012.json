@@ -50,23 +50,6 @@
             "preview_size": "medium"
         },
         {
-            "key": "field_6a769b3c23d28",
-            "label": "Custom Link Page",
-            "name": "custom_link_page",
-            "aria-label": "",
-            "type": "link",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "return_format": "url",
-            "allow_in_bindings": 0
-        },
-        {
             "key": "field_6aa3ad6ea1456",
             "label": "About Section",
             "name": "about_section",
@@ -356,27 +339,6 @@
             "append": ""
         },
         {
-            "key": "field_6aaa43cf62371",
-            "label": "Heading Image",
-            "name": "hd_img_faq_location",
-            "aria-label": "",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "50",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "maxlength": "",
-            "allow_in_bindings": 0,
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
             "key": "field_6aaa43d262372",
             "label": "Image",
             "name": "img_faq_location",
@@ -390,7 +352,7 @@
                 "class": "",
                 "id": ""
             },
-            "return_format": "url",
+            "return_format": "array",
             "library": "all",
             "min_width": "",
             "min_height": "",
@@ -492,5 +454,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1794368146
+    "modified": 1794969782
 }

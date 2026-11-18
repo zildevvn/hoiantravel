@@ -61,7 +61,7 @@ $post_tags = get_the_tags($post_id);
                         <h4 class="author-box__name">
                             <a href="<?= esc_url($author_link); ?>"><?= esc_html($author_name); ?></a>
                         </h4>
-                        <p class="author-box__bio">
+                        <p class="author-box__bio mb-0">
                             <?php
                             if (!empty($author_desc)) {
                                 echo esc_html($author_desc);
@@ -70,11 +70,6 @@ $post_tags = get_the_tags($post_id);
                             }
                             ?>
                         </p>
-                        <a href="<?= esc_url($author_link); ?>"
-                            class="author-box__more-link d-inline-flex align-items-center gap-2">
-                            <span><?= sprintf(esc_html__('View all articles by %s', 'hoiantravel'), esc_html($author_name)); ?></span>
-                            <?= ha_svg_icon('arrow-right'); ?>
-                        </a>
                     </div>
                 </div>
 
