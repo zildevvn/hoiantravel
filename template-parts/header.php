@@ -29,7 +29,7 @@ $email = get_field('email', 'option');
 
                 <div class="header-main__divider d-none d-xl-block"> </div>
 
-                <a class="ha-button d-none d-md-inline-flex">
+                <a href="<?php echo home_url('/hoi-an-tours/') ?>" class="ha-button d-none d-md-inline-flex">
                     Book Now
                     <?php echo ha_svg_icon('arrow_next'); ?>
                 </a>
