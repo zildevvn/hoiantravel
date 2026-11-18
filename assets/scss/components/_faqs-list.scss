@@ -40,7 +40,7 @@
         background-color: #ffffff;
 
         .faq-item__icon,
-        .faq-item__question > svg {
+        .faq-item__question>svg {
             background-color: $color-primary;
             color: #ffffff;
             transform: rotate(180deg);
@@ -51,13 +51,17 @@
             color: #ffffff;
         }
 
-        > .faq-item__answer {
+        >.faq-item__answer {
             grid-template-rows: 1fr;
 
-            > .faq-item__answer-inner,
-            > *:not(.faq-item__answer-inner) {
+            >.faq-item__answer-inner,
+            >*:not(.faq-item__answer-inner) {
                 opacity: 1;
                 transform: translateY(0);
+            }
+
+            >.faq-item__answer-inner {
+                display: block;
             }
         }
     }
@@ -142,7 +146,7 @@
 
     // Toggle Icon / Chevron
     &__icon,
-    &__question > svg {
+    &__question>svg {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -170,8 +174,12 @@
         transition: grid-template-rows 0.35s cubic-bezier(0.25, 1, 0.5, 1);
         overflow: hidden;
 
-        > .faq-item__answer-inner,
-        > *:not(.faq-item__answer-inner) {
+        >.faq-item__answer-inner {
+            display: none;
+        }
+
+        >.faq-item__answer-inner,
+        >*:not(.faq-item__answer-inner) {
             min-height: 0;
             padding: 0 18px 18px;
             color: #555555;
@@ -199,7 +207,8 @@
                 }
             }
 
-            ul, ol {
+            ul,
+            ol {
                 padding-left: 1.25rem;
                 margin-bottom: 0.75rem;
 
@@ -210,4 +219,3 @@
         }
     }
 }
-
