@@ -38,7 +38,7 @@ $max_pages = isset($wp_query->max_num_pages) ? (int) $wp_query->max_num_pages : 
 ?>
 
 <?php if (have_posts()): ?>
-    <section class="ha-section grid-tour-section" aria-label="<?= esc_attr($display_heading); ?>">
+    <section class="ha-section grid-tour-section" id="location-tours" aria-label="<?= esc_attr($display_heading); ?>">
         <div class="container">
             <!-- Editorial Section Header -->
             <div class="grid-tour-section__header">

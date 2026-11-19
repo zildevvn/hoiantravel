@@ -26,6 +26,7 @@ $alt_text        = $args['alt_text'] ?? '';
 $append_content  = $args['append_content'] ?? '';
 $prepend_section = $args['prepend_section'] ?? '';
 $counters        = $args['counters'] ?? [];
+$section_id      = $args['section_id'] ?? '';
 $badge_title     = !empty($args['badge_title']) ? $args['badge_title'] : 'Hoi An Travel';
 
 if (empty($alt_text)) {
@@ -62,7 +63,7 @@ if (!empty($gallery_all)) {
 }
 ?>
 
-<section class="ha-section about-section ha-media-carousel-section blog-about-section">
+<section class="ha-section about-section ha-media-carousel-section blog-about-section"<?php if (!empty($section_id)): ?> id="<?= esc_attr($section_id); ?>"<?php endif; ?>>
     <?= $prepend_section; ?>
 
     <div class="container">

@@ -109,9 +109,10 @@ if (strpos($copyright, '{{Year}}') !== false) {
 
             <div class="main-footer__right">
                 <div class="main-footer__payments">
+                    <span class="main-footer__payment-badge">Cash</span>
+                    <span class="main-footer__payment-badge">Paypal</span>
                     <span class="main-footer__payment-badge">OnePay</span>
                     <span class="main-footer__payment-badge">VISA</span>
-                    <span class="main-footer__payment-badge">MasterCard</span>
                 </div>
                 <?php if (!empty($copyright)): ?>
                     <p class="main-footer__copyright">

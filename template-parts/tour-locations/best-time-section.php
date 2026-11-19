@@ -40,7 +40,7 @@ $grid_modifier = ($has_desc && $has_map)
     : 'best-time-section__grid--single';
 ?>
 
-<section class="ha-section best-time-section" aria-label="<?= esc_attr(!empty($term_name) ? sprintf(__('Best time to visit %s', 'hoiantravel'), $term_name) : __('Best time to visit', 'hoiantravel')); ?>">
+<section class="ha-section best-time-section" id="location-best-time" aria-label="<?= esc_attr(!empty($term_name) ? sprintf(__('Best time to visit %s', 'hoiantravel'), $term_name) : __('Best time to visit', 'hoiantravel')); ?>">
     <div class="container">
         <div class="best-time-section__grid <?= esc_attr($grid_modifier); ?>">
             <?php if ($has_desc): ?>

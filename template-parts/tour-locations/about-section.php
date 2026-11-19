@@ -17,5 +17,6 @@ get_template_part('template-parts/shared/about-section', null, [
     'gallery'     => $gallerys,
     'alt_text'    => $alt_text,
     'badge_title' => $term_name,
+    'section_id'  => 'location-about',
 ]);
 ?>
