@@ -3,19 +3,7 @@
 // ==========================================
 
 .destinations-list-section {
-    padding-top: 40px;
-    padding-bottom: 40px;
     background-color: $color-bg;
-
-    @include media-breakpoint-up(md) {
-        padding-top: 60px;
-        padding-bottom: 60px;
-    }
-
-    @include media-breakpoint-up(lg) {
-        padding-top: 90px;
-        padding-bottom: 90px;
-    }
 
     // ------------------------------------------
     // Section Intro

@@ -33,9 +33,6 @@ body.page-template-blog-template {
             }
 
             &__title {
-                font-family: $font-primary;
-                font-weight: 700;
-                color: $color-heading;
                 margin-top: 0.5rem;
                 margin-bottom: 0.75rem;
             }
@@ -766,17 +763,5 @@ body.page-template-blog-template {
 
     .experiences-section {
         background: #fff;
-        padding-top: 40px;
-        padding-bottom: 40px;
-
-        @include media-breakpoint-up(md) {
-            padding-top: 60px;
-            padding-bottom: 60px;
-        }
-
-        @include media-breakpoint-up(lg) {
-            padding-top: 90px;
-            padding-bottom: 90px;
-        }
     }
 }

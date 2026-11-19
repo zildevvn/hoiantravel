@@ -5,7 +5,6 @@
 // ==========================================================================
 
 .book-cars-section {
-    position: relative;
     padding: 90px 0 100px;
     background-color: $color-bg;
     overflow: hidden;
@@ -71,10 +70,7 @@
     }
 
     &__title {
-        font-family: $font-heading, var(--font-heading, sans-serif);
         font-size: clamp(1.85rem, 3.2vw, 2.5rem);
-        font-weight: 700;
-        color: $color-heading;
         line-height: 1.25;
         letter-spacing: -0.02em;
         margin-bottom: 14px;

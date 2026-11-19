@@ -302,9 +302,6 @@
         .h3 {
             margin-top: 0;
             margin-bottom: 1.25rem;
-            font-family: $font-heading, var(--font-heading, sans-serif);
-            font-weight: 700;
-            color: $color-heading;
             font-size: clamp(1.75rem, 2.5vw, 2.25rem);
             line-height: 1.25;
             letter-spacing: -0.015em;

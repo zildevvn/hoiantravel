@@ -435,20 +435,7 @@
 .hoi-an-intro {
     background-color: #FBF9F5;
     border-top: 1px solid rgba(223, 161, 40, 0.25);
-    padding-top: 40px;
-    padding-bottom: 40px;
-    position: relative;
     overflow: hidden;
-
-    @include media-breakpoint-up(md) {
-        padding-top: 60px;
-        padding-bottom: 60px;
-    }
-
-    @include media-breakpoint-up(lg) {
-        padding-top: 90px;
-        padding-bottom: 90px;
-    }
 
     // 1. Two-Column Flex/Grid (50% Left / 50% Right on Desktop, gap: 56px, align-items: center)
     &__grid {
@@ -615,21 +602,8 @@
 // FAQS SECTION (Editorial 2-Column Layout)
 // ==========================================
 .faqs-section {
-    position: relative;
     background: radial-gradient(circle at 50% 30%, rgb(248, 243, 235) 0%, rgb(243, 235, 221) 65%, rgb(233, 222, 206) 100%);
-    padding-top: 40px;
-    padding-bottom: 40px;
     border-top: 1px solid rgba(25, 35, 43, 0.05);
-
-    @include media-breakpoint-up(md) {
-        padding-top: 60px;
-        padding-bottom: 60px;
-    }
-
-    @include media-breakpoint-up(lg) {
-        padding-top: 90px;
-        padding-bottom: 90px;
-    }
 
     &__grid {
         display: grid;

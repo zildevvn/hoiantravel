@@ -536,10 +536,7 @@
     }
 
     &__title {
-        font-family: $font-heading;
         font-size: clamp(1.45rem, 2.5vw, 1.85rem);
-        font-weight: 700;
-        color: $color-heading;
         margin: 0 0 0.625rem;
     }
 
@@ -683,10 +680,7 @@
     }
 
     &__title {
-        font-family: $font-heading;
         font-size: clamp(1.6rem, 2.8vw, 2.2rem);
-        font-weight: 700;
-        color: $color-heading;
         margin: 0;
     }
 }
