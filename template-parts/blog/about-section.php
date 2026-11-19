@@ -36,14 +36,40 @@ if (!empty($gallerys) && is_array($gallerys)) {
                 <div class="blog-about-collage">
                     <div class="blog-about-collage__grid">
                         <?php foreach ($collage_items as $index => $item):
-                            $img_url = is_array($item) ? (!empty($item['sizes']['large']) ? $item['sizes']['large'] : $item['url']) : $item;
-                            $img_alt = is_array($item) ? (!empty($item['alt']) ? $item['alt'] : 'Hoi An Travel') : 'Hoi An Travel';
+                            $img_url  = is_array($item) ? (!empty($item['sizes']['large']) ? $item['sizes']['large'] : (!empty($item['url']) ? $item['url'] : '')) : (string) $item;
+                            $full_url = is_array($item) ? (!empty($item['url']) ? $item['url'] : $img_url) : (string) $item;
+                            $img_alt  = is_array($item) ? (!empty($item['alt']) ? $item['alt'] : 'Hoi An Travel') : 'Hoi An Travel';
                             ?>
                             <div class="blog-about-collage__item blog-about-collage__item--<?= $index + 1 ?>">
-                                <img src="<?= esc_url($img_url); ?>" alt="<?= esc_attr($img_alt); ?>" loading="lazy">
+                                <?php if (!empty($full_url)): ?>
+                                    <a href="<?= esc_url($full_url); ?>"
+                                       class="blog-about-collage__link"
+                                       data-fancybox="ha-media-gallery"
+                                       data-caption="<?= esc_attr($img_alt); ?>"
+                                       aria-label="<?= esc_attr(sprintf(__('View image %d: %s', 'hoiantravel'), $index + 1, $img_alt)); ?>">
+                                        <img src="<?= esc_url($img_url); ?>" alt="<?= esc_attr($img_alt); ?>" loading="lazy">
+                                    </a>
+                                <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
                     </div>
+
+                    <?php if (!empty($gallerys) && is_array($gallerys) && count($gallerys) > 4): ?>
+                        <div class="d-none" aria-hidden="true">
+                            <?php $gallery_values = array_values($gallerys);
+                            for ($i = 4; $i < count($gallery_values); $i++):
+                                $extra     = $gallery_values[$i];
+                                $extra_url = is_array($extra) ? (!empty($extra['url']) ? $extra['url'] : (!empty($extra['sizes']['large']) ? $extra['sizes']['large'] : '')) : (string) $extra;
+                                $extra_alt = is_array($extra) ? (!empty($extra['alt']) ? $extra['alt'] : sprintf('Hoi An Travel %d', $i + 1)) : sprintf('Hoi An Travel %d', $i + 1);
+                                if (!empty($extra_url)): ?>
+                                    <a href="<?= esc_url($extra_url); ?>"
+                                       data-fancybox="ha-media-gallery"
+                                       data-caption="<?= esc_attr($extra_alt); ?>"
+                                       tabindex="-1"></a>
+                                <?php endif;
+                            endfor; ?>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- Center Floating Badge -->
                     <div class="blog-about-collage__badge" aria-hidden="true">

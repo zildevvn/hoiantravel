@@ -145,6 +145,7 @@ body.page-template-blog-template {
                         }
 
                         &[type="search"] {
+
                             &::-webkit-search-decoration,
                             &::-webkit-search-cancel-button,
                             &::-webkit-search-results-button,
@@ -714,13 +715,13 @@ body.page-template-blog-template {
 
                     svg {
                         width: 22px;
-                        height: 22px;
+                        height: auto;
                         stroke: currentColor;
                         fill: none;
 
                         @media (max-width: 767.98px) {
                             width: 18px;
-                            height: 18px;
+                            height: auto;
                         }
                     }
                 }

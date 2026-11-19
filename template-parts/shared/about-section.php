@@ -101,17 +101,20 @@ if (!empty($gallery_all)) {
                 <div class="blog-about-collage">
                     <div class="blog-about-collage__grid">
                         <?php foreach ($collage_items as $index => $item):
-                            $img_url = is_array($item) ? (!empty($item['sizes']['large']) ? $item['sizes']['large'] : (!empty($item['url']) ? $item['url'] : '')) : (string) $item;
-                            $img_alt = is_array($item) ? (!empty($item['alt']) ? $item['alt'] : sprintf('%s %d', $alt_text, $index + 1)) : sprintf('%s %d', $alt_text, $index + 1);
+                            $img_url  = is_array($item) ? (!empty($item['sizes']['large']) ? $item['sizes']['large'] : (!empty($item['url']) ? $item['url'] : '')) : (string) $item;
+                            $full_url = is_array($item) ? (!empty($item['url']) ? $item['url'] : $img_url) : (string) $item;
+                            $img_alt  = is_array($item) ? (!empty($item['alt']) ? $item['alt'] : sprintf('%s %d', $alt_text, $index + 1)) : sprintf('%s %d', $alt_text, $index + 1);
                             ?>
                             <div class="blog-about-collage__item blog-about-collage__item--<?= $index + 1 ?>">
-                                <a href="<?= esc_url($img_url); ?>"
-                                   class="blog-about-collage__link"
-                                   data-fancybox="ha-media-gallery"
-                                   data-caption="<?= esc_attr($img_alt); ?>"
-                                   aria-label="<?= esc_attr(sprintf(__('View image %d: %s', 'hoiantravel'), $index + 1, $img_alt)); ?>">
-                                    <img src="<?= esc_url($img_url); ?>" alt="<?= esc_attr($img_alt); ?>" loading="lazy">
-                                </a>
+                                <?php if (!empty($full_url)): ?>
+                                    <a href="<?= esc_url($full_url); ?>"
+                                       class="blog-about-collage__link"
+                                       data-fancybox="ha-media-gallery"
+                                       data-caption="<?= esc_attr($img_alt); ?>"
+                                       aria-label="<?= esc_attr(sprintf(__('View image %d: %s', 'hoiantravel'), $index + 1, $img_alt)); ?>">
+                                        <img src="<?= esc_url($img_url); ?>" alt="<?= esc_attr($img_alt); ?>" loading="lazy">
+                                    </a>
+                                <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -121,7 +124,7 @@ if (!empty($gallery_all)) {
                         <div class="d-none" aria-hidden="true">
                             <?php for ($i = 4; $i < count($gallery_all); $i++):
                                 $extra = $gallery_all[$i];
-                                $extra_url = is_array($extra) ? (!empty($extra['sizes']['large']) ? $extra['sizes']['large'] : (!empty($extra['url']) ? $extra['url'] : '')) : (string) $extra;
+                                $extra_url = is_array($extra) ? (!empty($extra['url']) ? $extra['url'] : (!empty($extra['sizes']['large']) ? $extra['sizes']['large'] : '')) : (string) $extra;
                                 $extra_alt = is_array($extra) ? (!empty($extra['alt']) ? $extra['alt'] : sprintf('%s %d', $alt_text, $i + 1)) : sprintf('%s %d', $alt_text, $i + 1);
                                 if (!empty($extra_url)): ?>
                                     <a href="<?= esc_url($extra_url); ?>"

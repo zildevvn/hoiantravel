@@ -594,38 +594,138 @@ import { CountUp } from 'countup.js';
 
     /**
      * HA Media Section & Lightbox Integration
-     * Matches Blog About Section layout with full Fancybox 5.0 lightbox capability.
+     * Matches Single Tour Gallery Fancybox 5.0 lightbox capability across
+     * `.blog-about-section__media` and `.ha-media-carousel-section__media`.
      */
     const haMediaCarousel = () => {
-        // Initialize Fancybox for media gallery lightbox if available
-        if (typeof window.Fancybox !== 'undefined' && typeof window.Fancybox.bind === 'function') {
-            window.Fancybox.bind('[data-fancybox="ha-media-gallery"]', {
-                dragToClose: true,
-                closeButton: 'top',
-                Images: {
-                    zoom: true,
-                },
-                Toolbar: {
-                    display: {
-                        left: ['infobar'],
-                        middle: [],
-                        right: ['iterateZoom', 'slideshow', 'fullscreen', 'close'],
-                    },
-                },
-                Thumbs: false,
-                keyboard: {
-                    Escape: 'close',
-                    Delete: 'close',
-                    Backspace: 'close',
-                    PageUp: 'next',
-                    PageDown: 'prev',
-                    ArrowUp: 'next',
-                    ArrowDown: 'prev',
-                    ArrowRight: 'next',
-                    ArrowLeft: 'prev',
-                },
-            });
+        if (typeof window.Fancybox === 'undefined' || typeof window.Fancybox.bind !== 'function') {
+            return;
         }
+
+        const lightboxOptions = {
+            dragToClose: true,
+            closeButton: 'top',
+            Images: {
+                zoom: true,
+            },
+            Toolbar: {
+                display: {
+                    left: ['infobar'],
+                    middle: [],
+                    right: ['iterateZoom', 'slideshow', 'fullscreen', 'close'],
+                },
+            },
+            Thumbs: false,
+            keyboard: {
+                Escape: 'close',
+                Delete: 'close',
+                Backspace: 'close',
+                PageUp: 'next',
+                PageDown: 'prev',
+                ArrowUp: 'next',
+                ArrowDown: 'prev',
+                ArrowRight: 'next',
+                ArrowLeft: 'prev',
+            },
+        };
+
+        // Bind explicit Fancybox triggers (Single-pass declarative gallery items)
+        window.Fancybox.bind('[data-fancybox="ha-media-gallery"]', lightboxOptions);
+
+        // Delegated fallback for any `.blog-about-section__media` or `.ha-media-carousel-section__media`
+        // images without `[data-fancybox]` (including dynamically rendered or carousel slides)
+        if (document.documentElement.dataset.haMediaLightboxBound === '1') {
+            return;
+        }
+        document.documentElement.dataset.haMediaLightboxBound = '1';
+
+        const resolveBestImageUrl = (img) => {
+            if (!img) return '';
+            const explicitUrl = img.getAttribute('data-full-src') || img.getAttribute('data-large-src') || img.getAttribute('data-src');
+            if (explicitUrl) return explicitUrl;
+
+            const parentLink = img.closest('a[href]');
+            if (parentLink) {
+                const href = parentLink.getAttribute('href') || '';
+                if (/\.(jpe?g|png|webp|avif|gif)(\?.*)?$/i.test(href)) {
+                    return href;
+                }
+            }
+
+            const srcset = img.getAttribute('srcset');
+            if (srcset) {
+                let bestUrl = '';
+                let bestWidth = 0;
+                srcset.split(',').forEach((entry) => {
+                    const parts = entry.trim().split(/\s+/);
+                    const url = parts[0];
+                    const width = parts[1] && parts[1].endsWith('w') ? parseInt(parts[1], 10) : 0;
+                    if (url && width >= bestWidth) {
+                        bestWidth = width;
+                        bestUrl = url;
+                    }
+                });
+                if (bestUrl) return bestUrl;
+            }
+
+            return img.currentSrc || img.getAttribute('src') || '';
+        };
+
+        const isValidLightboxImage = (img) => {
+            if (!img || img.tagName !== 'IMG') return false;
+            const src = img.currentSrc || img.getAttribute('src') || '';
+            if (!src || src.startsWith('data:image/svg+xml')) return false;
+            if (img.classList.contains('placeholder') || img.dataset.placeholder === 'true') return false;
+            if (img.complete && img.naturalWidth === 0) return false;
+            return true;
+        };
+
+        document.addEventListener('click', (e) => {
+            const mediaContainer = e.target.closest('.blog-about-section__media, .ha-media-carousel-section__media');
+            if (!mediaContainer) return;
+
+            // Skip Swiper navigation/pagination controls or items already bound by Fancybox
+            if (e.target.closest('.swiper-button-prev, .swiper-button-next, .swiper-pagination, [data-fancybox]')) {
+                return;
+            }
+
+            const clickedImg = e.target.tagName === 'IMG'
+                ? e.target
+                : e.target.closest('a, .swiper-slide, .blog-about-collage__item')?.querySelector('img');
+
+            if (!isValidLightboxImage(clickedImg)) return;
+
+            const parentLink = clickedImg.closest('a');
+            if (parentLink) {
+                e.preventDefault();
+            }
+
+            const allImgs = Array.from(mediaContainer.querySelectorAll('img')).filter((img) => {
+                return !img.closest('.swiper-slide-duplicate') && isValidLightboxImage(img);
+            });
+
+            const slides = [];
+            let startIndex = 0;
+            allImgs.forEach((img) => {
+                const src = resolveBestImageUrl(img);
+                if (!src) return;
+                if (img === clickedImg) {
+                    startIndex = slides.length;
+                }
+                slides.push({
+                    src,
+                    type: 'image',
+                    caption: img.getAttribute('alt') || '',
+                });
+            });
+
+            if (slides.length && typeof window.Fancybox.show === 'function') {
+                window.Fancybox.show(slides, {
+                    ...lightboxOptions,
+                    startIndex,
+                });
+            }
+        });
     };
 
     /**

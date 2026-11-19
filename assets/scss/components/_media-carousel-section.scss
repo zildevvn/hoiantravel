@@ -258,13 +258,13 @@
 
                 svg {
                     width: 22px;
-                    height: 22px;
+                    height: auto;
                     stroke: currentColor;
                     fill: none;
 
                     @media (max-width: 767.98px) {
                         width: 18px;
-                        height: 18px;
+                        height: auto;
                     }
                 }
             }
@@ -362,6 +362,7 @@
     // 5. Accessibility: prefers-reduced-motion
     // ----------------------------------------------------------------------
     @media (prefers-reduced-motion: reduce) {
+
         .blog-about-collage__item img,
         .counter-item {
             transition: none !important;
