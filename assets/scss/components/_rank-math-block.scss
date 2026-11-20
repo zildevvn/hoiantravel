@@ -1,0 +1,19 @@
+.rank-math-block {
+    .rank-math-list {
+        &-item {
+            &:not(:last-child) {
+                margin-bottom: 14px;
+            }
+        }
+    }
+
+    .rank-math-question {
+        font-size: 1.2rem;
+        color: $color-heading;
+        font-family: $font-heading;
+        font-weight: 700;
+        margin-bottom: 8px !important;
+        border-bottom: 1px solid #E5E7EB;
+        padding-bottom: 10px;
+    }
+}
