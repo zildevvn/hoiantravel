@@ -49,14 +49,21 @@ $query = new WP_Query($args);
                     </div>
                 <?php endif; ?>
             </div>
-            <!-- 4 Route Cards Grid -->
-            <div class="cars-section__grid">
-                <?php while ($query->have_posts()):
-                    $query->the_post();
-                    ha_item_car();
-                endwhile;
-                wp_reset_postdata();
-                ?>
+            <!-- Car Cards: Grid on Tablet/Desktop, Swiper Carousel on Mobile -->
+            <div class="cars-section__swiper swiper">
+                <div class="cars-section__grid swiper-wrapper">
+                    <?php while ($query->have_posts()):
+                        $query->the_post();
+                        ?>
+                        <div class="cars-section__slide swiper-slide">
+                            <?php ha_item_car(); ?>
+                        </div>
+                        <?php
+                    endwhile;
+                    wp_reset_postdata();
+                    ?>
+                </div>
+                <div class="cars-section__pagination swiper-pagination" aria-hidden="true"></div>
             </div>
             <!-- Bottom Action Bar & Concierge Note -->
             <div class="cars-section__action">

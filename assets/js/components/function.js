@@ -593,6 +593,55 @@ import { CountUp } from 'countup.js';
     };
 
     /**
+     * Home Page Cars Section Mobile Carousel (< 576px)
+     * Activates Swiper on mobile viewports and cleanly destroys it on tablet/desktop
+     * so the CSS grid layout remains untouched above 576px.
+     */
+    const carsMobileSwiper = () => {
+        const swiperEls = document.querySelectorAll('.cars-section__swiper');
+        if (!swiperEls.length) return;
+
+        const mobileQuery = window.matchMedia('(max-width: 575.98px)');
+
+        const syncCarsSwiper = () => {
+            swiperEls.forEach((el) => {
+                if (mobileQuery.matches) {
+                    if (el.swiper) return;
+
+                    const paginationEl = el.querySelector('.cars-section__pagination');
+
+                    try {
+                        new Swiper(el, {
+                            modules: [Pagination],
+                            slidesPerView: 1.15,
+                            spaceBetween: 16,
+                            speed: 600,
+                            grabCursor: true,
+                            watchOverflow: true,
+                            pagination: paginationEl ? {
+                                el: paginationEl,
+                                clickable: true,
+                            } : false,
+                        });
+                    } catch (err) {
+                        console.error('[Hoi An Travel] Error initializing cars mobile swiper:', err);
+                    }
+                } else if (el.swiper) {
+                    el.swiper.destroy(true, true);
+                }
+            });
+        };
+
+        syncCarsSwiper();
+
+        if (typeof mobileQuery.addEventListener === 'function') {
+            mobileQuery.addEventListener('change', syncCarsSwiper);
+        } else if (typeof mobileQuery.addListener === 'function') {
+            mobileQuery.addListener(syncCarsSwiper);
+        }
+    };
+
+    /**
      * HA Media Section & Lightbox Integration
      * Matches Single Tour Gallery Fancybox 5.0 lightbox capability across
      * `.blog-about-section__media` and `.ha-media-carousel-section__media`.
@@ -1205,6 +1254,7 @@ import { CountUp } from 'countup.js';
         heroSlider();
         destinationPreview();
         tourSwiper();
+        carsMobileSwiper();
         haMediaCarousel();
         initFaqAccordion();
         initTourGalleryLightbox();
