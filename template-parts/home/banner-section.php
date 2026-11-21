@@ -4,12 +4,14 @@ $heading = get_field('heading_banner_home');
 $sub_heading = get_field('sub_heading_banner_home');
 $button = get_field('button_heading_banner_home');
 $services = get_field('list_services_banner_home');
+$image = get_field('image_heading_banner_home');
+
+// var_dump($image);
 ?>
 <section class="ha-section banner-section" id="section-car-rental-banner">
     <div class="container">
         <div class="banner-section__card">
-            <img alt="Hoi An Car Rental Chauffeur Service" class="banner-section__bg-img"
-                src="http://localhost:10043/wp-content/uploads/2026/11/image-banner-ha.webp">
+            <img alt="<?= $image['alt'] ?>" class="banner-section__bg-img" src="<?= $image['url'] ?>" />
             <div class="banner-section__overlay"></div>
             <div class="banner-section__glow"></div>
             <div class="banner-section__content">

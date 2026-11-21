@@ -1013,7 +1013,7 @@
                 "class": "",
                 "id": ""
             },
-            "return_format": "url",
+            "return_format": "array",
             "library": "all",
             "min_width": "",
             "min_height": "",
@@ -1172,7 +1172,7 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "allow_ai_access": false,
+    "enable_acf_abilities": 1,
     "ai_description": "",
-    "modified": 1794908349
+    "modified": 1795229177
 }
