@@ -49,10 +49,10 @@ if (strpos($copyright, '{{Year}}') !== false) {
                             aria-hidden="true"><?php echo ha_svg_icon('whatsapp'); ?></span>
                         WhatsApp 24/7
                     </a>
-                    <a href="mailto:vmtravelhoian@gmail.com" class="main-footer__btn main-footer__btn--email">
+                    <a href="<?= esc_url(home_url('/hoi-an-holiday-packages/')); ?>" class="main-footer__btn main-footer__btn--email">
                         <span class="main-footer__btn-icon"
-                            aria-hidden="true"><?php echo ha_svg_icon('email'); ?></span>
-                        Email Us
+                            aria-hidden="true"><?php echo ha_svg_icon('feature-compass'); ?></span>
+                        <?php esc_html_e('Customized Tour', 'hoiantravel'); ?>
                     </a>
                 </div>
             </div>
