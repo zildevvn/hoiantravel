@@ -174,6 +174,34 @@ if (!function_exists('vm_create_custom_taxonomy')) {
 			'show_in_rest' => true,
 		));
 
+		register_taxonomy('tour_type', array('tours'), array(
+			'labels' => array(
+				'name' => 'Type',
+				'singular_name' => 'Type',
+				'search_items' => 'Search Type',
+				'all_items' => 'All Type',
+				'edit_item' => 'Edit Type',
+				'update_item' => 'Update Type',
+				'add_new_item' => 'Add New Type',
+				'new_item_name' => 'New Type Name',
+				'menu_name' => 'Types',
+			),
+
+			'rewrite' => array(
+				'slug' => 'tour-type',
+				'with_front' => false,
+				'hierarchical' => true,
+			),
+
+			'hierarchical' => true,
+			'public' => true,
+			'show_ui' => true,
+			'show_admin_column' => true,
+			'show_in_nav_menus' => true,
+			'show_tagcloud' => false,
+			'show_in_rest' => true,
+		));
+
 		register_taxonomy('car_category', array('cars'), array(
 			'labels' => array(
 				'name' => 'Categories',
