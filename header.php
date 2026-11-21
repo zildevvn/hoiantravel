@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="google-site-verification" content="2mpfUMJmwRUQF5ZE9UEn7dZiskd0XSM3HiLv_0UxQc4" />
     <link rel="profile" href="https://gmpg.org/xfn/11">
+    <meta name='robots' content='noindex,nofollow' />
 
     <!-- Tailwind CSS CDN with forms and container queries plugins -->
     <!-- <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script> -->
