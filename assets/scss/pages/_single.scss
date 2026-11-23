@@ -90,7 +90,7 @@ body.single-post {
         }
 
         p {
-            margin-bottom: 1.65rem;
+            // margin-bottom: 1.65rem;
 
             &:last-child {
                 margin-bottom: 0;
@@ -111,13 +111,15 @@ body.single-post {
 
         h2 {
             font-size: 1.6rem;
-            margin-top: 2.75rem;
-            margin-bottom: 1.25rem;
+            margin-top: 1.8rem;
+            margin-bottom: 1rem;
             position: relative;
             padding-bottom: 12px;
 
             @include media-breakpoint-up(md) {
-                font-size: 1.85rem;
+                font-size: 1.75rem;
+                margin-top: 2.2rem;
+                margin-bottom: 1.25rem;
             }
         }
 

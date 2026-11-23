@@ -18496,9 +18496,6 @@ body.single-post .single-post-prose > p:first-of-type::first-letter {
   font-weight: 700;
   color: #DFA128;
 }
-body.single-post .single-post-prose p {
-  margin-bottom: 1.65rem;
-}
 body.single-post .single-post-prose p:last-child {
   margin-bottom: 0;
 }
@@ -18519,14 +18516,16 @@ body.single-post .single-post-prose .h6 {
 }
 body.single-post .single-post-prose h2, body.single-post .single-post-prose .h2 {
   font-size: 1.6rem;
-  margin-top: 2.75rem;
-  margin-bottom: 1.25rem;
+  margin-top: 1.8rem;
+  margin-bottom: 1rem;
   position: relative;
   padding-bottom: 12px;
 }
 @media (min-width: 768px) {
   body.single-post .single-post-prose h2, body.single-post .single-post-prose .h2 {
-    font-size: 1.85rem;
+    font-size: 1.75rem;
+    margin-top: 2.2rem;
+    margin-bottom: 1.25rem;
   }
 }
 body.single-post .single-post-prose h3, body.single-post .single-post-prose .h3 {
