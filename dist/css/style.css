@@ -11775,6 +11775,10 @@ body.home .trust-proof-section h2,
 body.home .trust-proof-section .h2 {
   margin: 16px 0 24px 0;
 }
+body.page-template-front-page .trust-proof-section__reviews-trip,
+body.home .trust-proof-section__reviews-trip {
+  margin-top: 24px;
+}
 
 body.page-template-front-page .destination-section,
 body.home .destination-section,

@@ -119,10 +119,15 @@ if (!function_exists('vm_hero_section_shared')) {
 
 function ha_item_tour()
 {
-    $tour_cats = get_the_terms(get_the_ID(), 'tour_cats');
-    $cat_name = (!empty($tour_cats) && !is_wp_error($tour_cats)) ? implode(', ', wp_list_pluck($tour_cats, 'name')) : '';
+    $post_id = get_the_ID();
 
-    $tour_locs = get_the_terms(get_the_ID(), 'tour_locations');
+    $tour_types = ($post_id && get_post_type($post_id) === 'tours') ? get_the_terms($post_id, 'tour_type') : [];
+    $type_names = (!empty($tour_types) && !is_wp_error($tour_types))
+        ? array_unique(array_filter(array_map('trim', wp_list_pluck($tour_types, 'name'))))
+        : [];
+    $type_label = !empty($type_names) ? implode(', ', $type_names) : '';
+
+    $tour_locs = $post_id ? get_the_terms($post_id, 'tour_locations') : [];
     $loc_name = (!empty($tour_locs) && !is_wp_error($tour_locs)) ? implode(', ', wp_list_pluck($tour_locs, 'name')) : '';
     $price = get_field('price_tour');
     $currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('currency', 'option');
@@ -146,8 +151,8 @@ function ha_item_tour()
                 <img src="<?= esc_url($thumb_url); ?>" alt="<?= esc_attr('image for ' . get_the_title()); ?>" class="tour-card__img" width="380" height="260" loading="lazy" />
             <?php endif; ?>
 
-            <?php if (!empty($cat_name)): ?>
-                <div class="tour-card__duration"><?= esc_html($cat_name); ?></div>
+            <?php if ($type_label !== ''): ?>
+                <div class="tour-card__duration"><?= esc_html($type_label); ?></div>
             <?php endif; ?>
         </div>
 
