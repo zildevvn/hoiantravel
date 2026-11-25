@@ -18405,6 +18405,9 @@ body.single-post .single-post-prose ul:not(.toc-list):not(.toc-nested-list) > li
 body.single-post .single-post-prose ul:not(.toc-list):not(.toc-nested-list) > li:last-child {
   margin-bottom: 0;
 }
+body.single-post .single-post-prose ul:not(.toc-list):not(.toc-nested-list) > li > ul {
+  margin: 0.75rem 0;
+}
 body.single-post .single-post-prose ol {
   padding-left: 24px;
   margin: 1.75rem 0;
