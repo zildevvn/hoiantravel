@@ -521,7 +521,7 @@
                             targetPage = textVal;
                         }
                     }
-                    fetchTours(targetPage, true);
+                    fetchTours(targetPage, false);
                 });
             });
         };
