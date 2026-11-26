@@ -10,22 +10,22 @@
  * @package hoiantravel
  */
 
-$title     = get_the_title();
-$image     = get_the_post_thumbnail_url(get_the_ID(), 'full');
-$image_id  = get_post_thumbnail_id();
-$alt       = $image_id ? get_post_meta($image_id, '_wp_attachment_image_alt', true) : '';
+$title = get_the_title();
+$image = get_the_post_thumbnail_url(get_the_ID(), 'full');
+$image_id = get_post_thumbnail_id();
+$alt = $image_id ? get_post_meta($image_id, '_wp_attachment_image_alt', true) : '';
 if (empty($alt)) {
     $alt = $title;
 }
 $has_image = !empty($image);
 
 // Car Custom Fields
-$location  = get_field('location_car');
-$time      = get_field('time_car');
-$pick_up   = get_field('pick_up_car');
-$price     = get_field('price_car');
-$currency  = function_exists('ha_get_currency') ? ha_get_currency() : get_field('currency', 'option');
-$options   = get_field('option_car');
+$location = get_field('location_car');
+$time = get_field('time_car');
+$pick_up = get_field('pick_up_car');
+$price = get_field('price_car');
+$currency = function_exists('ha_get_currency') ? ha_get_currency() : get_field('currency', 'option');
+$options = get_field('option_car');
 
 // Calculate lowest price if price_car is empty
 if (empty($price) && !empty($options) && is_array($options)) {
@@ -54,7 +54,8 @@ $car_highlights = [
 ];
 ?>
 
-<section class="ha-section hero-section-shared hero-section-shared--single-tour hero-section-shared--single-car<?= $has_image ? ' hero-section-shared--has-image' : ' hero-section-shared--no-image'; ?>">
+<section
+    class="ha-section hero-section-shared hero-section-shared--single-tour hero-section-shared--single-car<?= $has_image ? ' hero-section-shared--has-image' : ' hero-section-shared--no-image'; ?>">
     <!-- Background Image & Atmospheric Indochine Layers -->
     <div class="ha-section__bg hero-section-shared__bg">
         <?php if ($has_image): ?>
@@ -101,7 +102,8 @@ $car_highlights = [
             <?php if (!empty($location) || !empty($time) || !empty($pick_up) || !empty($price) || !empty($options)): ?>
                 <div class="hero-tour-meta hero-car-meta" role="list">
                     <?php if (!empty($location)): ?>
-                        <div class="hero-tour-meta__item" role="listitem" title="<?php esc_attr_e('Transfer Route', 'hoiantravel'); ?>">
+                        <div class="hero-tour-meta__item" role="listitem"
+                            title="<?php esc_attr_e('Transfer Route', 'hoiantravel'); ?>">
                             <span class="hero-tour-meta__icon" aria-hidden="true">
                                 <?= ha_svg_icon('location'); ?>
                             </span>
@@ -110,7 +112,8 @@ $car_highlights = [
                     <?php endif; ?>
 
                     <?php if (!empty($time)): ?>
-                        <div class="hero-tour-meta__item" role="listitem" title="<?php esc_attr_e('Travel Duration', 'hoiantravel'); ?>">
+                        <div class="hero-tour-meta__item" role="listitem"
+                            title="<?php esc_attr_e('Travel Duration', 'hoiantravel'); ?>">
                             <span class="hero-tour-meta__icon" aria-hidden="true">
                                 <?= ha_svg_icon('clock'); ?>
                             </span>
@@ -118,15 +121,9 @@ $car_highlights = [
                         </div>
                     <?php endif; ?>
 
-                    <div class="hero-tour-meta__item" role="listitem" title="<?php esc_attr_e('Available Vehicles', 'hoiantravel'); ?>">
-                        <span class="hero-tour-meta__icon" aria-hidden="true">
-                            <?= ha_svg_icon('users'); ?>
-                        </span>
-                        <span class="hero-tour-meta__label"><?php esc_html_e('Sedan (4), SUV (7), Van (16)', 'hoiantravel'); ?></span>
-                    </div>
-
                     <?php if (!empty($pick_up)): ?>
-                        <div class="hero-tour-meta__item" role="listitem" title="<?php esc_attr_e('Pickup Service', 'hoiantravel'); ?>">
+                        <div class="hero-tour-meta__item" role="listitem"
+                            title="<?php esc_attr_e('Pickup Service', 'hoiantravel'); ?>">
                             <span class="hero-tour-meta__icon" aria-hidden="true">
                                 <?= ha_svg_icon('check-circle'); ?>
                             </span>
@@ -135,7 +132,8 @@ $car_highlights = [
                     <?php endif; ?>
 
                     <?php if (!empty($price)): ?>
-                        <div class="hero-tour-meta__item hero-tour-meta__item--price" role="listitem" title="<?php esc_attr_e('Starting Price', 'hoiantravel'); ?>">
+                        <div class="hero-tour-meta__item hero-tour-meta__item--price" role="listitem"
+                            title="<?php esc_attr_e('Starting Price', 'hoiantravel'); ?>">
                             <span class="hero-tour-meta__price-sub"><?= esc_html__('From', 'hoiantravel'); ?></span>
                             <span class="hero-tour-meta__price-val"><?= esc_html(ha_format_price($price, $currency)); ?></span>
                         </div>
