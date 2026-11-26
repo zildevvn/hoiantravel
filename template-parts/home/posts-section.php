@@ -89,7 +89,7 @@ $query = new WP_Query($args);
                                 <div class="featured-post-card__meta">
                                     <?= esc_html($meta_text); ?>
                                 </div>
-                                <h3 class="featured-post-card__title">
+                                <h3 class="featured-post-card__title h4">
                                     <a href="<?php the_permalink(); ?>" class="text-reset text-decoration-none">
                                         <?php the_title(); ?>
                                     </a>
@@ -125,7 +125,7 @@ $query = new WP_Query($args);
                             $thumbnail_url = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(), 'medium') : 'https://placehold.co/300x300?text=Hoi+An+Travel';
                             $tag_modifier = $tag_modifiers[$idx % 3];
                             ?>
-                            <a href="<?php the_permalink(); ?>" class="compact-post-card">
+                            <a href="<?php the_permalink(); ?>" class="compact-post-card ">
                                 <div class="compact-post-card__media">
                                     <img alt="<?php the_title_attribute(); ?>" class="compact-post-card__img"
                                         src="<?= esc_url($thumbnail_url); ?>">
@@ -137,6 +137,10 @@ $query = new WP_Query($args);
                                     <h4 class="compact-post-card__title h6">
                                         <?php the_title(); ?>
                                     </h4>
+
+                                    <p class="compact-post-card__excerpt">
+                                        <?= esc_html(wp_strip_all_tags(get_the_excerpt())); ?>
+                                    </p>
                                 </div>
                                 <div class="compact-post-card__arrow">
                                     ➔
