@@ -19,17 +19,17 @@ if (empty($itinerary) || !is_array($itinerary)) {
 $enable_paragraph = !empty($itinerary['enable_itinerary_paragraph']);
 
 // 2. Read sub-fields
-$time_line        = (!empty($itinerary['itinerary_list']) && is_array($itinerary['itinerary_list'])) ? $itinerary['itinerary_list'] : [];
-$group_paragraph  = $itinerary['itinerary_paragraph'] ?? ($itinerary['itinerary_desc'] ?? '');
-$itinerary_img    = $itinerary['img'] ?? '';
+$time_line = (!empty($itinerary['itinerary_list']) && is_array($itinerary['itinerary_list'])) ? $itinerary['itinerary_list'] : [];
+$group_paragraph = $itinerary['itinerary_paragraph'] ?? ($itinerary['itinerary_desc'] ?? '');
+$itinerary_img = $itinerary['img'] ?? '';
 
 // 3. Check if there are valid items to display
 $has_timeline = false;
 if (!empty($time_line)) {
     foreach ($time_line as $item) {
         $title = $item['title'] ?? '';
-        $time  = $item['time'] ?? '';
-        $desc  = $item['description'] ?? ($item['paragraph'] ?? '');
+        $time = $item['time'] ?? '';
+        $desc = $item['description'] ?? ($item['paragraph'] ?? '');
         if (!empty($title) || !empty($time) || (!empty($desc) && $enable_paragraph)) {
             $has_timeline = true;
             break;
@@ -62,8 +62,8 @@ if (!$has_timeline && !$has_intro_paragraph && empty($itinerary_img)) {
             <?php
             $step_index = 0;
             foreach ($time_line as $item):
-                $time      = $item['time'] ?? '';
-                $title     = $item['title'] ?? '';
+                $time = $item['time'] ?? '';
+                $title = $item['title'] ?? '';
                 $paragraph = $item['description'] ?? ($item['paragraph'] ?? '');
 
                 // Skip items that have neither title, time nor visible paragraph
@@ -101,7 +101,7 @@ if (!$has_timeline && !$has_intro_paragraph && empty($itinerary_img)) {
                             </h3>
                         <?php endif; ?>
 
-                        <?php if ($enable_paragraph && !empty($paragraph)): ?>
+                        <?php if (!$enable_paragraph && !empty($paragraph)): ?>
                             <div class="itinerary-node__desc single-tour-prose">
                                 <?= wp_kses_post(wpautop($paragraph)); ?>
                             </div>
