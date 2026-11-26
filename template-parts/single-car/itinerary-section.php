@@ -22,6 +22,7 @@ $enable_paragraph = !empty($itinerary['enable_itinerary_paragraph']);
 $time_line = (!empty($itinerary['itinerary_list']) && is_array($itinerary['itinerary_list'])) ? $itinerary['itinerary_list'] : [];
 $group_paragraph = $itinerary['itinerary_paragraph'] ?? ($itinerary['itinerary_desc'] ?? '');
 $itinerary_img = $itinerary['img'] ?? '';
+$itinerary_heading = $itinerary['itinerary_heading'] ?? '';
 
 // 3. Check if there are valid items to display
 $has_timeline = false;
@@ -45,11 +46,15 @@ if (!$has_timeline && !$has_intro_paragraph && empty($itinerary_img)) {
 ?>
 
 <section id="car-itinerary" class="tour-section-block tour-itinerary car-itinerary-block">
-    <header class="tour-section-header">
-        <h2 class="ha-heading tour-section-title h3">
-            <?php esc_html_e('Trip Itinerary & Route', 'hoiantravel'); ?>
-        </h2>
-    </header>
+    <div class="tour-section-header">
+        <?php if (!empty($itinerary_heading)): ?>
+            <?= $itinerary_heading ?>
+        <?php else: ?>
+            <h2 class="ha-heading tour-section-title h3">
+                <?php esc_html_e('Trip Itinerary & Route', 'hoiantravel'); ?>
+            </h2>
+        <?php endif; ?>
+    </div>
 
     <?php if ($has_intro_paragraph): ?>
         <div class="tour-itinerary__intro single-tour-prose">
@@ -114,9 +119,8 @@ if (!$has_timeline && !$has_intro_paragraph && empty($itinerary_img)) {
 
     <?php if (!empty($itinerary_img)): ?>
         <div class="tour-itinerary__media mt-4">
-            <img src="<?= esc_url($itinerary_img); ?>"
-                alt="<?php echo esc_attr(sprintf(__('Route map and stops for %s', 'hoiantravel'), get_the_title())); ?>"
-                loading="lazy" decoding="async" class="img-fluid rounded" />
+            <img src="<?= esc_url($itinerary_img['url']); ?>" alt="<?= esc_attr($itinerary_img['alt']); ?>" loading="lazy"
+                decoding="async" class="img-fluid rounded" />
         </div>
     <?php endif; ?>
 </section>

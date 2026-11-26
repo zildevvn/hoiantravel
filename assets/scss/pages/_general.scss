@@ -673,3 +673,15 @@
         min-width: 0;
     }
 }
+
+#car-review {
+    #ha-review-form {
+        .ha-reviews__form-row.row-ratings-content {
+            grid-template-columns: repeat(1, 1fr);
+
+            >.ha-reviews__ratings-col {
+                display: none !important;
+            }
+        }
+    }
+}

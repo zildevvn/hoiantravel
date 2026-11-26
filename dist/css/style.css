@@ -11413,6 +11413,13 @@ body.mobile-menu-open {
   min-width: 0;
 }
 
+#car-review #ha-review-form .ha-reviews__form-row.row-ratings-content {
+  grid-template-columns: repeat(1, 1fr);
+}
+#car-review #ha-review-form .ha-reviews__form-row.row-ratings-content > .ha-reviews__ratings-col {
+  display: none !important;
+}
+
 body.page-template-front-page .hero-section,
 body.home .hero-section {
   padding: 0;

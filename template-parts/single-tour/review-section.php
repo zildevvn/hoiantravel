@@ -227,7 +227,7 @@ $empty_message = ($post_type === 'cars') ? 'Be the first to leave a review for t
                 </div>
 
                 <!-- Row 3: Ratings and Content -->
-                <div class="ha-reviews__form-row">
+                <div class="ha-reviews__form-row row-ratings-content">
                     <!-- Left: Ratings -->
                     <div class="ha-reviews__ratings-col" style="display: flex; flex-direction: column; gap: 16px;">
 
