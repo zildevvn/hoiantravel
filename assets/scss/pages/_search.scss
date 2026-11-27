@@ -495,7 +495,7 @@
         border: 1px solid rgba($color-primary, 0.26);
         border-radius: 1.5rem;
         padding: 3.5rem 2.5rem;
-        max-width: 720px;
+        max-width: 730px;
         margin: 0 auto;
         text-align: center;
         box-shadow: 0 14px 36px -10px rgba($color-heading, 0.06);
@@ -556,7 +556,6 @@
     }
 
     &__subdesc {
-        font-family: $font-body;
         font-size: 0.9375rem;
         line-height: 1.6;
         color: rgba($color-body, 0.65);
@@ -632,6 +631,7 @@
         box-shadow: none;
 
         svg {
+
             &[stroke],
             path[stroke] {
                 stroke: currentColor;
@@ -645,6 +645,7 @@
             box-shadow: 0 10px 20px -4px rgba($color-heading, 0.22);
 
             svg {
+
                 &[stroke],
                 path[stroke] {
                     stroke: #ffffff;
@@ -684,4 +685,3 @@
         margin: 0;
     }
 }
-

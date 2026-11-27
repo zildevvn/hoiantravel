@@ -8508,7 +8508,7 @@ body.search-modal-open {
   font-size: 0.95rem;
   line-height: 1.65;
   color: rgba(255, 255, 255, 0.88);
-  max-width: 720px;
+  max-width: 730px;
   margin-left: auto;
   margin-right: auto;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
@@ -14150,7 +14150,7 @@ body.cars-filter-open {
   overflow: hidden;
 }
 .contact-main-section .contact-main__header {
-  max-width: 720px;
+  max-width: 730px;
   margin-bottom: 3rem;
 }
 @media (max-width: 767.98px) {
@@ -22358,7 +22358,7 @@ body.single-cars #ha-review-form .ha-reviews__form-row:nth-child(2) {
   border: 1px solid rgba(223, 161, 40, 0.26);
   border-radius: 1.5rem;
   padding: 3.5rem 2.5rem;
-  max-width: 720px;
+  max-width: 730px;
   margin: 0 auto;
   text-align: center;
   box-shadow: 0 14px 36px -10px rgba(25, 35, 43, 0.06);
@@ -22414,7 +22414,6 @@ body.single-cars #ha-review-form .ha-reviews__form-row:nth-child(2) {
   word-break: break-word;
 }
 .search-empty-state__subdesc {
-  font-family: "IBM Plex Sans", sans-serif;
   font-size: 0.9375rem;
   line-height: 1.6;
   color: rgba(36, 28, 26, 0.65);
@@ -22977,7 +22976,7 @@ body.single-cars #ha-review-form .ha-reviews__form-row:nth-child(2) {
   z-index: 1;
 }
 .book-cars-section__header {
-  max-width: 720px;
+  max-width: 730px;
   margin-bottom: 48px;
 }
 @media (max-width: 767.98px) {
@@ -24429,7 +24428,7 @@ body.single-cars #ha-review-form .ha-reviews__form-row:nth-child(2) {
   z-index: 1;
 }
 .form-section__header {
-  max-width: 720px;
+  max-width: 730px;
   margin-bottom: 48px;
 }
 @media (max-width: 767.98px) {

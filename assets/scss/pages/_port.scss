@@ -53,7 +53,7 @@
     // 1. Section Header Zone
     // ----------------------------------------------------------------------
     &__header {
-        max-width: 720px;
+        max-width: 730px;
         margin-bottom: 48px;
 
         @include media-breakpoint-down(md) {
@@ -397,6 +397,7 @@
 // Reduced motion accessibility
 @media (prefers-reduced-motion: reduce) {
     .book-cars-section {
+
         &__visual-frame img,
         .contact-link {
             transition: none !important;
@@ -404,4 +405,3 @@
         }
     }
 }
-
