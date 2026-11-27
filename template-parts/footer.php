@@ -50,7 +50,7 @@ $temp_footer_content = [
     'concierge_badge' => __('24/7 Local Concierge', 'hoiantravel'),
     'concierge_heading' => __('Ready to craft your unforgettable Hoi An & Central Vietnam journey?', 'hoiantravel'),
     'brand_intro' => __('Handcrafted tours, private transfers, and local experiences in Hoi An & Central Vietnam.', 'hoiantravel'),
-    'open_time' => __('Daily: 07:00 AM – 10:00 PM (GMT+7)', 'hoiantravel'),
+    'open_time' => __('Daily: 07:00 AM - 10:00 PM (GMT+7)', 'hoiantravel'),
 ];
 
 if (empty($concierge_badge)) {
