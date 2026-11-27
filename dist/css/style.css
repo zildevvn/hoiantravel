@@ -18407,12 +18407,12 @@ body.single-post .single-post-prose blockquote cite::before {
 body.single-post .single-post-prose ul:not(.toc-list):not(.toc-nested-list) {
   list-style: none;
   padding-left: 0;
-  margin: 1.75rem 0;
+  margin: 1.5rem 0;
 }
 body.single-post .single-post-prose ul:not(.toc-list):not(.toc-nested-list) > li {
   position: relative;
   padding-left: 28px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   line-height: 1.75;
 }
 body.single-post .single-post-prose ul:not(.toc-list):not(.toc-nested-list) > li::before {
@@ -18433,10 +18433,10 @@ body.single-post .single-post-prose ul:not(.toc-list):not(.toc-nested-list) > li
 }
 body.single-post .single-post-prose ol {
   padding-left: 24px;
-  margin: 1.75rem 0;
+  margin: 1.5rem 0;
 }
 body.single-post .single-post-prose ol li {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   line-height: 1.75;
   padding-left: 6px;
 }
