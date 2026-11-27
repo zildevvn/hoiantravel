@@ -21830,8 +21830,6 @@ body.admin-bar .tour-section-block {
 }
 .single-car-page .single-car-related-section .car-card__price-box {
   display: flex;
-  flex-direction: column;
-  line-height: 1.2;
 }
 .single-car-page .single-car-related-section .car-card__price-label {
   font-size: 0.75rem;
