@@ -24181,9 +24181,6 @@ body.single-cars #ha-review-form .ha-reviews__form-row:nth-child(2) {
     transform: none !important;
   }
 }
-.destinations-list-section {
-  background-color: #FBF9F5;
-}
 .destinations-list-section .destinations-list-intro {
   max-width: 680px;
   margin: 0 auto 24px;
