@@ -346,7 +346,9 @@ body.home {
         }
 
         h2 {
-            margin: 16px 0 24px 0;
+            width: 100%;
+            max-width: 680px;
+            margin: 16px auto 24px auto;
         }
 
         &__reviews-trip {

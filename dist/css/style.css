@@ -11780,7 +11780,9 @@ body.home .trust-proof-section .container {
 body.page-template-front-page .trust-proof-section h2, body.page-template-front-page .trust-proof-section .h2,
 body.home .trust-proof-section h2,
 body.home .trust-proof-section .h2 {
-  margin: 16px 0 24px 0;
+  width: 100%;
+  max-width: 680px;
+  margin: 16px auto 24px auto;
 }
 body.page-template-front-page .trust-proof-section__reviews-trip,
 body.home .trust-proof-section__reviews-trip {

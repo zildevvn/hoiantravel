@@ -5,7 +5,7 @@ $sub_heading = get_field('sub_heading_posts_home');
 
 $args = array(
     'post_type' => 'post',
-    'posts_per_page' => 4,
+    'posts_per_page' => 5,
     'post_status' => 'publish',
     'orderby' => 'date',
     'order' => 'DESC',
