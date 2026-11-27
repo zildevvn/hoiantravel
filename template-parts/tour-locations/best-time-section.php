@@ -8,15 +8,15 @@
  * @package hoiantravel
  */
 
-$term      = get_queried_object();
+$term = get_queried_object();
 $term_name = ($term instanceof WP_Term && !empty($term->name)) ? $term->name : '';
 
 $best_time = ($term instanceof WP_Term) ? get_field('best_time_visit_section', $term) : [];
-$map       = isset($best_time['map']) ? trim((string) $best_time['map']) : '';
-$desc      = isset($best_time['description']) ? trim((string) $best_time['description']) : '';
+$map = isset($best_time['map']) ? trim((string) $best_time['map']) : '';
+$desc = isset($best_time['description']) ? trim((string) $best_time['description']) : '';
 
 $has_desc = !empty($desc);
-$has_map  = !empty($map);
+$has_map = !empty($map);
 
 if (!$has_desc && !$has_map) {
     return;
@@ -40,7 +40,8 @@ $grid_modifier = ($has_desc && $has_map)
     : 'best-time-section__grid--single';
 ?>
 
-<section class="ha-section best-time-section" id="location-best-time" aria-label="<?= esc_attr(!empty($term_name) ? sprintf(__('Best time to visit %s', 'hoiantravel'), $term_name) : __('Best time to visit', 'hoiantravel')); ?>">
+<section class="ha-section best-time-section" id="location-best-time"
+    aria-label="<?= esc_attr(!empty($term_name) ? sprintf(__('Best time to visit %s', 'hoiantravel'), $term_name) : __('Best time to visit', 'hoiantravel')); ?>">
     <div class="container">
         <div class="best-time-section__grid <?= esc_attr($grid_modifier); ?>">
             <?php if ($has_desc): ?>
@@ -50,7 +51,8 @@ $grid_modifier = ($has_desc && $has_map)
                         <div class="best-time-section__badge-wrap">
                             <span class="ha-badge">
                                 <span class="ha-badge__icon" aria-hidden="true"><?= ha_svg_icon('calendar'); ?></span>
-                                <span class="ha-badge__text"><?php esc_html_e('Seasonal Travel Guide', 'hoiantravel'); ?></span>
+                                <span
+                                    class="ha-badge__text"><?php esc_html_e('Seasonal Travel Guide', 'hoiantravel'); ?></span>
                             </span>
                         </div>
 
@@ -78,7 +80,7 @@ $grid_modifier = ($has_desc && $has_map)
                             </span>
                             <span class="best-time-section__map-label">
                                 <?php if (!empty($term_name)): ?>
-                                    <?= esc_html(sprintf(__('Location & Map — %s', 'hoiantravel'), $term_name)); ?>
+                                    <?= esc_html(sprintf(__('Location & Map - %s', 'hoiantravel'), $term_name)); ?>
                                 <?php else: ?>
                                     <?php esc_html_e('Destination Location Map', 'hoiantravel'); ?>
                                 <?php endif; ?>
