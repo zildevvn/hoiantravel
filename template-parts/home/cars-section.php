@@ -7,7 +7,7 @@ $currency = get_field('currency', 'option');
 
 $args = array(
     'post_type' => 'cars',
-    'posts_per_page' => 5,
+    'posts_per_page' => 6,
     'post_status' => 'publish',
 );
 $query = new WP_Query($args);
