@@ -29,16 +29,17 @@
     .single-tour-nav {
         &__link {
             &:hover {
-                color: #00656D;
-                background: rgba(0, 101, 109, 0.06);
-                border-color: rgba(0, 101, 109, 0.18);
+                color: #19232B;
+                background: rgba(223, 161, 40, 0.06);
+                border-color: rgba(223, 161, 40, 0.18);
             }
 
             &.is-active {
-                background: rgba(0, 101, 109, 0.1);
-                color: #00656D;
-                border-color: rgba(0, 101, 109, 0.32);
-                box-shadow: 0 2px 8px rgba(0, 101, 109, 0.08);
+                background: rgba(223, 161, 40, 0.1);
+                color: rgb(72.3664364531%, 51.4979757085%, 10.7708184488%);
+                border-color: rgba(223, 161, 40, 0.32);
+                font-weight: 700;
+                box-shadow: 0 2px 8px rgba(194, 74, 45, 0.08);
             }
         }
     }

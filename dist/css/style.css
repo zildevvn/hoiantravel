@@ -20037,9 +20037,8 @@ body.admin-bar .single-tour-nav {
 .single-tour-nav__link {
   display: inline-flex;
   align-items: center;
-  padding: 0.45rem 1.05rem;
+  padding: 0.45rem 1rem;
   border-radius: 9999px;
-  font-family: "IBM Plex Sans", sans-serif;
   font-size: 0.84375rem;
   font-weight: 600;
   color: #4b5563;
@@ -20052,7 +20051,7 @@ body.admin-bar .single-tour-nav {
 @media (min-width: 768px) {
   .single-tour-nav__link {
     font-size: 0.875rem;
-    padding: 0.5rem 1.25rem;
+    padding: 0.5rem 1rem;
   }
 }
 .single-tour-nav__link:hover {
@@ -21475,15 +21474,16 @@ body.admin-bar .tour-section-block {
   }
 }
 .single-car-page .single-tour-nav__link:hover {
-  color: #00656D;
-  background: rgba(0, 101, 109, 0.06);
-  border-color: rgba(0, 101, 109, 0.18);
+  color: #19232B;
+  background: rgba(223, 161, 40, 0.06);
+  border-color: rgba(223, 161, 40, 0.18);
 }
 .single-car-page .single-tour-nav__link.is-active {
-  background: rgba(0, 101, 109, 0.1);
-  color: #00656D;
-  border-color: rgba(0, 101, 109, 0.32);
-  box-shadow: 0 2px 8px rgba(0, 101, 109, 0.08);
+  background: rgba(223, 161, 40, 0.1);
+  color: rgb(72.3664364531%, 51.4979757085%, 10.7708184488%);
+  border-color: rgba(223, 161, 40, 0.32);
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(194, 74, 45, 0.08);
 }
 .single-car-page .car-highlights-block {
   border-left-color: #00656D;
