@@ -4,16 +4,16 @@
  */
 
 $search_query = isset($_GET['s']) ? sanitize_text_field(wp_unslash($_GET['s'])) : '';
-$raw_cat      = isset($_GET['category']) ? sanitize_text_field(wp_unslash($_GET['category'])) : (isset($_GET['cat']) ? sanitize_text_field(wp_unslash($_GET['cat'])) : '');
+$raw_cat = isset($_GET['category']) ? sanitize_text_field(wp_unslash($_GET['category'])) : (isset($_GET['cat']) ? sanitize_text_field(wp_unslash($_GET['cat'])) : '');
 
 $paged = max(1, intval(get_query_var('paged')), intval(get_query_var('page')), intval($_GET['paged'] ?? 0), intval($_GET['page'] ?? 0));
 
 $blog_cats = get_terms(array(
-    'taxonomy'   => 'category',
+    'taxonomy' => 'category',
     'hide_empty' => true,
 ));
 
-$selected_term     = null;
+$selected_term = null;
 $selected_cat_slug = '';
 $selected_cat_name = __('All Categories', 'hoiantravel');
 
@@ -25,7 +25,7 @@ if (!empty($raw_cat) && $raw_cat !== 'all') {
     }
 
     if ($found && !is_wp_error($found)) {
-        $selected_term     = $found;
+        $selected_term = $found;
         $selected_cat_slug = $found->slug;
         $selected_cat_name = $found->name;
     }
@@ -34,10 +34,10 @@ if (!empty($raw_cat) && $raw_cat !== 'all') {
 $has_active_filters = !empty($search_query) || !empty($selected_cat_slug);
 
 $args = array(
-    'post_type'      => 'post',
+    'post_type' => 'post',
     'posts_per_page' => 12,
-    'paged'          => $paged,
-    'post_status'    => 'publish',
+    'paged' => $paged,
+    'post_status' => 'publish',
 );
 
 if (!empty($search_query)) {
@@ -48,8 +48,8 @@ if ($selected_term) {
     $args['tax_query'] = array(
         array(
             'taxonomy' => 'category',
-            'field'    => 'term_id',
-            'terms'    => $selected_term->term_id,
+            'field' => 'term_id',
+            'terms' => $selected_term->term_id,
         ),
     );
 }
@@ -57,11 +57,12 @@ if ($selected_term) {
 $query = new WP_Query($args);
 
 $heading = get_field('hd_blog_tpl') ?: get_field('heading_cars_home');
-$badge   = get_field('badge_blog_tpl') ?: get_field('badge_cars_home');
-$desc    = get_field('desc_blog_tpl') ?: get_field('desc_cars_home');
+$badge = get_field('badge_blog_tpl') ?: get_field('badge_cars_home');
+$desc = get_field('desc_blog_tpl') ?: get_field('desc_cars_home');
 ?>
 
-<section class="ha-section posts-list-section" id="posts-list-section" data-nonce="<?= esc_attr(wp_create_nonce('ha_filter_posts')) ?>">
+<section class="ha-section posts-list-section" id="posts-list-section"
+    data-nonce="<?= esc_attr(wp_create_nonce('ha_filter_posts')) ?>">
     <div class="container">
         <?php if (!empty($badge) || !empty($heading) || !empty($desc)): ?>
             <div class="posts-list-intro text-center">
@@ -87,7 +88,8 @@ $desc    = get_field('desc_blog_tpl') ?: get_field('desc_cars_home');
         <?php endif; ?>
 
         <!-- Search & Filter Bar (Pure AJAX Container — No Form Element) -->
-        <div class="posts-filter-bar" id="ha-posts-filter-bar" role="search" aria-label="<?php esc_attr_e('Filter posts', 'hoiantravel'); ?>">
+        <div class="posts-filter-bar" id="ha-posts-filter-bar" role="search"
+            aria-label="<?php esc_attr_e('Filter posts', 'hoiantravel'); ?>">
             <!-- Search Box (Auto Search with Debounce) -->
             <div class="posts-filter-bar__search">
                 <div class="search-input-wrapper">
@@ -97,14 +99,12 @@ $desc    = get_field('desc_blog_tpl') ?: get_field('desc_cars_home');
                     <span class="search-icon" aria-hidden="true">
                         <?= ha_svg_icon('search-icon'); ?>
                     </span>
-                    <input type="search"
-                           name="s"
-                           id="ha-posts-search-input"
-                           value="<?= esc_attr($search_query); ?>"
-                           placeholder="<?php esc_attr_e('Search insights, news, and guides...', 'hoiantravel'); ?>"
-                           class="form-control"
-                           autocomplete="off">
-                    <button type="button" class="search-clear-btn" id="ha-posts-search-clear" aria-label="<?php esc_attr_e('Clear search keyword', 'hoiantravel'); ?>" style="<?= empty($search_query) ? 'display: none;' : '' ?>">
+                    <input type="search" name="s" id="ha-posts-search-input" value="<?= esc_attr($search_query); ?>"
+                        placeholder="<?php esc_attr_e('Search insights, news, and guides...', 'hoiantravel'); ?>"
+                        class="form-control" autocomplete="off">
+                    <button type="button" class="search-clear-btn" id="ha-posts-search-clear"
+                        aria-label="<?php esc_attr_e('Clear search keyword', 'hoiantravel'); ?>"
+                        style="<?= empty($search_query) ? 'display: none;' : '' ?>">
                         &times;
                     </button>
                 </div>
@@ -112,31 +112,30 @@ $desc    = get_field('desc_blog_tpl') ?: get_field('desc_cars_home');
 
             <!-- Category Dropdown -->
             <div class="posts-filter-bar__cats">
-                <input type="hidden" name="category" id="ha-posts-category-input" value="<?= esc_attr($selected_cat_slug); ?>">
+                <input type="hidden" name="category" id="ha-posts-category-input"
+                    value="<?= esc_attr($selected_cat_slug); ?>">
                 <div class="vm-custom-dropdown posts-category-dropdown" id="ha-posts-category-dropdown">
                     <button type="button" class="vm-dropdown-trigger" aria-expanded="false"
                         aria-controls="posts-category-menu" id="ha-posts-category-trigger"
                         aria-label="<?php esc_attr_e('Filter by category', 'hoiantravel'); ?>">
-                        <span class="vm-dropdown-label" id="ha-posts-category-label"><?= esc_html($selected_cat_name); ?></span>
+                        <span class="vm-dropdown-label"
+                            id="ha-posts-category-label"><?= esc_html($selected_cat_name); ?></span>
                         <span class="vm-dropdown-icon">
                             <?= ha_svg_icon('chevron-down'); ?>
                         </span>
                     </button>
                     <div id="posts-category-menu" class="vm-dropdown-menu tours-category-list" role="listbox">
                         <div class="tours-category-item<?= empty($selected_cat_slug) ? ' is-active' : ''; ?>"
-                             data-value=""
-                             data-label="<?php esc_attr_e('All Categories', 'hoiantravel'); ?>"
-                             role="option"
-                             tabindex="0">
-                            <span class="tours-category-name"><?php esc_html_e('All Categories', 'hoiantravel'); ?></span>
+                            data-value="" data-label="<?php esc_attr_e('All Categories', 'hoiantravel'); ?>"
+                            role="option" tabindex="0">
+                            <span
+                                class="tours-category-name"><?php esc_html_e('All Categories', 'hoiantravel'); ?></span>
                         </div>
                         <?php if (!empty($blog_cats) && !is_wp_error($blog_cats)): ?>
                             <?php foreach ($blog_cats as $cat): ?>
                                 <div class="tours-category-item<?= ($selected_cat_slug === $cat->slug) ? ' is-active' : ''; ?>"
-                                     data-value="<?= esc_attr($cat->slug); ?>"
-                                     data-label="<?= esc_attr($cat->name); ?>"
-                                     role="option"
-                                     tabindex="0">
+                                    data-value="<?= esc_attr($cat->slug); ?>" data-label="<?= esc_attr($cat->name); ?>"
+                                    role="option" tabindex="0">
                                     <span class="tours-category-name"><?= esc_html($cat->name); ?></span>
                                     <span class="tours-category-count">(<?= intval($cat->count); ?>)</span>
                                 </div>
@@ -148,7 +147,9 @@ $desc    = get_field('desc_blog_tpl') ?: get_field('desc_cars_home');
 
             <!-- Actions (Reset Button) -->
             <div class="posts-filter-bar__actions" style="<?= $has_active_filters ? '' : 'display: none;' ?>">
-                <button type="button" class="btn-clear-filters" id="ha-posts-clear-filters" style="<?= $has_active_filters ? '' : 'display: none;' ?>" aria-label="<?php esc_attr_e('Reset all filters', 'hoiantravel'); ?>">
+                <button type="button" class="btn-clear-filters" id="ha-posts-clear-filters"
+                    style="<?= $has_active_filters ? '' : 'display: none;' ?>"
+                    aria-label="<?php esc_attr_e('Reset all filters', 'hoiantravel'); ?>">
                     <?= ha_svg_icon('rotate-ccw'); ?>
                     <span><?php esc_html_e('Reset', 'hoiantravel'); ?></span>
                 </button>
@@ -168,13 +169,15 @@ $desc    = get_field('desc_blog_tpl') ?: get_field('desc_cars_home');
                 <div class="posts-main__header d-flex justify-content-between align-items-center mb-4">
                     <div class="posts-result-count">
                         <span id="vm-posts-count"><?= intval($query->found_posts); ?></span>
-                        <span class="posts-result-text"><?= esc_html(_n('post available', 'posts available', $query->found_posts, 'hoiantravel')); ?></span>
+                        <span
+                            class="posts-result-text"><?= esc_html(_n('post available', 'posts available', $query->found_posts, 'hoiantravel')); ?></span>
                         <span class="posts-result-query" style="<?= empty($search_query) ? 'display: none;' : '' ?>">
                             <?php if (!empty($search_query)): ?>
                                 <?= sprintf(esc_html__('for "%s"', 'hoiantravel'), esc_html($search_query)); ?>
                             <?php endif; ?>
                         </span>
-                        <span class="posts-result-category" style="<?= empty($selected_term) ? 'display: none;' : '' ?>">
+                        <span class="posts-result-category"
+                            style="<?= empty($selected_term) ? 'display: none;' : '' ?>">
                             <?php if (!empty($selected_term)): ?>
                                 <?= sprintf(esc_html__('in %s', 'hoiantravel'), esc_html($selected_term->name)); ?>
                             <?php endif; ?>
@@ -182,7 +185,8 @@ $desc    = get_field('desc_blog_tpl') ?: get_field('desc_cars_home');
                     </div>
                 </div>
 
-                <div id="vm-posts-results" class="post-grid" data-currentpage="<?= esc_attr($paged); ?>" style="<?= $query->have_posts() ? '' : 'display: none;' ?>">
+                <div id="vm-posts-results" class="post-grid" data-currentpage="<?= esc_attr($paged); ?>"
+                    style="<?= $query->have_posts() ? '' : 'display: none;' ?>">
                     <?php if ($query->have_posts()):
                         while ($query->have_posts()):
                             $query->the_post();
@@ -193,7 +197,8 @@ $desc    = get_field('desc_blog_tpl') ?: get_field('desc_cars_home');
                 </div>
             </div>
 
-            <div id="vm-posts-pagination" class="posts-pagination-wrapper" style="<?= $query->have_posts() ? '' : 'display: none;' ?>">
+            <div id="vm-posts-pagination" class="posts-pagination-wrapper"
+                style="<?= $query->have_posts() ? '' : 'display: none;' ?>">
                 <?php
                 if ($query->have_posts()) {
                     $pagination_args = [];

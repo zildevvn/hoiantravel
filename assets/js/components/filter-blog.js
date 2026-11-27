@@ -365,7 +365,7 @@
                         }
                     }
 
-                    fetchPosts(targetPage, true);
+                    fetchPosts(targetPage, false);
                 });
             });
         };
