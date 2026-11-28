@@ -19,7 +19,7 @@ $map = get_field('iframe_map');
 
 // Fallback to Google Maps Embed using office address if field is not configured
 if (empty($map)) {
-    $address = get_field('address', 'option') ?: '228 Nguyen Duy Hieu, Hoi An & Da Nang, Vietnam';
+    $address = '37A Xuan Dieu, Hoi An Tay, Da Nang, Vietnam';
     $map_url = add_query_arg(
         array(
             'q' => urlencode($address),
@@ -50,7 +50,7 @@ if (!empty($map) && is_string($map)) {
 // Section Header Data
 $heading = get_field('heading_map_contact') ?: __('Find Us in Central Vietnam', 'hoiantravel');
 $desc = get_field('desc_map_contact') ?: __('Visit our office in Hoi An Ancient Town or connect with our private drivers across Da Nang, Hue and central heritage destinations.', 'hoiantravel');
-$address = get_field('address', 'option') ?: '228 Nguyen Duy Hieu, Hoi An & Da Nang, Vietnam';
+$address = get_field('address', 'option') ?: '37A Xuan Dieu, Hoi An Tay, Da Nang, Vietnam';
 $open_time = get_field('open_time', 'option') ?: '07:00 AM – 10:00 PM (Daily, GMT+7)';
 ?>
 
